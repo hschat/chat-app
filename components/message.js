@@ -48,8 +48,7 @@ export default class Chat extends React.Component {
         let msgStyle= this.props.pos==='left'? styles.leftMessage:styles.rightMessage;
         return (
             <View style={[styles.message, pos, msgStyle]}>
-              <Text style={[styles.text, {color: '#FFFFFF'}]}>Message</Text>
-
+              <Text style={[styles.text, {color: '#FFFFFF'}]}>{this.props.message}</Text>
             </View>
         )
     }

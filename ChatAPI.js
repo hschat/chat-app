@@ -73,7 +73,7 @@ export default class ChatAPI {
       case 'join':
         this.listeners.map((el, i) => {
           if(el.type === 'join') {
-            el.callback(data)
+            el.callback(data);
             this.listeners.splice(i, 1);
           }
         });
@@ -82,7 +82,7 @@ export default class ChatAPI {
         this.listeners.map((el) => {
           if(el.type === 'message') {
             el.callback(data);
-            if ((el.hasOwnProperty('duration') && el.duration !== 'infinite') || !el.hasOwnProperty('duration'))
+            if ((el.opts.hasOwnProperty('duration') && el.opts.duration !== 'infinite') || !el.opts.hasOwnProperty('duration'))
               this.listeners.splice(i, 1);
           }
         });
