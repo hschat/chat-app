@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { NativeRouter, Router, Switch, Route, Link } from 'react-router-native';
+import { NativeRouter, Router, Switch, Route} from 'react-router-native';
 
 import Chat from './view/chat';
-import EnterName from './view/enterName'
+import Hello from './view/hello'
 
 
 export default class App extends React.Component {
@@ -12,7 +11,7 @@ export default class App extends React.Component {
         <NativeRouter>
             <Switch>
               <Route exact path='/'>
-                  <EnterName/>
+                  <Hello/>
               </Route>
               <Route exact path='/chat'>
                   <Chat/>
