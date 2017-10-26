@@ -44,22 +44,18 @@ export default class Chat extends React.Component {
     let data = {
       type: 'message',
       text: this.state.text,
-      nickname: sock.getName(),
+      nickname: '',
       sent: Date.now()
     };
-    this.c.onmessage = (evt) => {
-      console.log(evt.data)
-    };
-    c.send(JSON.stringify(data));
   };
 
   renderBack = () => {
     return (
-      <View>
-        <Link to='/'>
+      <Link to='/'>
+        <View>
           <Icon name='chevron-left' color='#FFFFFF'/>
-        </Link>
-      </View>
+        </View>
+      </Link>
     );
   };
 
