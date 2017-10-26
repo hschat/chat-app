@@ -1,14 +1,32 @@
 import React from 'react';
-import { View, StyleSheet, Animated, Easing } from 'react-native';
+import {View, StyleSheet, Animated, Easing, Image, Text} from 'react-native';
 import { Icon } from 'react-native-elements'
 
 
 
 const styles = StyleSheet.create({
+  middle: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center'
+  },
+  backgroundImage: {
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode: 'cover'
+  },
+  font: {
+    fontSize: 32
+  },
+  transparentBackground: {
+    backgroundColor: 'rgba(0,0,0,0)',
+    textAlign: 'center',
 
+  }
 });
 
-export default class EnterName extends React.Component {
+export default class LoadingIcon extends React.Component {
 
     constructor(props) {
         super(props);
@@ -38,13 +56,15 @@ export default class EnterName extends React.Component {
             outputRange: ['0deg', '360deg']
         });
         return(
-            <View>
+            <Image source={require('../assets/img/bg.png')} style={styles.backgroundImage}>
+                <View style={styles.middle}>
                 <Animated.View
                     style={{ transform: [{rotate: spin}] }} >
-                    <Icon name='spinner-2' type='evilicon' iconStyle={this.props.style}/>
+                    <Icon name='spinner-3' type='evilicon' iconStyle={[{fontSize: 48, color: '#d80030'}, this.props.style]}/>
                 </Animated.View>
-            </View>
-
+                <Text style={[styles.font, styles.transparentBackground]}>Loading...</Text>
+                </View>
+            </Image>
         )
 
 

@@ -1,11 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import { createStore } from 'redux';
+import {View, StyleSheet, Image} from 'react-native';
 import {Redirect} from 'react-router-native';
-import {FormLabel, FormInput, Button, Icon} from 'react-native-elements'
+import {FormInput, Button, Header} from 'react-native-elements'
 
 import {Chat} from './chat'
-import BackgroundImage from "../components/background_image";
-
+import LoadingIcon from "../components/loadingIcon";
+import ChatAPI from "../ChatAPI";
 
 const styles = StyleSheet.create({
   middle: {
@@ -23,44 +24,40 @@ const styles = StyleSheet.create({
 
 export default class Hello extends React.Component {
 
+
+
   constructor(props) {
     super(props);
-    this.state = {text: '', joined: false};
+    this.api = new ChatAPI();
+    this.state = {
+      name: '',
+      loaded: false,
+      joined: false
+    };
   }
-
-  log = (m) => {
-    this.setState({text: m})
-  };
 
   componentWillMount() {
-    this.c = new WebSocket('wss://hsc-backend.herokuapp.com/', 'hsc-protocol');
-    this.c.onopen = function () {
-      console.log('Connection established...')
-    };
-    this.c.onerror = function (err) {
-      console.log('Connection error occurred: ' + err)
-    };
+    this.api.on('connect', (state) => {this.setState({loaded: true});})
   }
 
+  setName = (n) => {
+    this.setState({name: n})
+  };
 
   send = () => {
     let data = {
       type: 'join',
-      nickname: this.state.text,
+      nickname: this.state.name,
       sent: Date.now()
     };
 
-
-    this.c.send(JSON.stringify(data));
-
-    this.c.onmessage = (evt) => {
-      console.log(evt.data);
-      let data = JSON.parse(evt.data);
+    this.api.sendMessage(data, (data) => {
+      console.log(data);
 
       if (data.type === 'join' && data.success)
         this.setState({joined: data.success})
 
-    }
+    });
   };
 
 
@@ -68,22 +65,29 @@ export default class Hello extends React.Component {
     return this.state.joined ? (
       <Redirect to="/chat"/>
     ) : (
-      <View style={{flex: 1}}>
-        <Image source={require('../assets/img/bg.png')} style={styles.backgroundImage}>
-          <View style={styles.middle}>
-            <FormInput onChangeText={this.log} ref={ref => this.formInput = ref} placeholder='#nickname'/>
-            <Button
-              title='Beitreten'
-              onPress={this.send}
-              large={false}
-              rightIcon={{name: 'ios-log-in', type: 'ionicon', size: 20}}
-              backgroundColor='#d80030'
-              underlayColor='#B71234'
-              containerViewStyle={{marginTop: 10}}
+      !this.state.loaded ? (
+        <LoadingIcon/>
+      ) : (
+        <View style={{flex: 1}}>
+          <Image source={require('../assets/img/bg.png')} style={styles.backgroundImage}>
+            <Header backgroundColor='#d80030'
+                    centerComponent={<Image source={require('../assets/img/logo-only.png')}/>}
             />
-          </View>
-        </Image>
-      </View>
+            <View style={styles.middle}>
+              <FormInput onChangeText={this.setName} ref={ref => this.formInput = ref} placeholder='#nickname'/>
+              <Button
+                title='Beitreten'
+                onPress={this.send}
+                large={false}
+                rightIcon={{name: 'ios-log-in', type: 'ionicon', size: 20}}
+                backgroundColor='#d80030'
+                underlayColor='#B71234'
+                containerViewStyle={{marginTop: 10}}
+              />
+            </View>
+          </Image>
+        </View>
+      )
     )
   }
 }
