@@ -3,7 +3,9 @@ import { KeyboardAvoidingView, TextInput, StyleSheet, Text, View, StatusBar, Pla
 import { Icon } from 'react-native-elements'
 import { Link } from 'react-router-native';
 
+import Socket from '../socket';
 import Message from '../components/message'
+
 
 
 const styles = StyleSheet.create({
@@ -19,7 +21,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
      },
     navBar:{
-        paddingTop: (Platform.OS === 'ios') ? 20 : 0,
+        paddingTop: 20,
         height:40,
         backgroundColor: '#d80030'
     },
@@ -40,6 +42,25 @@ export default class Chat extends React.Component {
         this.state = { text: '', messages: [] };
         //this.setState({messages: {[user: 'timo', msg: 'asdf'], user:'david',}})
     }
+
+    send=()=>{
+        console.log('adsfads')
+        let sock= Socket.getInstance();
+        let c = sock.getConnection();
+        let data = {
+            type: 'message',
+            text: this.state.text,
+            nickname: sock.getName(),
+            sent: Date.now()
+        };
+        this.c.onmessage= (evt) =>{
+          console.log(evt.data)
+        };
+        c.send(JSON.stringify(data));
+
+        console.log(sock.getName());
+    };
+
     render() {
         return (
             <View style={{flex: 1}}>
@@ -53,7 +74,7 @@ export default class Chat extends React.Component {
                 </View>
                 <KeyboardAvoidingView style={styles.end} behavior='padding'>
 
-                    <Message />
+                    <Message pos='left'/>
 
                     <View style={styles.inputWraper}>
                         <TextInput
@@ -61,6 +82,7 @@ export default class Chat extends React.Component {
                             onChangeText={(text) => this.setState({text})}
                             value={this.state.text}
                         />
+                        <Icon name='send' reverse={true} reverseColor='#FF0000' color='#FFFF' onPress={this.send} />
                     </View>
                 </KeyboardAvoidingView>
             </View>

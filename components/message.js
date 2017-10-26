@@ -12,14 +12,21 @@ const styles = StyleSheet.create({
         paddingRight: 6,
         maxWidth: '70%',
         borderWidth: 6,
-        borderColor: '#d80030',
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 20,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 0,
     },
+    leftMessage:{
+        borderColor: '#d80030',
+        backgroundColor:'#d80030',
+    },
+    rightMessage:{
+        borderColor: '#00FFFF',
+        backgroundColor:'#0FFFFF',
+    },
     text:{
-        fontSize: 18,
+        fontSize: 16,
     },
     left:{
         alignSelf: 'flex-start'
@@ -37,8 +44,10 @@ export default class Chat extends React.Component {
     }
 
     render() {
+        let pos= this.props.pos==='left'? styles.left:styles.right;
+        let msgStyle= this.props.pos==='left'? styles.leftMessage:styles.rightMessage;
         return (
-            <View style={[styles.message, styles.left, {backgroundColor: '#d80030'}]}>
+            <View style={[styles.message, pos, msgStyle]}>
               <Text style={[styles.text, {color: '#FFFFFF'}]}>Message</Text>
 
             </View>
