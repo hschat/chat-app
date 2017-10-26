@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStore } from 'redux';
-import {View, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet, Image, AsyncStorage} from 'react-native';
 import {Redirect} from 'react-router-native';
 import {FormInput, Button, Header} from 'react-native-elements'
 
@@ -54,8 +54,10 @@ export default class Hello extends React.Component {
     this.api.sendMessage(data, (data) => {
       console.log(data);
 
-      if (data.type === 'join' && data.success)
+      if (data.type === 'join' && data.success) {
+        AsyncStorage.setItem('@ChatStore:nickname', this.state.name);
         this.setState({joined: data.success})
+      }
 
     });
   };
