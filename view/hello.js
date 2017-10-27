@@ -2,7 +2,7 @@ import React from 'react';
 import { createStore } from 'redux';
 import {View, StyleSheet, Image, AsyncStorage} from 'react-native';
 import {Redirect} from 'react-router-native';
-import {FormInput, Button, Header} from 'react-native-elements'
+import {FormInput, Button, Header} from 'native-base'
 
 import {Chat} from './chat'
 import LoadingIcon from "../components/loadingIcon";
@@ -37,7 +37,13 @@ export default class Hello extends React.Component {
   }
 
   componentWillMount() {
-    this.api.on('connect', (state) => {this.setState({loaded: true});})
+    if (!this.api.state.connected) {
+      this.api.on('connect', (state) => {
+        this.setState({loaded: true});
+      });
+    } else {
+      this.setState({loaded: true});
+    }
   }
 
   setName = (n) => {

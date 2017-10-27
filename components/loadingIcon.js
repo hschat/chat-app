@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Animated, Easing, Image, Text} from 'react-native';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'native-base'
 
 
 

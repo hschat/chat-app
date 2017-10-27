@@ -1,7 +1,7 @@
 import React from 'react';
 import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage, FlatList, Text } from 'react-native';
-import {Header, Icon, List, ListItem} from 'react-native-elements'
-import {Link, Redirect} from 'react-router-native';
+import {Link} from 'react-router-native';
+import {Header, Icon} from 'native-base'
 
 import Message from '../components/message'
 import ChatAPI from "../ChatAPI";
@@ -123,7 +123,6 @@ export default class Chat extends React.Component {
           </KeyboardAvoidingView>
 
         </Header>
-
       </View>
     )
   }
