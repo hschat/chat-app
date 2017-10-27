@@ -68,7 +68,7 @@ export default class Chat extends React.Component {
     this.api.on('message', (data) => {
       let msgs = this.state.messages;
       msgs.push(data);
-      this.setState({messags: msgs});
+      this.setState({messages: msgs});
     }, {duration: 'infinite'});
   }
 
@@ -80,7 +80,7 @@ export default class Chat extends React.Component {
       nickname: this.state.nickname,
       sent: Date.now()
     });
-    this.setState({text:''})
+    this.setState({text:''});
   };
 
   renderBack = () => {
