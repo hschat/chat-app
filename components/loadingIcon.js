@@ -20,12 +20,10 @@ const styles = StyleSheet.create({
   transparentBackground: {
     backgroundColor: 'rgba(0,0,0,0)',
     textAlign: 'center',
-
   }
 });
 
 export default class LoadingIcon extends React.Component {
-
   render() {
     return (
       <Image source={require('../assets/img/bg.png')} style={styles.backgroundImage}>

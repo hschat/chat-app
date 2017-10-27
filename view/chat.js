@@ -1,7 +1,7 @@
 import React from 'react';
-import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage, FlatList, Text } from 'react-native';
+import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage, FlatList, Text, Image} from 'react-native';
 import {Link} from 'react-router-native';
-import {Header, Icon} from 'native-base'
+import {Body, Button, Container, Header, Icon, Left, Right} from 'native-base'
 
 import Message from '../components/message'
 import ChatAPI from "../ChatAPI";
@@ -84,11 +84,7 @@ export default class Chat extends React.Component {
 
   renderBack = () => {
     return (
-      <Link to='/'>
-        <View>
-          <Icon name='chevron-left' color='#FFFFFF'/>
-        </View>
-      </Link>
+      <Link to='/'/>
     );
   };
 
@@ -99,31 +95,36 @@ export default class Chat extends React.Component {
     return(
         <Message pos={me} message={data.message}/>
     )
-
   };
 
   render() {
     return (
-      <View style={{flex: 0}}>
-        <Header outerContainerStyles={{flex:1}}
-                backgroundColor='#d80030'
-                leftComponent={this.renderBack()}
-        >
-          <KeyboardAvoidingView style={styles.end} behavior='padding'>
-            <FlatList style={{backgroundColor:'#0000FF', flex:1}} data={this.state.messages} renderItem={this.renderChat} />
-            <View style={styles.inputWrapper}>
-              <TextInput
-                  style={styles.input}
-                  onChangeText={(text) => this.setState({text})}
-                  value={this.state.text}
-              />
-              <Icon containerStyle={{width: '10%'}} name='send' color='#FF0000' onPress={this.send}/>
-
-            </View>
-          </KeyboardAvoidingView>
-
+      <Container>
+        <Header backgroundColor='#d80030' style={{height: 75, paddingTop: 20}}>
+          <Left>
+            <Button transparent onPress={this.renderBack}>
+              <Icon ios='ios-arrow-back-outline' android='md-arrow-back' />
+            </Button>
+          </Left>
+          <Body>
+          <Image source={require('../assets/img/logo-only.png')} style={{height: 45, width: 45}}/>
+          <Text>HS Chat</Text>
+          </Body>
+          <Right/>
         </Header>
-      </View>
+        <KeyboardAvoidingView style={styles.end} behavior='padding'>
+          <FlatList style={{backgroundColor:'#0000FF', flex:1}} data={this.state.messages} renderItem={this.renderChat} />
+          <View style={styles.inputWrapper}>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => this.setState({text})}
+              value={this.state.text}
+            />
+            <Icon containerStyle={{width: '10%'}} name='send' color='#FF0000' onPress={this.send}/>
+
+          </View>
+        </KeyboardAvoidingView>
+      </Container>
     )
   }
 }

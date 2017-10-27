@@ -1,7 +1,10 @@
 import React from 'react';
 import {View, StyleSheet, Image, AsyncStorage} from 'react-native';
 import {Redirect} from 'react-router-native';
-import {FormInput, Button, Header, Spinner} from 'native-base'
+import {
+  FormInput, Button, Header, Spinner, Container, Title, Icon, Left, Body, Right, Input, Form,
+  Text, Item, Label
+} from 'native-base'
 
 import {Chat} from './chat'
 import LoadingIcon from "../components/loadingIcon";
@@ -11,7 +14,8 @@ const styles = StyleSheet.create({
   middle: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    padding: 20
   },
   backgroundImage: {
     flex: 1,
@@ -22,8 +26,6 @@ const styles = StyleSheet.create({
 });
 
 export default class Hello extends React.Component {
-
-
 
   constructor(props) {
     super(props);
@@ -73,27 +75,39 @@ export default class Hello extends React.Component {
       <Redirect to="/chat"/>
     ) : (
       !this.state.loaded ? (
-        <LoadingIcon/>
+        <Container>
+          <LoadingIcon/>
+        </Container>
       ) : (
-        <View style={{flex: 1}}>
+        <Container>
+          <Header backgroundColor='d80030' style={{height: 75, paddingTop: 20}}>
+            <Left/>
+            <Body>
+              <Image source={require('../assets/img/logo-only.png')} style={{height: 45, width: 45}}/>
+              <Text>HS Chat</Text>
+            </Body>
+            <Right/>
+          </Header>
           <Image source={require('../assets/img/bg.png')} style={styles.backgroundImage}>
-            <Header backgroundColor='#d80030'
-                    centerComponent={<Image source={require('../assets/img/logo-only.png')}/>}
-            />
-            <View style={styles.middle}>
-              <FormInput onChangeText={this.setName} ref={ref => this.formInput = ref} placeholder='#nickname'/>
-              <Button
-                title='Beitreten'
-                onPress={this.send}
-                large={false}
-                rightIcon={{name: 'ios-log-in', type: 'ionicon', size: 20}}
-                backgroundColor='#d80030'
-                underlayColor='#B71234'
-                containerViewStyle={{marginTop: 10}}
-              />
-            </View>
+            <Form style={styles.middle}>
+              <Item floatingLabel last style={{backgroundColor: 'rgb(255,255,255)'}}>
+                <Label>#nickname</Label>
+                <Input onChangeText={this.setName}
+                       ref={ref => this.formInput = ref}
+                       bordered
+                />
+              </Item>
+              <Button onPress={this.send}
+                      style={{backgroundColor: '#d80030', marginTop: 10}}
+                      underlayColor='#B71234'
+                      iconRight
+                      full>
+                <Text>Beitreten</Text>
+                <Icon ios='ios-log-in' android='md-log-in' size={20}/>
+              </Button>
+            </Form>
           </Image>
-        </View>
+        </Container>
       )
     )
   }
