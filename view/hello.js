@@ -1,8 +1,7 @@
 import React from 'react';
-import { createStore } from 'redux';
 import {View, StyleSheet, Image, AsyncStorage} from 'react-native';
 import {Redirect} from 'react-router-native';
-import {FormInput, Button, Header} from 'native-base'
+import {FormInput, Button, Header, Spinner} from 'native-base'
 
 import {Chat} from './chat'
 import LoadingIcon from "../components/loadingIcon";
