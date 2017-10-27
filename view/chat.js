@@ -1,7 +1,7 @@
 import React from 'react';
-import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage } from 'react-native';
-import {Header, Icon} from 'react-native-elements'
-import {Link} from 'react-router-native';
+import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage, FlatList, Text } from 'react-native';
+import {Header, Icon, List, ListItem} from 'react-native-elements'
+import {Link, Redirect} from 'react-router-native';
 
 import Message from '../components/message'
 import ChatAPI from "../ChatAPI";
@@ -30,8 +30,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#888888',
     flexDirection:'row',
   },
+  chatView:{
+    flex:1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
   end: {
-    flex: 1,
+    flex: 0,
     flexDirection: 'column',
     justifyContent: 'flex-end'
   }
@@ -67,12 +72,14 @@ export default class Chat extends React.Component {
   }
 
   send = () => {
+    if(this.state.text.trim() === '') return;
     this.api.sendMessage({
       type: 'message',
       text: this.state.text,
       nickname: this.state.nickname,
       sent: Date.now()
     });
+    this.setState({text:''})
   };
 
   renderBack = () => {
@@ -85,26 +92,38 @@ export default class Chat extends React.Component {
     );
   };
 
+  renderChat=(data)=>{
+    let me=(this.state.nickname===data.nickname)?'right':'left';
+    console.log(this.state.messages.indexOf(data));
+    this.id++;
+    return(
+        <Message pos={me} message={data.message}/>
+    )
+
+  };
+
   render() {
     return (
-      <View style={{flex: 1}}>
-        <Header backgroundColor='#d80030'
+      <View style={{flex: 0}}>
+        <Header outerContainerStyles={{flex:1}}
+                backgroundColor='#d80030'
                 leftComponent={this.renderBack()}
-        />
-        <KeyboardAvoidingView style={styles.end} behavior='padding'>
-          {this.state.messages.map((el) => {
-            <Message pos='left' message={el.text}/>
-          })}
-          <View style={styles.inputWrapper}>
-            <TextInput
-              style={styles.input}
-              onChangeText={(text) => this.setState({text})}
-              value={this.state.text}
-            />
-            <Icon containerStyle={{width: '10%'}} name='send' color='#FF0000' onPress={this.send}/>
+        >
+          <KeyboardAvoidingView style={styles.end} behavior='padding'>
+            <FlatList style={{backgroundColor:'#0000FF', flex:1}} data={this.state.messages} renderItem={this.renderChat} />
+            <View style={styles.inputWrapper}>
+              <TextInput
+                  style={styles.input}
+                  onChangeText={(text) => this.setState({text})}
+                  value={this.state.text}
+              />
+              <Icon containerStyle={{width: '10%'}} name='send' color='#FF0000' onPress={this.send}/>
 
-          </View>
-        </KeyboardAvoidingView>
+            </View>
+          </KeyboardAvoidingView>
+
+        </Header>
+
       </View>
     )
   }
