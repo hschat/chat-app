@@ -50,7 +50,8 @@ export default class Chat extends React.Component {
     this.state = {
       nickname: '',
       text: '',
-      messages: []
+      redirectHome: false,
+      messages: [],
     };
   }
 
@@ -83,9 +84,7 @@ export default class Chat extends React.Component {
   };
 
   renderBack = () => {
-    return (
-      <Link to='/'/>
-    );
+    this.setState({redirectHome: true});
   };
 
   renderChat=(data)=>{
@@ -98,6 +97,7 @@ export default class Chat extends React.Component {
   };
 
   render() {
+    if(this.state.redirectHome)return <Redirect push to="/"/>;
     return (
       <Container>
         <Header backgroundColor='#d80030' style={{height: 75, paddingTop: 20}}>
