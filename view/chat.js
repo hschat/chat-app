@@ -1,6 +1,6 @@
 import React from 'react';
 import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage, FlatList, Text, Image} from 'react-native';
-import {Link} from 'react-router-native';
+import {Link, Redirect} from 'react-router-native';
 import {Body, Button, Container, Header, Icon, Left, Right} from 'native-base'
 
 import Message from '../components/message'
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end'
   },
   end: {
-    flex: 0,
+    flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end'
   }
@@ -87,12 +87,12 @@ export default class Chat extends React.Component {
     this.setState({redirectHome: true});
   };
 
-  renderChat=(data)=>{
-    let me=(this.state.nickname===data.nickname)?'right':'left';
-    console.log(this.state.messages.indexOf(data));
+  _keyExtractor = (item, index) => index;
+  renderChat=({item})=>{
+    let me=(this.state.nickname===item.nickname)?'right':'left';
     this.id++;
     return(
-        <Message pos={me} message={data.message}/>
+        <Message pos={me} message={item.message}/>
     )
   };
 
@@ -113,7 +113,7 @@ export default class Chat extends React.Component {
           <Right/>
         </Header>
         <KeyboardAvoidingView style={styles.end} behavior='padding'>
-          <FlatList style={{backgroundColor:'#0000FF', flex:1}} data={this.state.messages} renderItem={this.renderChat} />
+          <FlatList data={this.state.messages} renderItem={this.renderChat} keyExtractor={this._keyExtractor}/>
           <View style={styles.inputWrapper}>
             <TextInput
               style={styles.input}
