@@ -1,7 +1,7 @@
 import React from 'react';
 import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage, FlatList, Text, Image} from 'react-native';
 import {Link, Redirect} from 'react-router-native';
-import {Body, Button, Container, Header, Icon, Left, List, ListItem, Right} from 'native-base'
+import {Body, Button, Container, Header, Icon, Left, List, ListItem, Right, Thumbnail} from 'native-base'
 
 import Message from '../components/message'
 import ChatAPI from "../ChatAPI";
@@ -90,14 +90,23 @@ export default class Chat extends React.Component {
     this.setState({redirectHome: true});
   };
 
-  _keyExtractor = (item, index) => index;
   renderChat = (item) => {
     console.log('message', item);
     let position = (this.state.nickname === item.nickname) ? 'right' : 'left';
     this.id++;
+    // <Message pos={position} message={item.message}/>
     return (
-      <ListItem>
-        <Message pos={position} message={item.message}/>
+      <ListItem avatar>
+        <Left>
+          <Thumbnail source={require('../assets/img/user.png')} />
+        </Left>
+        <Body>
+          <Text>#{item.nickname}</Text>
+          <Text note>{item.message}</Text>
+        </Body>
+        <Right>
+          <Text note>{item.sent}</Text>
+        </Right>
       </ListItem>
     )
   };
@@ -119,7 +128,7 @@ export default class Chat extends React.Component {
           <Right/>
         </Header>
         <KeyboardAvoidingView style={styles.end} behavior='padding'>
-          <List dataArray={this.state.messages} renderRow={this.renderChat} itemDivider={false}/>
+          <List dataArray={this.state.messages} renderRow={this.renderChat}/>
           <View style={styles.inputWrapper}>
             <TextInput
               style={styles.input}
