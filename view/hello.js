@@ -80,11 +80,10 @@ export default class Hello extends React.Component {
         </Container>
       ) : (
         <Container>
-          <Header backgroundColor='d80030' style={{height: 75, paddingTop: 20}}>
+          <Header androidStatusBarColor='#d80030' backgroundColor='#d80030' style={{height: 75, paddingTop: 20}}>
             <Left/>
             <Body>
-              <Image source={require('../assets/img/logo-only.png')} style={{height: 45, width: 45}}/>
-              <Text>HS Chat</Text>
+              <Image source={require('../assets/img/logo-only.png')} style={{height: 40, width: 40}}/>
             </Body>
             <Right/>
           </Header>

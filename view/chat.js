@@ -1,7 +1,7 @@
 import React from 'react';
 import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage, FlatList, Text, Image} from 'react-native';
 import {Link, Redirect} from 'react-router-native';
-import {Body, Button, Container, Header, Icon, Left, Right} from 'native-base'
+import {Body, Button, Container, Header, Icon, Left, List, ListItem, Right} from 'native-base'
 
 import Message from '../components/message'
 import ChatAPI from "../ChatAPI";
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
     width: '90%',
-    flex:1
+    flex: 1
   },
   navBar: {
     paddingTop: 20,
@@ -28,10 +28,10 @@ const styles = StyleSheet.create({
   },
   inputWrapper: {
     backgroundColor: '#888888',
-    flexDirection:'row',
+    flexDirection: 'row',
   },
-  chatView:{
-    flex:1,
+  chatView: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end'
   },
@@ -58,7 +58,7 @@ export default class Chat extends React.Component {
   async componentWillMount() {
     try {
       const nickname = await AsyncStorage.getItem('@ChatStore:nickname');
-      if (nickname !== null){
+      if (nickname !== null) {
         this.setState({nickname: nickname});
       }
     } catch (error) {
@@ -66,21 +66,24 @@ export default class Chat extends React.Component {
     }
 
     this.api.on('message', (data) => {
+      console.log('chat-recieved: ', data);
       let msgs = this.state.messages;
       msgs.push(data);
       this.setState({messages: msgs});
-    }, {duration: 'infinite'});
+    }, {
+      duration: 'infinite'
+    });
   }
 
   send = () => {
-    if(this.state.text.trim() === '') return;
+    if (this.state.text.trim() === '') return;
     this.api.sendMessage({
       type: 'message',
       text: this.state.text,
       nickname: this.state.nickname,
       sent: Date.now()
     });
-    this.setState({text:''});
+    this.setState({text: ''});
   };
 
   renderBack = () => {
@@ -88,32 +91,35 @@ export default class Chat extends React.Component {
   };
 
   _keyExtractor = (item, index) => index;
-  renderChat=({item})=>{
-    let me=(this.state.nickname===item.nickname)?'right':'left';
+  renderChat = (item) => {
+    console.log('message', item);
+    let position = (this.state.nickname === item.nickname) ? 'right' : 'left';
     this.id++;
-    return(
-        <Message pos={me} message={item.message}/>
+    return (
+      <ListItem>
+        <Message pos={position} message={item.message}/>
+      </ListItem>
     )
   };
 
   render() {
-    if(this.state.redirectHome)return <Redirect push to="/"/>;
+    if (this.state.redirectHome) return <Redirect push to="/"/>;
     return (
       <Container>
         <Header backgroundColor='#d80030' style={{height: 75, paddingTop: 20}}>
           <Left>
             <Button transparent onPress={this.renderBack}>
-              <Icon ios='ios-arrow-back-outline' android='md-arrow-back' />
+              <Icon ios='ios-arrow-back-outline' android='md-arrow-back'/>
             </Button>
           </Left>
           <Body>
-          <Image source={require('../assets/img/logo-only.png')} style={{height: 45, width: 45}}/>
-          <Text>HS Chat</Text>
+            <Image source={require('../assets/img/logo-only.png')} style={{height: 45, width: 45}}/>
+            <Text>HS Chat</Text>
           </Body>
           <Right/>
         </Header>
         <KeyboardAvoidingView style={styles.end} behavior='padding'>
-          <FlatList data={this.state.messages} renderItem={this.renderChat} keyExtractor={this._keyExtractor}/>
+          <List dataArray={this.state.messages} renderRow={this.renderChat} itemDivider={false}/>
           <View style={styles.inputWrapper}>
             <TextInput
               style={styles.input}
