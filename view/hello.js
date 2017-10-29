@@ -55,7 +55,7 @@ export default class Hello extends React.Component {
     let data = {
       type: 'join',
       nickname: this.state.name,
-      sent: Date.now()
+      sent: new Date().toISOString()
     };
 
     this.api.sendMessage(data, (data) => {

@@ -1,10 +1,11 @@
 import React from 'react';
 import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage, FlatList, Text, Image} from 'react-native';
-import {Link, Redirect} from 'react-router-native';
+import {Redirect} from 'react-router-native';
 import {Body, Button, Container, Header, Icon, Left, List, ListItem, Right, Thumbnail} from 'native-base'
 
 import Message from '../components/message'
 import ChatAPI from "../ChatAPI";
+const moment = require('moment');
 
 
 const styles = StyleSheet.create({
@@ -81,7 +82,7 @@ export default class Chat extends React.Component {
       type: 'message',
       text: this.state.text,
       nickname: this.state.nickname,
-      sent: Date.now()
+      sent: new Date().toISOString()
     });
     this.setState({text: ''});
   };
@@ -105,7 +106,7 @@ export default class Chat extends React.Component {
           <Text note>{item.message}</Text>
         </Body>
         <Right>
-          <Text note>{item.sent}</Text>
+          <Text note>{moment(item.sent).fromNow()}</Text>
         </Right>
       </ListItem>
     )
