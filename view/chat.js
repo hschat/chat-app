@@ -1,12 +1,11 @@
 import React from 'react';
-import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage, FlatList, Text, Image} from 'react-native';
+import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage, Text, Image} from 'react-native';
 import {Redirect} from 'react-router-native';
 import {Body, Button, Container, Header, Icon, Left, List, ListItem, Right, Thumbnail} from 'native-base'
 
 import Message from '../components/message'
 import ChatAPI from "../ChatAPI";
-const moment = require('moment');
-
+import TimeAgo from "../components/TimeAgo";
 
 const styles = StyleSheet.create({
   input: {
@@ -106,7 +105,7 @@ export default class Chat extends React.Component {
           <Text note>{item.message}</Text>
         </Body>
         <Right>
-          <Text note>{moment(item.sent).fromNow()}</Text>
+          <TimeAgo time={item.sent}/>
         </Right>
       </ListItem>
     )

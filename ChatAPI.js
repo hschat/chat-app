@@ -10,7 +10,7 @@ export default class ChatAPI {
     this.state = {
       connected: false,
       errored: false,
-      joined: false,
+      closed: false,
     };
 
     this.listeners = [];
@@ -100,6 +100,7 @@ export default class ChatAPI {
       }
     });
     this.logOnEvent('error');
+    console.log('error:', evt.message)
   };
 
   onClose = (evt) => {
@@ -110,6 +111,7 @@ export default class ChatAPI {
         this.listeners.splice(i, 1);
       }
     });
+    this.state.closed = true;
     this.logOnEvent('close');
   };
 }
