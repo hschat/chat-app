@@ -1,113 +1,138 @@
 import React from 'react';
 import {View, StyleSheet, Image, AsyncStorage} from 'react-native';
-import {Redirect} from 'react-router-native';
+import {Redirect, Link} from 'react-router-native';
 import {
-  FormInput, Button, Header, Spinner, Container, Title, Icon, Left, Body, Right, Input, Form,
-  Text, Item, Label
+    FormInput, Button, Header, Spinner, Container, Title, Icon, Left, Body, Right, Input, Form,
+    Text, Item, Label, Toast
 } from 'native-base'
+
 
 import {Chat} from './chat'
 import LoadingIcon from "../components/loadingIcon";
 import ChatAPI from "../ChatAPI";
 
 const styles = StyleSheet.create({
-  middle: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    padding: 20
-  },
-  backgroundImage: {
-    flex: 1,
-    width: null,
-    height: null,
-    resizeMode: 'cover'
-  }
+    middle: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: 20
+    },
+    backgroundImage: {
+        flex: 1,
+        width: null,
+        height: null,
+        resizeMode: 'cover'
+    },
+    link: {
+        fontSize: 15,
+        color: '#00335C',
+    },
+    right:{
+        marginTop: 15,
+        alignSelf: 'flex-end',
+    }
 });
 
 export default class Hello extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.api = new ChatAPI();
-    this.state = {
-      name: '',
-      loaded: false,
-      joined: false
-    };
-  }
-
-  componentWillMount() {
-    if (!this.api.state.connected) {
-      this.api.on('connect', (state) => {
-        this.setState({loaded: true});
-      });
-    } else {
-      this.setState({loaded: true});
+    constructor(props) {
+        super(props);
+        this.api = new ChatAPI();
+        this.state = {
+            name: '',
+            password: '',
+            loaded: false,
+            joined: false,
+            showToast: false
+        };
     }
-  }
 
-  setName = (n) => {
-    this.setState({name: n})
-  };
+    componentWillMount() {
+        if (!this.api.state.connected) {
+            this.api.on('connect', (state) => {
+                this.setState({loaded: true});
+            });
+        } else {
+            this.setState({loaded: true});
+        }
+    }
 
-  send = () => {
-    let data = {
-      type: 'join',
-      nickname: this.state.name,
-      sent: new Date().toISOString()
+    setName = (n) => {
+        this.setState({name: n})
+    };
+    setPassword = (n) => {
+        this.setState({password: n});
     };
 
-    this.api.sendMessage(data, (data) => {
-      console.log(data);
+    send = () => {
+        let data = {
+            type: 'join',
+            nickname: this.state.name,
+            sent: new Date().toISOString()
+        };
 
-      if (data.type === 'join' && data.success) {
-        AsyncStorage.setItem('@ChatStore:nickname', this.state.name);
-        this.setState({joined: data.success})
-      }
+        this.api.sendMessage(data, (data) => {
+            console.log(data);
 
-    });
-  };
+            if (data.type === 'join' && data.success) {
+                AsyncStorage.setItem('@ChatStore:nickname', this.state.name);
+                this.setState({joined: data.success})
+            }
+
+        });
+    };
 
 
-  render() {
-    return this.state.joined ? (
-      <Redirect to="/chat"/>
-    ) : (
-      !this.state.loaded ? (
-        <Container>
-          <LoadingIcon/>
-        </Container>
-      ) : (
-        <Container>
-          <Header androidStatusBarColor='#d80030' backgroundColor='#d80030' style={{height: 75, paddingTop: 20}}>
-            <Left/>
-            <Body>
-              <Image source={require('../assets/img/logo-only.png')} style={{height: 40, width: 40}}/>
-            </Body>
-            <Right/>
-          </Header>
-          <Image source={require('../assets/img/bg.png')} style={styles.backgroundImage}>
-            <Form style={styles.middle}>
-              <Item floatingLabel last style={{backgroundColor: 'rgb(255,255,255)'}}>
-                <Label>#nickname</Label>
-                <Input onChangeText={this.setName}
-                       ref={ref => this.formInput = ref}
-                       bordered
-                />
-              </Item>
-              <Button onPress={this.send}
-                      style={{backgroundColor: '#d80030', marginTop: 10}}
-                      underlayColor='#B71234'
-                      iconRight
-                      full>
-                <Text>Beitreten</Text>
-                <Icon ios='ios-log-in' android='md-log-in' size={20}/>
-              </Button>
-            </Form>
-          </Image>
-        </Container>
-      )
-    )
-  }
+    render() {
+        return this.state.joined ? (
+            <Redirect to="/chat"/>
+        ) : (
+            !this.state.loaded ? (
+                <Container>
+                    <LoadingIcon/>
+                </Container>
+            ) : (
+                <Container>
+                    <Header androidStatusBarColor='#d80030' backgroundColor='#d80030'
+                            style={{height: 75, paddingTop: 20, backgroundColor:'#FFFFFF'}}>
+                        <Left/>
+                        <Body>
+                        <Image source={require('../assets/img/logo-only.png')} style={{height: 40, width: 40}}/>
+                        </Body>
+                        <Right/>
+                    </Header>
+                    <Image source={require('../assets/img/bg.png')} style={styles.backgroundImage}>
+                        <Form style={styles.middle}>
+                            <Item floatingLabel last style={{backgroundColor: 'rgb(255,255,255)'}}>
+                                <Label>E-mail</Label>
+                                <Input onChangeText={this.setName}
+                                       ref={ref => this.formInput = ref}
+                                       bordered
+                                />
+                            </Item>
+                            <Item floatingLabel last style={{backgroundColor: 'rgb(255,255,255)'}}>
+                                <Label>Passwort</Label>
+                                <Input onChangeText={this.setPassword}
+                                       ref={ref => this.formInput = ref}
+                                       bordered
+                                />
+                            </Item>
+                            <Button onPress={this.send}
+                                    style={{backgroundColor: '#d80030', marginTop: 10}}
+                                    underlayColor='#B71234'
+                                    iconRight
+                                    full>
+                                <Text>Beitreten</Text>
+                                <Icon ios='ios-log-in' android='md-log-in' size={20}/>
+                            </Button>
+                            <Link to='auth/signup' style={styles.right}>
+                                <Text style={styles.link}>Account erstellen</Text>
+                            </Link>
+                        </Form>
+                    </Image>
+                </Container>
+            )
+        )
+    }
 }

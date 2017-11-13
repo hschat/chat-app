@@ -1,9 +1,11 @@
 import React from 'react';
 import {NativeRouter, Router, Switch, Route} from 'react-router-native';
+import {Root} from 'native-base';
+import ChatApi from './ChatAPI';
 
 import Chat from './view/chat';
-import Hello from './view/hello'
-import ChatApi from './ChatAPI'
+import Hello from './view/hello';
+import SignUp from './view/auth/signup'
 import LoadingIcon from "./components/loadingIcon";
 
 export default class App extends React.Component {
@@ -27,16 +29,21 @@ export default class App extends React.Component {
   render() {
     if (this.state.isReady) {
       return (
-        <NativeRouter>
-          <Switch>
-            <Route exact path='/'>
-              <Hello/>
-            </Route>
-            <Route exact path='/chat'>
-              <Chat/>
-            </Route>
-          </Switch>
-        </NativeRouter>
+          <Root>
+            <NativeRouter>
+              <Switch>
+                <Route exact path='/'>
+                  <Hello/>
+                </Route>
+                <Route exact path='/chat'>
+                  <Chat/>
+                </Route>
+                  <Route exact path='/auth/signup'>
+                      <SignUp/>
+                  </Route>
+              </Switch>
+            </NativeRouter>
+          </Root>
       );
     } else {
       return <LoadingIcon/>;
