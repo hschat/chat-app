@@ -165,11 +165,9 @@ export default class SignupScreen extends React.Component {
       hsid: t.identifier,
       email: t.email,
       password: t.password
-    }).then(user => {
-      this.props.navigaton.navigate('Launch');
     }).catch(error => {
       console.log(error);
-      Alert.alert('Error', 'Please enter a valid email or password.');
+      Alert.alert('Fehler', 'Die Registrierung ist fehlgeschlagen.');
       this.loading = false;
     });
   };

@@ -21,7 +21,7 @@ export default class LaunchScreen extends React.Component {
         <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
           <Text>Anmelden</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.store.logout()}>
+        <TouchableOpacity onPress={() => this.store.promptForLogout()}>
           <Text>Abmelden</Text>
         </TouchableOpacity>
       </View>
