@@ -3,7 +3,7 @@ import {Root, View} from 'native-base';
 
 import ApiStore from "./ApiStore";
 import MainNavigator from "./components/MainNavigator";
-import UnauthenticatedNavigator from "./components/UnauthenticatedNavigator";
+import UnauthenticatedNavigator from "./components/LaunchNavigator";
 import {autobind} from "core-decorators";
 import {observer} from "mobx-react";
 

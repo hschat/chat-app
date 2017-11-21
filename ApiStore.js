@@ -7,7 +7,7 @@ import hooks from 'feathers-hooks';
 import socketio from 'feathers-socketio/client'
 import authentication from 'feathers-authentication-client';
 
-const API_URL = 'http://10.199.81.54:3030'; //process.env['CHAT_ENDPOINT'];
+const API_URL = process.env['CHAT_ENDPOINT'];
 
 @autobind
 export default class ApiStore {

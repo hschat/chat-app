@@ -1,43 +1,69 @@
 import React from 'react';
 import {TabNavigator, StackNavigator} from 'react-navigation';
-import {Icon, Text, Button} from "native-base";
-import ProfileScreen from "../screens/ProfileScreen";
-import ChatsScreen from "../screens/ChatsScreen";
-import SettingsScreen from "../screens/SettingsScreen";
+import {Icon, Button} from "native-base";
+import ProfileScreen from "../screens/profile/ProfileScreen";
+import ChatsScreen from "../screens/chats/ChatsScreen";
+import SearchScreen from "../screens/search/SearchScreen";
 
 const profileNavigator = StackNavigator({
-
-    home: {
-        screen: ProfileScreen, navigationOptions: {
-            headerTitle: 'Profil',
-        }
+  Home: {
+    screen: ProfileScreen,
+    navigationOptions: {
+      headerTitle: 'Profil',
     }
+  }
 });
 
-const RootTabs = TabNavigator({
-        Profile: {
-            screen: profileNavigator,
-            navigationOptions: {
-                tabBarLabel: 'Profil',
-                tabBarIcon: <Icon ios='ios-person-outline' android='md-person' size={20}/>
-            }
-        },
-        Chats: {
-            screen: ChatsScreen,
-            navigationOptions: {
-                tabBarLabel: 'Nachrichten',
-                tabBarIcon: <Icon ios='ios-text-outline' android='md-chatboxes' size={20}/>
-            }
 
-        },
-        Settings: {
-            screen: SettingsScreen,
-            navigationOptions: {
-                tabBarLabel: 'Einstellungen',
-                tabBarIcon: <Icon ios='ios-settings-outline' android='md-settings' size={20}/>
-            }
-        }
+const searchNavigator = StackNavigator({
+  Home: {
+    screen: SearchScreen,
+    navigationOptions: {
+      headerTitle: 'Profil',
     }
+  }
+});
+
+
+/**
+ * Subnavigator that
+ */
+const chatsNavigator = StackNavigator({
+  Home: {
+    screen: ChatsScreen,
+    navigationOptions: {
+      headerTitle: 'Profil',
+    }
+  }
+});
+
+/**
+ * Tab Navigation that contains the references to the components based above
+ */
+const RootTabs = TabNavigator({
+    Profile: {
+      screen: profileNavigator,
+      navigationOptions: {
+        tabBarLabel: 'Profil',
+        tabBarIcon: <Icon ios='ios-person-outline' android='md-person' size={20}/>
+      }
+    },
+    Chats: {
+      screen: chatsNavigator,
+      navigationOptions: {
+        tabBarLabel: 'Nachrichten',
+        tabBarIcon: <Icon ios='ios-text-outline' android='md-chatboxes' size={20}/>
+      }
+
+    },
+    Settings: {
+      screen: searchNavigator,
+      navigationOptions: {
+        tabBarLabel: 'Suchen',
+        tabBarIcon: <Icon ios='ios-search-outline' android='md-search' size={20}/>
+      }
+    }
+  }
 );
 
 export default RootTabs;

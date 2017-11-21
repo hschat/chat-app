@@ -186,7 +186,6 @@ export default class SignupScreen extends React.Component {
     return(
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Container>
-        <Image source={require('../assets/img/bg.png')} style={styles.backgroundImage}>
           <Content>
             <Form style={[styles.form, styles.middle]}>
               <Item stackedLabel error={this.state.errorPrename}>
@@ -223,7 +222,6 @@ export default class SignupScreen extends React.Component {
               </Button>
             </Form>
           </Content>
-        </Image>
       </Container>
       </TouchableWithoutFeedback>
     )

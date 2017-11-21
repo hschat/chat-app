@@ -64,7 +64,6 @@ export default class LoginScreen extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>
-          <Image source={require('../assets/img/bg.png')} style={styles.backgroundImage}>
             <Form style={styles.middle}>
               <Item floatingLabel last style={{backgroundColor: 'rgb(255,255,255)'}}>
                 <Label>E-mail</Label>
@@ -88,7 +87,6 @@ export default class LoginScreen extends React.Component {
                 <Icon ios='ios-log-in' android='md-log-in' size={20}/>
               </Button>
             </Form>
-          </Image>
         </Container>
       </TouchableWithoutFeedback>
     )

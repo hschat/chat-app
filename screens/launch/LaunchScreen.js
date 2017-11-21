@@ -2,7 +2,7 @@ import React from 'react';
 import {TouchableWithoutFeedback, View, Keyboard, TouchableOpacity} from 'react-native';
 import {Container, Text, Button} from 'native-base'
 
-const baseStyles = require('../baseStyles');
+const baseStyles = require('../../baseStyles');
 
 export default class LaunchScreen extends React.Component {
   constructor(props) {
