@@ -1,5 +1,5 @@
-var React = require('react-native');
-var {StyleSheet, Dimensions, Platform} = React;
+let React = require('react-native');
+let {StyleSheet, Dimensions, Platform} = React;
 
 module.exports.colors = {
   primaryColor: 'rgb(216, 0, 48)',
@@ -13,6 +13,11 @@ module.exports.colors = {
 };
 
 module.exports = StyleSheet.create({
-
+  backgroundImage: {
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode: 'cover'
+  },
 
 });
