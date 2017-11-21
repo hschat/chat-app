@@ -14,8 +14,15 @@ const styles = StyleSheet.create({
     height: null,
     resizeMode: 'cover'
   },
+  middle: {
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'center',
+      padding: 20,
+      paddingTop:0,
+  },
   form:{
-    marginTop: 50,
+    marginTop: 20,
   }
 });
 
@@ -133,29 +140,32 @@ export default class SignupScreen extends React.Component {
       case 'passwordRepeat':
         if(p1 !== p2) return false;
         break;
-      case 'nullOrEmpty':":904,"
+      case 'nullOrEmpty':
         if(p1 === null || p1 ==='') return false;
         break;
       case 'nullOrEmpty2':
         if(p1 === null || p2 === null || p1 ==='' || p2 ==='') return false;
         break;
       case 'identifierCheck':
+        p1=p1.toLowerCase();
+        p2=p2.toLowerCase();
+        p3=p3.toLowerCase();
         if(!(p1.charAt(0)===p3.charAt(0)) || !(p1.charAt(1)===p3.charAt(1)) ||
           !(p1.charAt(2)===p2.charAt(0)) || !(p1.charAt(3)===p2.charAt(1))
-        ){return false;}
-        else if(!(/\d\d\d\d/.test(p1.substring(4, 7))) ) return false;
+        ) return false;
+        else if(!(/\w\w\w\w\d\d\d\d/.test(p1) )) return false;
         break;
     }
     return true;
   };
 
   register=() => {
-    /*
+
     if(this.state.errorPrename || this.state.errorLastname || this.state.errorIdentifier || this.state.errorEmail
       || this.state.errorPassword || this.state.errorPasswordRepeat){
-      this.toastIt('Bitte alle Felder richtig ausfüllen!');
+      Alert.alert('Fehler', 'Bitte alle Felder richtig ausfüllen!');
       return null;
-    }*/
+    }
 
     this.loading = true;
     let t = this.state;
@@ -178,7 +188,7 @@ export default class SignupScreen extends React.Component {
       <Container>
         <Image source={require('../assets/img/bg.png')} style={styles.backgroundImage}>
           <Content>
-            <Form style={styles.form}>
+            <Form style={[styles.form, styles.middle]}>
               <Item stackedLabel error={this.state.errorPrename}>
                 <Label>Vorname</Label>
                 <Input onChangeText={this.setPreName} onBlur={() => this.check('prename')}/>

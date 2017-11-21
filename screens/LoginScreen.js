@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Image, AsyncStorage, Alert} from 'react-native';
+import {View, StyleSheet, Image, TouchableWithoutFeedback, Keyboard, AsyncStorage, Alert} from 'react-native';
 import {
   FormInput, Button, Spinner, Container, Title, Icon, Input, Form,
   Text, Item, Label, Toast
@@ -62,34 +62,35 @@ export default class LoginScreen extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Image source={require('../assets/img/bg.png')} style={styles.backgroundImage}>
-          <Form style={styles.middle}>
-            <Item floatingLabel last style={{backgroundColor: 'rgb(255,255,255)'}}>
-              <Label>E-mail</Label>
-              <Input onChangeText={this.setName}
-                     ref={ref => this.formInput = ref}
-                     bordered
-              />
-            </Item>
-            <Item floatingLabel last style={{backgroundColor: 'rgb(255,255,255)'}}>
-              <Label>Passwort</Label>
-              <Input onChangeText={this.setPassword}
-                     ref={ref => this.formInput = ref}
-                     bordered
-              />
-            </Item>
-            <Button onPress={this.login}
-                    style={{backgroundColor: '#d80030', marginTop: 10}}
-                    underlayColor='#B71234'
-                    iconRight
-                    full>
-              <Text>Beitreten</Text>
-              <Icon ios='ios-log-in' android='md-log-in' size={20}/>
-            </Button>
-          </Form>
-        </Image>
-      </Container>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <Container>
+          <Image source={require('../assets/img/bg.png')} style={styles.backgroundImage}>
+            <Form style={styles.middle}>
+              <Item floatingLabel last style={{backgroundColor: 'rgb(255,255,255)'}}>
+                <Label>E-mail</Label>
+                <Input onChangeText={this.setName}
+                       bordered
+                />
+              </Item>
+              <Item floatingLabel last style={{backgroundColor: 'rgb(255,255,255)'}}>
+                <Label>Passwort</Label>
+                <Input onChangeText={this.setPassword}
+                       bordered
+                       secureTextEntry={true}
+                />
+              </Item>
+              <Button onPress={this.login}
+                      style={{backgroundColor: '#d80030', marginTop: 10}}
+                      underlayColor='#B71234'
+                      iconRight
+                      full>
+                <Text>Beitreten</Text>
+                <Icon ios='ios-log-in' android='md-log-in' size={20}/>
+              </Button>
+            </Form>
+          </Image>
+        </Container>
+      </TouchableWithoutFeedback>
     )
   }
 }
