@@ -41,6 +41,7 @@
     "react": "16.1.1",
     "react-native": "0.50.3",
     "react-native-dropdownalert": "^3.1.2",
+    "react-native-easy-grid": "^0.1.15",
     "react-navigation": "^1.0.0-beta.19",
     "socket.io-client": "^2.0.4"
   }
