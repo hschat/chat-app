@@ -1,8 +1,6 @@
 import React from 'react';
-import {TouchableOpacity, View} from 'react-native';
-import {Text} from 'native-base'
-import NavIcons from "../components/NavIcons";
-
+import {TouchableWithoutFeedback, View, Keyboard, TouchableOpacity} from 'react-native';
+import {Container, Text, Button} from 'native-base'
 
 const baseStyles = require('../baseStyles');
 
@@ -14,17 +12,16 @@ export default class LaunchScreen extends React.Component {
 
   render() {
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Signup')}>
-          <Text>Registrieren</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
-          <Text>Anmelden</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.store.promptForLogout()}>
-          <Text>Abmelden</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+              <Button onPress={() => this.props.navigation.navigate('Signup')}>
+                <Text>Registrieren</Text>
+              </Button>
+              <Button onPress={() => this.props.navigation.navigate('Login')}>
+                <Text>Anmelden</Text>
+              </Button>
+            </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
