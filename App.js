@@ -1,20 +1,18 @@
-import React from 'react';
-import {NativeRouter, Router, Switch, Route} from 'react-router-native';
-import {Root} from 'native-base';
-import ChatApi from './ChatAPI';
+import React, {Component} from 'react';
+import {Root, View} from 'native-base';
 
-import Chat from './view/chat';
-import Hello from './view/hello';
-import SignUp from './view/auth/signup'
-import LoadingIcon from "./components/loadingIcon";
+import ApiStore from "./ApiStore";
+import MainNavigator from "./components/MainNavigator";
+import UnauthenticatedNavigator from "./components/UnauthenticatedNavigator";
+import {autobind} from "core-decorators";
+import {observer} from "mobx-react";
 
-export default class App extends React.Component {
+@autobind @observer
+export default class App extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      isReady: false
-    };
+  constructor(props) {
+    super(props);
+    this.store = new ApiStore();
   }
 
   async componentWillMount() {
@@ -22,32 +20,21 @@ export default class App extends React.Component {
       'Roboto': require('native-base/Fonts/Roboto.ttf'),
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
     });
-    let v = new ChatApi();
-    this.setState({isReady: true});
   }
 
   render() {
-    if (this.state.isReady) {
-      return (
-          <Root>
-            <NativeRouter>
-              <Switch>
-                <Route exact path='/'>
-                  <Hello/>
-                </Route>
-                <Route exact path='/chat'>
-                  <Chat/>
-                </Route>
-                  <Route exact path='/auth/signup'>
-                      <SignUp/>
-                  </Route>
-              </Switch>
-            </NativeRouter>
-          </Root>
-      );
-    } else {
-      return <LoadingIcon/>;
-    }
+    return (
+      <Root>
+        <View style={{flex: 1}}>
+          {
+            this.store.isAuthenticated ?
+              <MainNavigator screenProps={{store: this.store}}/>
+              :
+              <UnauthenticatedNavigator screenProps={{store: this.store}}/>
+          }
+        </View>
+      </Root>
+    );
   }
 }
 
