@@ -19,7 +19,7 @@ const searchNavigator = StackNavigator({
   Home: {
     screen: SearchScreen,
     navigationOptions: {
-      headerTitle: 'Profil',
+      headerTitle: 'Suchen',
     }
   }
 });
@@ -32,7 +32,7 @@ const chatsNavigator = StackNavigator({
   Home: {
     screen: ChatsScreen,
     navigationOptions: {
-      headerTitle: 'Profil',
+      headerTitle: 'Chats',
     }
   }
 });

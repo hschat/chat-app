@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, Button, H3, Icon, Item, ListItem, Content, Label, Input, Form} from "native-base";
+import {Text, View, Button, H3, Icon, Item, ListItem, Content, Label, Input, Form, List, Body, Left, Right} from "native-base";
 import {StyleSheet, Image} from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import NavIcons from "../../components/NavIcons";
@@ -43,12 +43,12 @@ export default class ProfileScreen extends Component {
                         <Col size={2}>
                             <H3 style={styles.header}>{this.store.user.prename} {this.store.user.lastname}</H3>
                             <Text style={styles.subheader}>{this.store.user.hsid}</Text>
-                            <Text >
-                                <Icon ios='ios-mail-outline' android='ios-mail-outline'/>
-                                <Text> {this.store.user.email}</Text>
-                            </Text>
-
-
+                            <View style={{flex:1, flexDirection: 'row',alignItems: 'flex-start'}}>
+                                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+                                    <Icon ios='ios-mail-outline' android='ios-mail-outline'/>
+                                    <Text> {this.store.user.email}</Text>
+                                </View>
+                            </View>
                         </Col>
                     </Row>
                     <Row size={3}>
