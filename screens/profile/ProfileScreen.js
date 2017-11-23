@@ -38,7 +38,7 @@ export default class ProfileScreen extends Component {
                 <Grid style={{backgroundColor: '#FEFEFE'}}>
                     <Row size={1} style={{marginTop: 50}}>
                         <Col size={1}>
-                            <Image style={styles.image} source={{uri: 'http://lorempixel.com/400/400/cats/'}}/>
+                            <Image style={styles.image} source={{uri: 'https://api.adorable.io/avatars/200/' + this.store.user.email + '.png'}}/>
                         </Col>
                         <Col size={2}>
                             <H3 style={styles.header}>{this.store.user.prename} {this.store.user.lastname}</H3>

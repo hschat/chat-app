@@ -21,6 +21,13 @@ const searchNavigator = StackNavigator({
     navigationOptions: {
       headerTitle: 'Suchen',
     }
+  },
+
+  Profile: {
+    screen: ProfileScreen,
+    navigationOptions: {
+      headerTitle: 'Suchergebnis',
+    }
   }
 });
 

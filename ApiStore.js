@@ -115,6 +115,41 @@ export default class ApiStore {
     this.isAuthenticated = false;
   }
 
+
+  findUser(partial) {
+    partial = '^' + partial + '[\s\S]*';
+    const query = {query: {
+      $or: [
+        {email: {
+          $search: partial
+        }},
+        {prename: {
+          $search: partial
+        }},
+        {surname: {
+          $search: partial
+        }},
+        {hsid: {
+          $search: partial
+        }}
+      ],
+      $ne: {
+        id: this.user.id
+      }
+    }};
+
+    return this.app.service('users').find(query).then(response => {
+      const users = [];
+      for (let user in response.data) {
+        users.push(response.data[user]);
+      }
+      return Promise.resolve(users);
+    }).catch(error => {
+      console.log(error);
+      return Promise.reject(error);
+    });
+  }
+
   loadMessages(loadNextPage) {
     let $skip = this.skip;
 
