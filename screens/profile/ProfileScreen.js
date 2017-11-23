@@ -14,13 +14,13 @@ import {
     List,
     Body,
     Left,
-    Right
+    Right,
+    Spinner
 } from "native-base";
-import {StyleSheet, Image} from 'react-native';
+import {StyleSheet, Image, Alert, Dimensions} from 'react-native';
 import {Col, Row, Grid} from 'react-native-easy-grid';
-import NavIcons from "../../components/NavIcons";
-import {TouchableOpacity} from "react-native";
-import TimeAgo from "../../components/TimeAgo";
+import TimeAgo from '../../components/TimeAgo';
+import BaseStyles from '../../baseStyles';
 
 
 const styles = StyleSheet.create({
@@ -46,13 +46,35 @@ export default class ProfileScreen extends Component {
 
     constructor(props) {
         super(props);
+        this.state={
+            user: null,
+            ready: false,
+        };
         this.store = this.props.screenProps.store;
         console.log(this.store.user);
+        console.log('Params:', this.props.navigation.params);
     }
 
-    componentWillMount() {
-        //this.store.
+    componentDidMount() {
+        if (this.props.navigation.state.hasOwnProperty('params')) {
+            console.log('LOL', this.props.navigation.state.params);
+            let id = this.props.navigation.state.params.id;
+            if (id !== undefined) {
+                this.store.getUserInformation(id).then(user => {
+                    this.setState({user: user, ready: true});
+                }).catch(error => {
+                    this.setState({user: this.store.user, ready: true});
+                    Alert.alert('Fehler', 'Benutzer nicht gefunden');
+                });
+
+            } else {
+                this.setState({user: this.store.user, ready: true})
+            }
+        } else {
+            this.setState({user: this.store.user, ready: true})
+        }
     }
+
 
     renderSettings = () => {
         return (
@@ -60,7 +82,7 @@ export default class ProfileScreen extends Component {
                 <View style={{flex: 1, flexDirection: 'row', alignItems: 'flex-start'}}>
                     <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
                         <Icon ios='ios-mail-outline' android='ios-mail-outline'/>
-                        <Text> {this.store.user.email}</Text>
+                        <Text> {this.state.user.email}</Text>
                     </View>
                 </View>
                 <View>
@@ -72,27 +94,38 @@ export default class ProfileScreen extends Component {
                     </Form>
                 </View>
             </View>
-
-
         )
     };
 
+    renderUserInformations = () => {
+        return (
+            <Text>
+                HALLO I BIMS
+            </Text>
+        )
+    };
 
     render() {
+        if(this.state.user===undefined || this.state.user === null)
+            return(
+                <Spinner color='red' />
+            );
+
         return (
             <Grid style={{padding: 10}}>
+                <Image style={ BaseStyles.backgroundImage } source={require('../../assets/img/bg.png')} />
                 <Row size={1} style={{marginTop: 15}}>
                     <Col size={1}>
                         <Image style={styles.image} source={{uri: 'http://lorempixel.com/400/400/cats/'}}/>
                     </Col>
                     <Col size={2}>
-                        <H3 style={styles.header}>{this.store.user.prename} {this.store.user.lastname}</H3>
-                        <Text style={styles.subheader}>{this.store.user.hsid}</Text>
+                        <H3 style={styles.header}>{this.state.user.prename} {this.state.user.lastname}</H3>
+                        <Text style={styles.subheader}>{this.state.user.hsid}</Text>
                         <TimeAgo time={Date.now()}/>
                     </Col>
                 </Row>
                 <Row size={3}>
-                    {this.renderSettings()}
+                    {this.state.user.id === this.store.user.id ? this.renderSettings() : this.renderUserInformations()}
                 </Row>
             </Grid>
         );

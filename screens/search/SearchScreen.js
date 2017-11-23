@@ -61,7 +61,7 @@ export default class SearchScreen extends Component {
     return (
       <ListItem avatar style={{backgroundColor: 'transparent'}} button={true} onPress={() => {
         console.log(user);
-        this.props.navigation.navigate('Profile', {id: user.id})
+        this.props.navigation.navigate('Profile', {id: user.id});
       }}>
         <Left>
           <Thumbnail source={{uri: 'https://api.adorable.io/avatars/200/' + user.email + '.png'}}/>

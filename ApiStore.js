@@ -71,6 +71,7 @@ export default class ApiStore {
         });
     }
 
+
     authenticate(options) {
         options = options ? options : undefined;
         return this._authenticate(options).then(user => {
@@ -116,42 +117,67 @@ export default class ApiStore {
     }
 
 
-  findUser(partial) {
-    partial = '^' + partial + '[\s\S]*';
-    const query = {query: {
-      $or: [
-        {email: {
-          $search: partial
-        }},
-        {prename: {
-          $search: partial
-        }},
-        {surname: {
-          $search: partial
-        }},
-        {hsid: {
-          $search: partial
-        }}
-      ],
-      $ne: {
-        id: this.user.id
-      }
-    }};
+    findUser(partial) {
+        partial = '^' + partial + '[\s\S]*';
+        const query = {
+            query: {
+                $or: [
+                    {
+                        email: {
+                            $search: partial
+                        }
+                    },
+                    {
+                        prename: {
+                            $search: partial
+                        }
+                    },
+                    {
+                        surname: {
+                            $search: partial
+                        }
+                    },
+                    {
+                        hsid: {
+                            $search: partial
+                        }
+                    }
+                ],
+                $ne: {
+                    id: this.user.id
+                }
+            }
+        };
 
-    return this.app.service('users').find(query).then(response => {
-      const users = [];
-      for (let user in response.data) {
-        users.push(response.data[user]);
-      }
-      return Promise.resolve(users);
-    }).catch(error => {
-      console.log(error);
-      return Promise.reject(error);
-    });
-  }
 
-  loadMessages(loadNextPage) {
-    let $skip = this.skip;
+        return this.app.service('users').find(query).then(response => {
+            const users = [];
+            for (let user in response.data) {
+                users.push(response.data[user]);
+            }
+            return Promise.resolve(users);
+        }).catch(error => {
+            console.log(error);
+            return Promise.reject(error);
+        });
+    }
+
+    /**
+     * Returns the a user from the given id
+     * @param id of the user you want to find
+     * @return {Promise.<user>}
+     */
+    getUserInformation(id) {
+        return this.app.service('users').get(id).then(user => {
+            return Promise.resolve(user)
+        }).catch(error => {
+            console.error('GET',error);
+            return Promise.reject(error)
+        })
+    }
+
+    loadMessages(loadNextPage) {
+        let $skip = this.skip;
 
         const query = {query: {$sort: {createdAt: -1}, $skip}};
 
