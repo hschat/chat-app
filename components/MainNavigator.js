@@ -23,7 +23,7 @@ const searchNavigator = StackNavigator({
     }
   },
 
-  Profile: {
+  View: {
     screen: ProfileScreen,
     navigationOptions: {
       headerTitle: 'Suchergebnis',
@@ -63,7 +63,7 @@ const RootTabs = TabNavigator({
       }
 
     },
-    Settings: {
+    Search: {
       screen: searchNavigator,
       navigationOptions: {
         tabBarLabel: 'Suchen',

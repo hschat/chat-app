@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, StyleSheet, Image, TouchableWithoutFeedback, Keyboard, AsyncStorage, Alert} from 'react-native';
+import {View, StyleSheet, Image, TouchableWithoutFeedback, Keyboard, Alert} from 'react-native';
 import {
   FormInput, Button, Spinner, Container, Title, Icon, Input, Form,
   Text, Item, Label, Toast
 } from 'native-base'
 
+const baseStyles = require('../../baseStyles');
 
 const styles = StyleSheet.create({
   middle: {
@@ -64,29 +65,30 @@ export default class LoginScreen extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>
-            <Form style={styles.middle}>
-              <Item floatingLabel last style={{backgroundColor: 'rgb(255,255,255)'}}>
-                <Label>E-mail</Label>
-                <Input onChangeText={this.setName}
-                       bordered
-                />
-              </Item>
-              <Item floatingLabel last style={{backgroundColor: 'rgb(255,255,255)'}}>
-                <Label>Passwort</Label>
-                <Input onChangeText={this.setPassword}
-                       bordered
-                       secureTextEntry={true}
-                />
-              </Item>
-              <Button onPress={this.login}
-                      style={{backgroundColor: '#d80030', marginTop: 10}}
-                      underlayColor='#B71234'
-                      iconRight
-                      full>
-                <Text>Beitreten</Text>
-                <Icon ios='ios-log-in' android='md-log-in' size={20}/>
-              </Button>
-            </Form>
+          <Image style={baseStyles.backgroundImage} source={require('../../assets/img/bg.png')}/>
+          <Form style={styles.middle}>
+            <Item floatingLabel last style={{backgroundColor: 'rgb(255,255,255)'}}>
+              <Label>E-mail</Label>
+              <Input onChangeText={this.setName}
+                     bordered
+              />
+            </Item>
+            <Item floatingLabel last style={{backgroundColor: 'rgb(255,255,255)'}}>
+              <Label>Passwort</Label>
+              <Input onChangeText={this.setPassword}
+                     bordered
+                     secureTextEntry={true}
+              />
+            </Item>
+            <Button onPress={this.login}
+                    style={{backgroundColor: '#d80030', marginTop: 10}}
+                    underlayColor='#B71234'
+                    iconRight
+                    full>
+              <Text>Beitreten</Text>
+              <Icon ios='ios-log-in' android='md-log-in' size={20}/>
+            </Button>
+          </Form>
         </Container>
       </TouchableWithoutFeedback>
     )

@@ -6,6 +6,7 @@ import {
 } from 'native-base'
 import {observable, action, computed} from 'mobx';
 
+const baseStyles = require('../../baseStyles');
 
 const styles = StyleSheet.create({
   backgroundImage: {
@@ -15,13 +16,13 @@ const styles = StyleSheet.create({
     resizeMode: 'cover'
   },
   middle: {
-      flex: 1,
-      flexDirection: 'column',
-      justifyContent: 'center',
-      padding: 20,
-      paddingTop:0,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: 20,
+    paddingTop: 0,
   },
-  form:{
+  form: {
     marginTop: 20,
   }
 });
@@ -35,32 +36,44 @@ export default class SignupScreen extends React.Component {
     this.store = this.props.screenProps.store;
     this.state = {
       showToast: false,
-      prename:'',
+      prename: '',
       lastname: '',
       identifier: '',
-      email:'',
-      password:'',
-      passwordRepeat:'',
-      errorPrename:false,
+      email: '',
+      password: '',
+      passwordRepeat: '',
+      errorPrename: false,
       errorLastname: false,
       errorIdentifier: false,
-      errorEmail:false,
-      errorPassword:false,
-      errorPasswordRepeat:false,
+      errorEmail: false,
+      errorPassword: false,
+      errorPasswordRepeat: false,
     };
 
   }
 
   // Input field setter
-  setPreName = (n) => { this.setState({prename: n}); };
-  setLastName= (n) => { this.setState({lastname: n}); };
-  setIdentifier= (n) => { this.setState({identifier: n}); };
-  setEmai= (n) => { this.setState({email: n}); };
-  setPassword= (n) => { this.setState({password: n}); };
-  setPasswordRepeat= (n) => { this.setState({passwordRepeat: n}); };
+  setPreName = (n) => {
+    this.setState({prename: n});
+  };
+  setLastName = (n) => {
+    this.setState({lastname: n});
+  };
+  setIdentifier = (n) => {
+    this.setState({identifier: n});
+  };
+  setEmai = (n) => {
+    this.setState({email: n});
+  };
+  setPassword = (n) => {
+    this.setState({password: n});
+  };
+  setPasswordRepeat = (n) => {
+    this.setState({passwordRepeat: n});
+  };
 
 
-  toastIt = (text) =>{
+  toastIt = (text) => {
     Toast.show({
       text: text,
       position: 'top',
@@ -70,52 +83,68 @@ export default class SignupScreen extends React.Component {
     })
   };
 
-  check = (name) =>{
-    switch(name){
+  check = (name) => {
+    switch (name) {
       case 'prename':
-        if(!this.validate('nullOrEmpty',this.state.prename)){
+        if (!this.validate('nullOrEmpty', this.state.prename)) {
           this.setState({errorPrename: true});
           this.toastIt("Bitte Vornamen angeben");
-        }else{this.setState({errorPrename: false});}
+        } else {
+          this.setState({errorPrename: false});
+        }
         break;
       case 'lastname':
-        if(!this.validate('nullOrEmpty',this.state.lastname)){
+        if (!this.validate('nullOrEmpty', this.state.lastname)) {
           this.setState({errorLastname: true});
           this.toastIt("Bitte Nachnamen angeben");
-        }else{this.setState({errorLastname: false});}
+        } else {
+          this.setState({errorLastname: false});
+        }
         break;
       case 'identifier':
-        if(!this.validate('identifierCheck',this.state.identifier, this.state.prename, this.state.lastname)){
+        if (!this.validate('identifierCheck', this.state.identifier, this.state.prename, this.state.lastname)) {
           this.setState({errorIdentifier: true});
           this.toastIt("Bitte Kennung überprüfen!");
-        }else{this.setState({errorIdentifier: false});}
+        } else {
+          this.setState({errorIdentifier: false});
+        }
         break;
-        if(!this.validate('nullOrEmpty',this.state.identifier)){
+        if (!this.validate('nullOrEmpty', this.state.identifier)) {
           this.setState({errorIdentifier: true});
           this.toastIt("Bitte Kennung angeben");
-        }else{this.setState({errorIdentifier: false});}
+        } else {
+          this.setState({errorIdentifier: false});
+        }
         break;
       case 'email':
-        if(!this.validate('nullOrEmpty',this.state.email)){
+        if (!this.validate('nullOrEmpty', this.state.email)) {
           this.setState({errorEmail: true});
           this.toastIt("Bitte Email angeben");
-        }else{this.setState({errorEmail: false});}
+        } else {
+          this.setState({errorEmail: false});
+        }
         break;
       case 'password':
-        if(!this.validate('nullOrEmpty',this.state.password)){
+        if (!this.validate('nullOrEmpty', this.state.password)) {
           this.setState({errorPassword: true});
           this.toastIt("Bitte Passwort angeben!");
-        }else{this.setState({errorPassword: false});}
-        if(!this.validate('password',this.state.password)){
+        } else {
+          this.setState({errorPassword: false});
+        }
+        if (!this.validate('password', this.state.password)) {
           this.setState({errorPassword: true});
           this.toastIt("Passwort muss mindestens 8 Zeichen haben!");
-        }else{this.setState({errorPassword: false});}
+        } else {
+          this.setState({errorPassword: false});
+        }
         break;
       case 'passwordRepeat':
-        if(!this.validate('passwordRepeat',this.state.password, this.state.passwordRepeat)){
+        if (!this.validate('passwordRepeat', this.state.password, this.state.passwordRepeat)) {
           this.setState({errorPasswordRepeat: true});
           this.toastIt("Passwörter müssen übereinstimmen!");
-        }else{this.setState({errorPasswordRepeat: false});}
+        } else {
+          this.setState({errorPasswordRepeat: false});
+        }
         break;
     }
   };
@@ -131,38 +160,38 @@ export default class SignupScreen extends React.Component {
    * @param p2    only needed for password
    * @return      boolean if check was successfull = true else false
    */
-  validate=(type, p1=null, p2=null, p3=null) =>{
+  validate = (type, p1 = null, p2 = null, p3 = null) => {
 
-    switch (type){
+    switch (type) {
       case 'password':
-        if(p1.length < 8 ) return false;
+        if (p1.length < 8) return false;
         break;
       case 'passwordRepeat':
-        if(p1 !== p2) return false;
+        if (p1 !== p2) return false;
         break;
       case 'nullOrEmpty':
-        if(p1 === null || p1 ==='') return false;
+        if (p1 === null || p1 === '') return false;
         break;
       case 'nullOrEmpty2':
-        if(p1 === null || p2 === null || p1 ==='' || p2 ==='') return false;
+        if (p1 === null || p2 === null || p1 === '' || p2 === '') return false;
         break;
       case 'identifierCheck':
-        p1=p1.toLowerCase();
-        p2=p2.toLowerCase();
-        p3=p3.toLowerCase();
-        if(!(p1.charAt(0)===p3.charAt(0)) || !(p1.charAt(1)===p3.charAt(1)) ||
-          !(p1.charAt(2)===p2.charAt(0)) || !(p1.charAt(3)===p2.charAt(1))
+        p1 = p1.toLowerCase();
+        p2 = p2.toLowerCase();
+        p3 = p3.toLowerCase();
+        if (!(p1.charAt(0) === p3.charAt(0)) || !(p1.charAt(1) === p3.charAt(1)) ||
+          !(p1.charAt(2) === p2.charAt(0)) || !(p1.charAt(3) === p2.charAt(1))
         ) return false;
-        else if(!(/\w\w\w\w\d\d\d\d/.test(p1) )) return false;
+        else if (!(/\w\w\w\w\d\d\d\d/.test(p1) )) return false;
         break;
     }
     return true;
   };
 
-  register=() => {
+  register = () => {
 
-    if(this.state.errorPrename || this.state.errorLastname || this.state.errorIdentifier || this.state.errorEmail
-      || this.state.errorPassword || this.state.errorPasswordRepeat){
+    if (this.state.errorPrename || this.state.errorLastname || this.state.errorIdentifier || this.state.errorEmail
+      || this.state.errorPassword || this.state.errorPasswordRepeat) {
       Alert.alert('Fehler', 'Bitte alle Felder richtig ausfüllen!');
       return null;
     }
@@ -182,10 +211,11 @@ export default class SignupScreen extends React.Component {
     });
   };
 
-  render(){
-    return(
+  render() {
+    return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <Container>
+        <Container>
+          <Image style={baseStyles.backgroundImage} source={require('../../assets/img/bg.png')}/>
           <Content>
             <Form style={[styles.form, styles.middle]}>
               <Item stackedLabel error={this.state.errorPrename}>
@@ -210,7 +240,8 @@ export default class SignupScreen extends React.Component {
               </Item>
               <Item stackedLabel last error={this.state.errorPasswordRepeat}>
                 <Label>Passwort wiederholen</Label>
-                <Input secureTextEntry={true} onChangeText={this.setPasswordRepeat} onBlur={() => this.check('passwordRepeat')}/>
+                <Input secureTextEntry={true} onChangeText={this.setPasswordRepeat}
+                       onBlur={() => this.check('passwordRepeat')}/>
               </Item>
               <Button onPress={this.register}
                       style={{backgroundColor: '#d80030', marginTop: 10}}
@@ -222,7 +253,7 @@ export default class SignupScreen extends React.Component {
               </Button>
             </Form>
           </Content>
-      </Container>
+        </Container>
       </TouchableWithoutFeedback>
     )
   }
