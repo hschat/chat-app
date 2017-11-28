@@ -220,36 +220,36 @@ export default class SignupScreen extends React.Component {
             <Form style={[styles.form, styles.middle]}>
               <Item stackedLabel error={this.state.errorPrename}>
                 <Label>Vorname</Label>
-                <Input onChangeText={this.setPreName} onBlur={() => this.check('prename')}/>
+                <Input onChangeText={this.setPreName} onBlur={() => this.check('prename')} returnKeyType='next' autoCapitalize='words'/>
               </Item>
               <Item stackedLabel error={this.state.errorLastname}>
                 <Label>Nachname</Label>
-                <Input onChangeText={this.setLastName} onBlur={() => this.check('lastname')}/>
+                <Input onChangeText={this.setLastName} onBlur={() => this.check('lastname')} returnKeyType='next' autoCapitalize='words'/>
               </Item>
               <Item stackedLabel error={this.state.errorIdentifier}>
                 <Label>Kennung</Label>
-                <Input onChangeText={this.setIdentifier} onBlur={() => this.check('identifier')}/>
+                <Input onChangeText={this.setIdentifier} onBlur={() => this.check('identifier')} returnKeyType='next' autoCapitalize='none'/>
               </Item>
               <Item stackedLabel error={this.state.errorEmail}>
                 <Label>Email</Label>
-                <Input onChangeText={this.setEmai} onBlur={() => this.check('email')}/>
+                <Input onChangeText={this.setEmai} onBlur={() => this.check('email')} keyboardType='email-address' returnKeyType='next' autoCapitalize='none'/>
               </Item>
               <Item stackedLabel error={this.state.errorPassword}>
                 <Label>Passwort</Label>
-                <Input secureTextEntry={true} onChangeText={this.setPassword} onBlur={() => this.check('password')}/>
+                <Input secureTextEntry={true} onChangeText={this.setPassword} onBlur={() => this.check('password')} returnKeyType='next' autoCapitalize='none'/>
               </Item>
               <Item stackedLabel last error={this.state.errorPasswordRepeat}>
                 <Label>Passwort wiederholen</Label>
                 <Input secureTextEntry={true} onChangeText={this.setPasswordRepeat}
-                       onBlur={() => this.check('passwordRepeat')}/>
+                       onBlur={() => this.check('passwordRepeat')} returnKeyType='done' autoCapitalize='none'/>
               </Item>
               <Button onPress={this.register}
-                      style={{backgroundColor: '#d80030', marginTop: 10}}
+                      style={baseStyles.redButton}
                       underlayColor='#B71234'
-                      iconLeft
-                      full>
+                      iconRight block>
+
+                <Text style={baseStyles.redButtonText}>Account erstellen</Text>
                 <Icon ios='ios-person-add' android='md-person-add' size={20}/>
-                <Text>Account erstellen</Text>
               </Button>
             </Form>
           </Content>

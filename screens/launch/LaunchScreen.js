@@ -1,6 +1,6 @@
 import React from 'react';
-import {TouchableWithoutFeedback, View, Keyboard, TouchableOpacity, Image} from 'react-native';
-import {Container, Text, Button} from 'native-base'
+import {TouchableWithoutFeedback, Keyboard, Image} from 'react-native';
+import {Container, Text, Button, Content} from 'native-base'
 
 const baseStyles = require('../../baseStyles');
 
@@ -13,15 +13,19 @@ export default class LaunchScreen extends React.Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <Container>
           <Image style={baseStyles.backgroundImage} source={require('../../assets/img/bg.png')}/>
-          <Button onPress={() => this.props.navigation.navigate('Signup')}>
-            <Text>Registrieren</Text>
-          </Button>
-          <Button onPress={() => this.props.navigation.navigate('Login')}>
-            <Text>Anmelden</Text>
-          </Button>
-        </View>
+          <Content contentContainerStyle={baseStyles.middle}>
+
+
+            <Button style={baseStyles.redButton} block onPress={() => this.props.navigation.navigate('Signup')}>
+              <Text style={baseStyles.redButtonText}>Registrieren</Text>
+            </Button>
+            <Button style={baseStyles.redButton} block onPress={() => this.props.navigation.navigate('Login')}>
+              <Text style={baseStyles.redButtonText}>Anmelden</Text>
+            </Button>
+          </Content>
+        </Container>
       </TouchableWithoutFeedback>
     );
   }

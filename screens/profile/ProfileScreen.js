@@ -115,7 +115,7 @@ export default class ProfileScreen extends Component {
         <Image style={BaseStyles.backgroundImage} source={require('../../assets/img/bg.png')}/>
         <Row size={1} style={{marginTop: 15}}>
           <Col size={1}>
-            <Image style={styles.image} source={{uri: 'http://lorempixel.com/400/400/cats/'}}/>
+            <Image style={styles.image} source={{uri: 'https://api.adorable.io/avatars/200/' + this.state.user.email + '.png'}}/>
           </Col>
           <Col size={2}>
             <H3 style={styles.header}>{this.state.user.prename} {this.state.user.lastname}</H3>
