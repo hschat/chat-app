@@ -97,13 +97,13 @@ export default class ApiStore {
     }
 
     promptForLogout() {
-        Alert.alert('Sign Out', 'Are you sure you want to sign out?',
+        Alert.alert('Abmelden', 'Willst du dich wirklich abmelden?',
             [
                 {
-                    text: 'Cancel', onPress: () => {
+                    text: 'Abbrechen', onPress: () => {
                 }, style: 'cancel'
                 },
-                {text: 'Yes', onPress: this.logout, style: 'destructive'},
+                {text: 'Ja', onPress: this.logout, style: 'destructive'},
             ]
         );
     }

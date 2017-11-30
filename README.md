@@ -1,6 +1,3 @@
-# App
+# HSChat
 
-Dieses Projekt beschreibt die Mobile App (iOS und Android).
-
-
-made with ❤️
+made with ❤ by Timo & David
