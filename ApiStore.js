@@ -7,7 +7,7 @@ import hooks from 'feathers-hooks';
 import socketio from 'feathers-socketio/client'
 import authentication from 'feathers-authentication-client';
 
-const API_URL = process.env['CHAT_ENDPOINT'];
+const API_URL = process.env['CHAT_ENDPOINT'] || "http://hsc-backend.herokuapp.com";
 
 @autobind
 export default class ApiStore {
@@ -69,6 +69,10 @@ export default class ApiStore {
         return this.app.service('users').create(userData).then((result) => {
             return this.authenticate({email: userData.email, password: userData.password, strategy: 'local'})
         });
+    }
+
+    updateAccount(user, status){
+        return this.app.service('users').patch(user.id, {status: status} );
     }
 
 
