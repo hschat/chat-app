@@ -107,12 +107,12 @@ export default class ProfileScreen extends Component {
         }else{this.setState({status: n});}
     };
     updateStatus = () => {
-        this.store.updateAccount(this.state.user, this.state.status).then( (result) => {
-            //this.setStatus({user: JSON.stringify(result)});
+        this.store.updateAccount(this.state.user, {status: this.state.status}).then( (result) => {
+            this.setState({user: result});
             console.log('update', this.state.user);
         }).catch((error) =>{
             console.error(error);
-            this.toastIt('Fehler beim Akutalisieren des Status');
+            this.toastIt('Fehler beim Aktualisieren des Status');
         });
     };
 

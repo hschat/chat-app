@@ -71,8 +71,8 @@ export default class ApiStore {
         });
     }
 
-    updateAccount(user, status){
-        return this.app.service('users').patch(user.id, {status: status} );
+    updateAccount(user, obj){
+        return this.app.service('users').patch(user.id, obj);
     }
 
 
