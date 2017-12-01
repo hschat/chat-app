@@ -71,7 +71,7 @@ export default class ApiStore {
         });
     }
 
-    updateAccount(user, obj){
+    updateAccount(user, obj) {
         return this.app.service('users').patch(user.id, obj);
     }
 
@@ -175,7 +175,7 @@ export default class ApiStore {
         return this.app.service('users').get(id).then(user => {
             return Promise.resolve(user)
         }).catch(error => {
-            console.error('GET',error);
+            console.error('GET', error);
             return Promise.reject(error)
         })
     }
@@ -206,6 +206,37 @@ export default class ApiStore {
             console.log(error);
         });
     }
+
+    /**
+     * Creats a new chat for for the Person
+     * createChat({
+     *  owner: this.state.user.id,
+     *  recievers: [this.state.res.id]
+     * })
+     *
+     * @param chatData the data for the new Chat
+     */
+    createChat(chatData) {
+        let template = {
+            owner: undefined,
+            recievers: [],
+            //messages: [],
+        };
+
+        let data = Object.assign(template, chatData);
+        console.log('create data', data);
+        return this.app.service('chats').create(data).then((chat) => {
+            console.log('Chat', chat);
+        }).catch((error) => {
+            console.log('FUCKING SHIT Creat chat fucked up', error);
+            console.log(JSON.stringify(error));
+        });
+    }
+
+    getChats(user) {
+        return this.app.service('chats').find({query: {owner: user.id}});
+    }
+
 
     formatMessage(message) {
         return {

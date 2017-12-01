@@ -4975,7 +4975,7 @@ react-native-dropdownalert@^3.1.2:
   dependencies:
     prop-types "15.5.10"
 
-react-native-easy-grid@0.1.15:
+react-native-easy-grid@0.1.15, react-native-easy-grid@^0.1.15:
   version "0.1.15"
   resolved "https://registry.yarnpkg.com/react-native-easy-grid/-/react-native-easy-grid-0.1.15.tgz#02939ae032d74662b50c9540d902c79866ba638a"
   dependencies:
@@ -5122,7 +5122,7 @@ react-proxy@^1.1.7:
     lodash "^4.6.1"
     react-deep-force-update "^1.0.0"
 
-react-redux@^5.0.2:
+react-redux@^5.0.2, react-redux@^5.0.6:
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.6.tgz#23ed3a4f986359d68b5212eaaa681e60d6574946"
   dependencies:
