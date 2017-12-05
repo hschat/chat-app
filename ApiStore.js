@@ -225,12 +225,7 @@ export default class ApiStore {
 
         let data = Object.assign(template, chatData);
         console.log('create data', data);
-        return this.app.service('chats').create(data).then((chat) => {
-            console.log('Chat', chat);
-        }).catch((error) => {
-            console.log('FUCKING SHIT Creat chat fucked up', error);
-            console.log(JSON.stringify(error));
-        });
+        return this.app.service('chats').create(data);
     }
 
     getChats(user) {
@@ -262,13 +257,27 @@ export default class ApiStore {
         this.messages = messages;
     }
 
-    sendMessage(messages = {}, rowID = null) {
-        this.app.service('messages').create({text: messages[0].text}).then(result => {
-            console.log('message created!');
-        }).catch((error) => {
-            console.log('ERROR creating message');
-            console.log(error);
-        });
+    /**
+     * Creats a new chat for for the Person
+     * sendMessage({
+     *  text: this.state.text,
+     *  sender_id: this.store.user.id,
+     *  chat_id: this.state.chat.id
+     * })
+     *
+     * @param message the data for the new Chat
+     */
+    sendMessage(message) {
+        let template = {
+            text: undefined,
+            sender: undefined,
+            chat_id: undefined,
+            send_date: Date.now(),
+            recieve_date: undefined,
+            read_date: undefined
+        };
+        let data = Object.assign(template, message);
+        return this.app.service('messages').create({data});
     }
 
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage, Text, Image, Alert} from 'react-native';
-import {Body, Button, Container, Icon, List, ListItem, Right, Thumbnail} from 'native-base'
+import {Body, Button, Container, Icon, Left, List, ListItem, Right, Thumbnail} from 'native-base'
 
 import Message from '../../components/message'
 import TimeAgo from "../../components/TimeAgo";
@@ -66,10 +66,10 @@ export default class ChatScreen extends React.Component {
                 this.setState({user: user});
                 this.store.createChat({
                     owner: this.store.user.id,
-                    recievers:[user.id] })
-                    .then((chat)=>{
+                    recievers: [user.id]
+                }).then((chat) => {
                     this.setState({chat: chat, ready: true});
-                }).catch((error)=>{
+                }).catch((error) => {
                     Alert.alert('Fehler', 'Chat nicht gefunden', [{
                         text: 'Oh fuck!', onPress: () => {
                             this.props.navigation.navigate('Chats');
@@ -93,6 +93,20 @@ export default class ChatScreen extends React.Component {
 
     }
 
+    send = () => {
+        this.store.sendMessage({
+            sender_id: this.store.user.id,
+            chat_id: this.state.chat.id,
+            text: this.state.text
+        }).then((msg) => {
+            let m = this.state.messages;
+            m.push(msg);
+            this.setState({messages: m});
+        }).catch((error) =>{
+            console.log('ChatScreen, error send msg',error);
+        })
+    };
+
 
     renderChat = (item) => {
         console.log('message', item);
@@ -102,20 +116,24 @@ export default class ChatScreen extends React.Component {
         return (
             <ListItem avatar>
                 <Left>
-                    <Thumbnail source={{uri: 'https://api.adorable.io/avatars/200/' + user.email + '.png'}}/>
+                    <Thumbnail source={{uri: 'https://api.adorable.io/avatars/200/' + this.state.user.email + '.png'}}/>
                 </Left>
                 <Body>
-                <Text>#{item.nickname}</Text>
-                <Text note>{item.message}</Text>
+                <Text>#heil</Text>
+                <Text note>{item.data.text}</Text>
                 </Body>
                 <Right>
-                    <TimeAgo time={item.sent}/>
+                    <TimeAgo time={item.data.send_date}/>
                 </Right>
             </ListItem>
         )
     };
 
     render() {
+        if (!this.state.ready)
+            return (
+                <Text>WARTEN</Text>
+            );
         return (
             <Container>
                 <KeyboardAvoidingView style={styles.end} behavior='padding'>
@@ -126,8 +144,8 @@ export default class ChatScreen extends React.Component {
                             onChangeText={(text) => this.setState({text: text})}
                             value={this.state.text}
                         />
-                        <Icon containerStyle={{width: '10%'}} name='send' color='#FF0000' onPress={this.send}/>
-
+                        <Icon containerStyle={{width: '50%'}} name='send' color='#FF0000' onPress={this.send}/>
+                        <Button onPress={this.send}><Text>dsaffsadadsfadfsafds</Text></Button>
                     </View>
                 </KeyboardAvoidingView>
             </Container>
