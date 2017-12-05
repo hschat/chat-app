@@ -53,7 +53,6 @@ const chatsNavigator = StackNavigator({
   Chat: {
     screen: ChatScreen,
     navigationOptions: {
-      headerTitle: 'Chat',
       tabBarVisible: false
     }
   }

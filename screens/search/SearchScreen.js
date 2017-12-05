@@ -23,7 +23,7 @@ export default class SearchScreen extends Component {
         </Header>
       )
     };
-  }
+  };
 
 
   constructor(props) {

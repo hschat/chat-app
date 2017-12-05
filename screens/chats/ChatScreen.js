@@ -1,6 +1,7 @@
 import React from 'react';
 import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage, Text, Image, Alert} from 'react-native';
 import {Body, Button, Container, Icon, Left, List, ListItem, Right, Thumbnail} from 'native-base'
+import { GiftedChat } from 'react-native-gifted-chat';
 
 import Message from '../../components/message'
 import TimeAgo from "../../components/TimeAgo";
@@ -41,6 +42,12 @@ const styles = StyleSheet.create({
 });
 
 export default class ChatScreen extends React.Component {
+    static navigationOptions = ({navigation, screenProps}) => {
+        const params = navigation.state.params || {};
+        return {
+            headerTitle: `Chat mit ${params.user.prename}`,
+        };
+    };
 
     constructor(props) {
         super(props);
@@ -52,16 +59,11 @@ export default class ChatScreen extends React.Component {
             ready: false,
             messages: [],
         };
-
-        this.props.navigation.setParams({
-            user: this.state.user,
-        });
     }
 
     componentDidMount() {
         if (this.props.navigation.state.hasOwnProperty('params') && this.props.navigation.state.params !== undefined) {
             let user = this.props.navigation.state.params.user;
-            console.log(this.props.navigation.state);
             if (user !== undefined) {
                 this.setState({user: user});
                 this.store.createChat({
@@ -93,25 +95,21 @@ export default class ChatScreen extends React.Component {
 
     }
 
-    send = () => {
+    send = (message) => {
+        console.log('TRY MSG SEND', message);
         this.store.sendMessage({
             sender_id: this.store.user.id,
-            chat_id: this.state.chat.id,
-            text: this.state.text
-        }).then((msg) => {
-            let m = this.state.messages;
-            m.push(msg);
-            this.setState({messages: m});
+            chat_id: this.state.chat[0].id,
+            text: message[0].text
         }).catch((error) =>{
-            console.log('ChatScreen, error send msg',error);
+            console.error('ChatScreen, error send msg');
+            console.error(error);
         })
     };
 
 
     renderChat = (item) => {
-        console.log('message', item);
-        let position = (this.state.nickname === item.nickname) ? 'right' : 'left';
-        this.id++;
+        let position = (this.store.user.id === item.sender_id) ? 'right' : 'left';
         // <Message pos={position} message={item.message}/>
         return (
             <ListItem avatar>
@@ -119,11 +117,11 @@ export default class ChatScreen extends React.Component {
                     <Thumbnail source={{uri: 'https://api.adorable.io/avatars/200/' + this.state.user.email + '.png'}}/>
                 </Left>
                 <Body>
-                <Text>#heil</Text>
-                <Text note>{item.data.text}</Text>
+                <Text>#{this.store.user.prename}</Text>
+                <Text note>{item.text}</Text>
                 </Body>
                 <Right>
-                    <TimeAgo time={item.data.send_date}/>
+                    <TimeAgo time={item.send_date}/>
                 </Right>
             </ListItem>
         )
@@ -135,20 +133,12 @@ export default class ChatScreen extends React.Component {
                 <Text>WARTEN</Text>
             );
         return (
-            <Container>
-                <KeyboardAvoidingView style={styles.end} behavior='padding'>
-                    <List dataArray={this.state.messages} renderRow={this.renderChat}/>
-                    <View style={styles.inputWrapper}>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={(text) => this.setState({text: text})}
-                            value={this.state.text}
-                        />
-                        <Icon containerStyle={{width: '50%'}} name='send' color='#FF0000' onPress={this.send}/>
-                        <Button onPress={this.send}><Text>dsaffsadadsfadfsafds</Text></Button>
-                    </View>
-                </KeyboardAvoidingView>
-            </Container>
+            <GiftedChat
+                messages={this.store.messages}
+                onSend={(messages) => this.send(messages)}
+                user={this.store.user}
+                locale='de'
+            />
         )
     }
 }

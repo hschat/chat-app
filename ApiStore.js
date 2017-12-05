@@ -18,6 +18,7 @@ export default class ApiStore {
     @observable messages = [];
     @observable hasMoreMessages = false;
     @observable skip = 0;
+    @observable alert = {};
 
     constructor() {
         console.log('API:', API_URL);
@@ -34,7 +35,13 @@ export default class ApiStore {
         this.connect();
 
         this.app.service('messages').on('created', createdMessage => {
-            this.messages.unshift(this.formatMessage(createdMessage));
+            console.log('Recieved new msg: ', createdMessage);
+            this.alert = {
+                type: 'info',
+                title: createdMessage.sender.prename,
+                msg: createdMessage.text
+            };
+            this.messages.unshift(createdMessage);
         });
 
         this.app.service('messages').on('removed', removedMessage => {
@@ -235,7 +242,7 @@ export default class ApiStore {
 
     formatMessage(message) {
         return {
-            _id: message._id,
+            id: message.id,
             text: message.text,
             position: message.user._id.toString() === this.user._id.toString() ? 'left' : 'right',
             createdAt: new Date(message.createdAt),
@@ -270,14 +277,14 @@ export default class ApiStore {
     sendMessage(message) {
         let template = {
             text: undefined,
-            sender: undefined,
+            sender_id: undefined,
             chat_id: undefined,
             send_date: Date.now(),
             recieve_date: undefined,
             read_date: undefined
         };
         let data = Object.assign(template, message);
-        return this.app.service('messages').create({data});
+        console.log("MSGMSGMSGMSG",data);
+        return this.app.service('messages').create(data);
     }
-
 }

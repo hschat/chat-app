@@ -101,16 +101,18 @@ export default class ProfileScreen extends Component {
 
 
     setStatus = (n) => {
-        if(n.length>99){
+        if (n.length > 99) {
             this.toastIt('Nicht mehr als 100 Zeichen möglich');
 
-        }else{this.setState({status: n});}
+        } else {
+            this.setState({status: n});
+        }
     };
     updateStatus = () => {
-        this.store.updateAccount(this.state.user, {status: this.state.status}).then( (result) => {
+        this.store.updateAccount(this.state.user, {status: this.state.status}).then((result) => {
             this.setState({user: result});
             console.log('update', this.state.user);
-        }).catch((error) =>{
+        }).catch((error) => {
             console.error(error);
             this.toastIt('Fehler beim Aktualisieren des Status');
         });
@@ -139,6 +141,14 @@ export default class ProfileScreen extends Component {
         )
     };
 
+    showAlerts = () => {
+        this.store.alert = {
+            type: 'error',
+            title: 'LUL',
+            msg: 'David stinkt!!'
+        };
+    };
+
     goToChat = () => {
         this.props.navigation.navigate('Chat', {user: this.state.user});
     };
@@ -150,9 +160,11 @@ export default class ProfileScreen extends Component {
                     <Col>
                     </Col>
                     <Col>
-                        <View style={styles.roundedIcon}>
-                            <Icon color='#FFFFFF' name='ios-chatboxes-outline'/>
-                        </View>
+                        <TouchableOpacity onPress={this.showAlerts}>
+                            <View style={styles.roundedIcon}>
+                                <Icon color='#FFFFFF' name='ios-chatboxes-outline'/>
+                            </View>
+                        </TouchableOpacity>
                     </Col>
                     <Col>
                         <TouchableOpacity onPress={this.goToChat}>
@@ -201,7 +213,7 @@ export default class ProfileScreen extends Component {
                         <H3 style={styles.header}>{this.state.user.prename} {this.state.user.lastname}</H3>
                         <Text style={styles.subheader}>{this.state.user.hsid}</Text>
                         <TimeAgo time={Date.now()}/>
-                        { (this.state.user.status===undefined || this.state.user.status==='') ? <Text></Text>:
+                        {(this.state.user.status === undefined || this.state.user.status === '') ? <Text></Text> :
                             <Text>{this.state.user.status}</Text>
                         }
                     </Col>
