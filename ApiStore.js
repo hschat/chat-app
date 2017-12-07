@@ -15,7 +15,7 @@ export default class ApiStore {
     @observable isAuthenticated = false;
     @observable isConnecting = false;
     @observable user = null;
-    @observable messages = [];
+    @observable chats = [];
     @observable hasMoreMessages = false;
     @observable skip = 0;
     @observable alert = {};
@@ -41,11 +41,6 @@ export default class ApiStore {
                 title: createdMessage.sender.prename,
                 msg: createdMessage.text
             };
-            this.messages.unshift(createdMessage);
-        });
-
-        this.app.service('messages').on('removed', removedMessage => {
-            this.deleteMessage(removedMessage);
         });
 
         if (this.app.get('accessToken')) {
@@ -230,11 +225,23 @@ export default class ApiStore {
         };
 
         let data = Object.assign(template, chatData);
-        return this.app.service('chats').create(data);
+        return this.app.service('chats').create(data).then((chat)=>{
+            if(this.chats.find(o => o.id === chat.id) === undefined){
+                console.log('DER CHAT wurde gepushed', chat);
+                var c = this.chats;
+                c.push(chat);
+                this.chats=c;
+            }
+        });
     }
 
     getChats(user) {
-        return this.app.service('chats').find({query: {owner: user.id}});
+        return this.app.service('chats').find({query: {owner: user.id}}).then((chats)=>{
+            console.log('CHATS (find) before',this.chats);
+            this.chats=chats;
+            console.log('CHATS (find) after' ,this.chats);
+            return chats;
+        });
     }
 
 
@@ -250,16 +257,6 @@ export default class ApiStore {
                 avatar: message.user.avatar ? message.user.avatar : PLACEHOLDER,
             }
         };
-    }
-
-    deleteMessage(messageToRemove) {
-        let messages = this.messages;
-        let idToRemove = messageToRemove.id ? messageToRemove.id : messageToRemove._id;
-
-        messages = messages.filter(function (message) {
-            return message.id !== idToRemove;
-        });
-        this.messages = messages;
     }
 
     /**
