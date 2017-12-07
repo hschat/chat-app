@@ -205,7 +205,7 @@ export default class SignupScreen extends React.Component {
       email: t.email,
       password: t.password
     }).catch(error => {
-      console.log(error);
+      console.error(error);
       Alert.alert('Fehler', 'Die Registrierung ist fehlgeschlagen.');
       this.loading = false;
     });

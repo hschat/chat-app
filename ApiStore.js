@@ -21,7 +21,7 @@ export default class ApiStore {
     @observable alert = {};
 
     constructor() {
-        console.log('API:', API_URL);
+        console.info('API:', API_URL);
         const options = {transports: ['websocket'], pingTimeout: 3000, pingInterval: 5000};
         const socket = io(API_URL, options);
 
@@ -35,7 +35,7 @@ export default class ApiStore {
         this.connect();
 
         this.app.service('messages').on('created', createdMessage => {
-            console.log('Recieved new msg: ', createdMessage);
+            console.info('Recieved new msg: ', createdMessage);
             this.alert = {
                 type: 'info',
                 title: createdMessage.sender.prename,
@@ -60,14 +60,14 @@ export default class ApiStore {
             this.isConnecting = false;
 
             this.authenticate().then(() => {
-                console.log('authenticated after reconnection');
+                console.debug('authenticated after reconnection');
             }).catch(error => {
-                console.log('error authenticating after reconnection', error);
+                console.error('error authenticating after reconnection', error);
             });
         });
 
         this.app.io.on('disconnect', () => {
-            console.log('disconnected');
+            console.info('disconnected');
             this.isConnecting = true;
         });
     }
@@ -86,13 +86,12 @@ export default class ApiStore {
     authenticate(options) {
         options = options ? options : undefined;
         return this._authenticate(options).then(user => {
-            console.log('authenticated successfully', user.id, user.email);
+            console.info('authenticated successfully', user.id, user.email);
             this.user = user;
             this.isAuthenticated = true;
             return Promise.resolve(user);
         }).catch(error => {
-            console.log('authenticated failed', error.message);
-            console.log(error);
+            console.error('authenticated failed', error.message);
             return Promise.reject(error);
         });
     }
@@ -168,7 +167,7 @@ export default class ApiStore {
             }
             return Promise.resolve(users);
         }).catch(error => {
-            console.log(error);
+            console.error('Find User error: ', error);
             return Promise.reject(error);
         });
     }
@@ -200,7 +199,7 @@ export default class ApiStore {
                 messages.push(this.formatMessage(message));
             }
 
-            console.log('loaded messages from server', JSON.stringify(messages, null, 2));
+            console.info('loaded messages from server', JSON.stringify(messages, null, 2));
             if (!loadNextPage) {
                 this.messages = messages;
             } else {
@@ -210,7 +209,7 @@ export default class ApiStore {
             this.hasMoreMessages = response.skip + response.limit < response.total;
 
         }).catch(error => {
-            console.log(error);
+            console.error('Could not load messages: ', error);
         });
     }
 
@@ -231,7 +230,6 @@ export default class ApiStore {
         };
 
         let data = Object.assign(template, chatData);
-        console.log('create data', data);
         return this.app.service('chats').create(data);
     }
 
@@ -284,7 +282,6 @@ export default class ApiStore {
             read_date: undefined
         };
         let data = Object.assign(template, message);
-        console.log("MSGMSGMSGMSG",data);
         return this.app.service('messages').create(data);
     }
 }

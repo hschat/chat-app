@@ -28,7 +28,6 @@ export default class App extends Component {
 
 
     showAlert = () => {
-        console.log("show Alert called");
         if (Object.keys(this.store.alert).length === 0) return;
         this.dropdown.alertWithType(this.store.alert.type, this.store.alert.title, this.store.alert.msg);
         this.store.alert = {};

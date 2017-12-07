@@ -96,14 +96,12 @@ export default class ChatScreen extends React.Component {
     }
 
     send = (message) => {
-        console.log('TRY MSG SEND', message);
         this.store.sendMessage({
             sender_id: this.store.user.id,
             chat_id: this.state.chat[0].id,
             text: message[0].text
         }).catch((error) =>{
-            console.error('ChatScreen, error send msg');
-            console.error(error);
+            console.error('ChatScreen, error send msg', error);
         })
     };
 

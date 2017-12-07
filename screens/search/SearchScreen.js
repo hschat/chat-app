@@ -59,7 +59,7 @@ export default class SearchScreen extends Component {
       this.setState({users: users});
       this.setState({loading: false});
     }).catch(error => {
-      console.log(error);
+      console.error('Search error:', error);
       Alert.alert('Fehler', error.message, [
         {
           text: 'Ok', onPress: () => {
@@ -78,7 +78,6 @@ export default class SearchScreen extends Component {
   renderSearchResult = (user) => {
     return (
       <ListItem avatar style={{backgroundColor: 'transparent'}} button={true} onPress={() => {
-        console.log(user);
         this.props.navigation.navigate('View', {id: user.id});
       }}>
         <Left>

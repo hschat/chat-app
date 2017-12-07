@@ -19,10 +19,9 @@ export default class ChatsScreen extends Component {
     componentWillMount() {
         this.store.getChats(this.store.user).then((chats) => {
             this.setState({chats: chats});
-            console.log('Screen chats success:');
-            console.log(chats);
+            console.info('Screen chats success:', chats);
         }).catch((error) => {
-            console.log('Screen chats error:', error);
+            console.error('Screen chats error:', error);
         });
     }
 
