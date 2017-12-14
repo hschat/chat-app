@@ -1,9 +1,20 @@
 import React, {Component} from 'react';
-import {Button, Icon, Text, View, List, ListItem, Left, Body, Right, Thumbnail} from "native-base";
+import {Button, Icon, Text, View, List, ListItem, Left, Body, Right, Thumbnail, Content} from "native-base";
+import {FlatList, TouchableOpacity, StyleSheet} from 'react-native';
+import {Col, Row, Grid} from 'react-native-easy-grid';
+
 import UpdateComponent from '../../components/UpdateComponent';
 import TimeAgo from "../../components/TimeAgo";
 import {observable, observe} from "mobx";
 import {observer} from "mobx-react";
+
+const styles = StyleSheet.create({
+    list: {
+        borderBottomWidth: 2,
+        borderColor: '#333333',
+        paddingBottom: 3,
+    }
+});
 
 @observer
 export default class ChatsScreen extends Component {
@@ -20,13 +31,11 @@ export default class ChatsScreen extends Component {
             chats: [],
             mounted: false
         };
-        //setTimeout(this.debugShit, 5000);
+
     }
 
     componentWillMount() {
         observe(this.store, "chats", this.updateChats, true);
-
-        this.store.getChats(this.store.user);
     }
 
     debugShit = () => {
@@ -34,33 +43,54 @@ export default class ChatsScreen extends Component {
         setTimeout(this.debugShit, 5000);
     };
 
-    updateChats=()=>{
-        //if(this.state.mounted) {
-            console.log('CHATS UPDATED CALLED', this.state.chats);
-            this.setState({chats: this.store.chats});
-            console.log('CHATS UPDATED FINISH' , this.state.chats);
-        //}
+    updateChats = () => {
+        console.log('CHATS UPDATED CALLED', this.state.chats);
+        this.setState({chats: this.store.chats});
+        this.forceUpdate();
+        //console.log('CHAT STORE', this.store.chats);
+        console.log('CHATS UPDATED FINISH', this.state.chats);
+
     };
 
+    shouldComponentUpdate(nextProps, nextState) {
+        //console.log('nextState',nextState);
+        return true;
+    }
+
+    _keyExtractor = (item, index) => index;
     renderChats = (item) => {
-        console.log('CHATS', item);
         return (
-            <ListItem avatar style={{backgroundColor: 'transparent'}} button={true} onPress={() => {
-                this.props.navigation.navigate('Chat', {user: item.recievers[0]});
-            }}>
-                <Left>
-                    <Thumbnail source={{uri: 'https://api.adorable.io/avatars/200/' + item.recievers[0].email + '.png'}}/>
-                </Left>
-                <Body>
-                <Text>#{item.recievers[0].prename} {item.recievers[0].lastname}</Text>
-                </Body>
-            </ListItem>
+            <TouchableOpacity onPress={() => {
+                this.props.navigation.navigate('Chat', {chat: item.item});}} >
+            <Grid style={styles.list}>
+                <Row>
+                    <Col size={1}>
+                        <Thumbnail source={{uri: 'https://api.adorable.io/avatars/200/' + item.item.recievers[0].email + '.png'}}/>
+                    </Col>
+                    <Col size={4}>
+                        <Text>{item.item.recievers[0].prename}</Text>
+                    </Col>
+                </Row>
+            </Grid>
+            </TouchableOpacity>
         )
     };
 
     render() {
+        if(this.state.chats.length===0){
+          return(
+              <Text>Keine chats vorhanden</Text>
+          )
+        }
         return (
-            <List dataArray={this.state.chats} renderRow={this.renderChats}/>
+            <Content>
+                <FlatList data={this.state.chats} renderItem={this.renderChats} keyExtractor={this._keyExtractor}/>
+            </Content>
         );
     }
 }
+
+
+/*
+<List dataArray={this.state.chats} renderRow={this.renderChats}/>
+*/

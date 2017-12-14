@@ -16,7 +16,6 @@ export default class ApiStore {
     @observable isConnecting = false;
     @observable user = null;
     @observable chats = [];
-    @observable hasMoreMessages = false;
     @observable skip = 0;
     @observable alert = {};
 
@@ -41,6 +40,8 @@ export default class ApiStore {
                 title: createdMessage.sender.prename,
                 msg: createdMessage.text
             };
+            //Update the msg is delivert
+            this.updateMessage(createdMessage, {recieve_date: Date.now()});
         });
 
         if (this.app.get('accessToken')) {
@@ -57,7 +58,7 @@ export default class ApiStore {
             this.authenticate().then(() => {
                 console.debug('authenticated after reconnection');
             }).catch(error => {
-                console.error('error authenticating after reconnection', error);
+                console.log('error authenticating after reconnection', error);
             });
         });
 
@@ -84,9 +85,11 @@ export default class ApiStore {
             console.info('authenticated successfully', user.id, user.email);
             this.user = user;
             this.isAuthenticated = true;
+            // Get all current chats
+            this.getChats(this.user);
             return Promise.resolve(user);
         }).catch(error => {
-            console.error('authenticated failed', error.message);
+            console.log('authenticated failed', error.message);
             return Promise.reject(error);
         });
     }
@@ -162,7 +165,7 @@ export default class ApiStore {
             }
             return Promise.resolve(users);
         }).catch(error => {
-            console.error('Find User error: ', error);
+            console.log('Find User error: ', error);
             return Promise.reject(error);
         });
     }
@@ -176,7 +179,7 @@ export default class ApiStore {
         return this.app.service('users').get(id).then(user => {
             return Promise.resolve(user)
         }).catch(error => {
-            console.error('GET', error);
+            console.log('GET', error);
             return Promise.reject(error)
         })
     }
@@ -204,7 +207,7 @@ export default class ApiStore {
             this.hasMoreMessages = response.skip + response.limit < response.total;
 
         }).catch(error => {
-            console.error('Could not load messages: ', error);
+            console.log('Could not load messages: ', error);
         });
     }
 
@@ -220,26 +223,24 @@ export default class ApiStore {
     createChat(chatData) {
         let template = {
             owner: undefined,
-            recievers: [],
-            //messages: [],
+            recievers: []
         };
 
         let data = Object.assign(template, chatData);
         return this.app.service('chats').create(data).then((chat)=>{
+            // Check if chat is allready in storage
             if(this.chats.find(o => o.id === chat.id) === undefined){
+                this.chats.push(chat);
                 console.log('DER CHAT wurde gepushed', chat);
-                var c = this.chats;
-                c.push(chat);
-                this.chats=c;
             }
+            return chat;
         });
     }
 
     getChats(user) {
         return this.app.service('chats').find({query: {owner: user.id}}).then((chats)=>{
-            console.log('CHATS (find) before',this.chats);
-            this.chats=chats;
-            console.log('CHATS (find) after' ,this.chats);
+            console.log('FIND CHATS WTf', this.chats);
+            this.chats =chats;
             return chats;
         });
     }
@@ -247,14 +248,13 @@ export default class ApiStore {
 
     formatMessage(message) {
         return {
-            id: message.id,
+            _id: message.id,
             text: message.text,
-            position: message.user._id.toString() === this.user._id.toString() ? 'left' : 'right',
-            createdAt: new Date(message.createdAt),
+            createdAt: message.send_date,
             user: {
-                _id: message.user._id ? message.user._id : '',
-                name: message.user.email ? message.user.email : message.name,
-                avatar: message.user.avatar ? message.user.avatar : PLACEHOLDER,
+                _id: message.sender.id,
+                name: message.sender.email,
+                avatar: 'https://api.adorable.io/avatars/200/' + message.sender.email,
             }
         };
     }
@@ -280,5 +280,18 @@ export default class ApiStore {
         };
         let data = Object.assign(template, message);
         return this.app.service('messages').create(data);
+    }
+
+    getMessagesForChat(chat) {
+        return this.app.service('messages').find({query: {chat_id: chat.id, $sort: {send_date:-1}}}).then((msgs)=>{
+            for(let i in msgs){
+                msgs[i]=this.formatMessage(msgs[i]);
+            }
+            return msgs;
+        });
+    }
+
+    updateMessage(msg, obj) {
+        return this.app.service('messages').patch(msg.id, obj);
     }
 }

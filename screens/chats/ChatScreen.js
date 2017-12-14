@@ -1,7 +1,7 @@
 import React from 'react';
 import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage, Text, Image, Alert} from 'react-native';
-import {Body, Button, Container, Icon, Left, List, ListItem, Right, Thumbnail} from 'native-base'
-import { GiftedChat } from 'react-native-gifted-chat';
+import {Body, Button, Container, Icon, Left, List, ListItem, Right, Thumbnail, Spinner} from 'native-base'
+import {GiftedChat} from 'react-native-gifted-chat';
 
 import Message from '../../components/message'
 import TimeAgo from "../../components/TimeAgo";
@@ -45,7 +45,7 @@ export default class ChatScreen extends React.Component {
     static navigationOptions = ({navigation, screenProps}) => {
         const params = navigation.state.params || {};
         return {
-            headerTitle: `Chat mit ${params.user.prename}`,
+            headerTitle: `Chat mit ${params.chat.recievers[0].prename}`,
         };
     };
 
@@ -63,31 +63,24 @@ export default class ChatScreen extends React.Component {
 
     componentDidMount() {
         if (this.props.navigation.state.hasOwnProperty('params') && this.props.navigation.state.params !== undefined) {
-            let user = this.props.navigation.state.params.user;
-            if (user !== undefined) {
-                this.setState({user: user});
-                this.store.createChat({
-                    owner: this.store.user.id,
-                    recievers: [user.id]
-                }).then((chat) => {
-                    this.setState({chat: chat, ready: true});
-                }).catch((error) => {
-                    Alert.alert('Fehler', 'Chat nicht gefunden', [{
-                        text: 'Oh fuck!', onPress: () => {
-                            this.props.navigation.navigate('Chats');
-                        }, style: 'destroy'
-                    }]);
-                })
+            //Get the given chat
+            let chat = this.props.navigation.state.params.chat;
+            if (chat !== undefined) {
+                //Set user to the current state
+                this.setState({chat: chat});
+                this.store.getMessagesForChat(chat).then((msgs) => {
+                    this.setState({messages: msgs, ready: true});
+                });
             } else {
-                Alert.alert('Fehler', 'Benutzer nicht gefunden', [{
-                    text: 'Oh fuck!', onPress: () => {
+                Alert.alert('Fehler', 'Chat nicht gefunden', [{
+                    text: 'Fehler!', onPress: () => {
                         this.props.navigation.navigate('Chats');
                     }, style: 'destroy'
                 }]);
             }
         } else {
             Alert.alert('Fehler', 'Es trat ein kritischer, interner Fehler auf! 💥💀💥', [{
-                text: 'Oh fuck!', onPress: () => {
+                text: 'OhOh!', onPress: () => {
                     this.props.navigation.navigate('Chats');
                 }, style: 'destroy'
             }]);
@@ -96,12 +89,12 @@ export default class ChatScreen extends React.Component {
     }
 
     send = (message) => {
-        console.log('message',message);
+        console.log('message', message);
         this.store.sendMessage({
             sender_id: this.store.user.id,
-            chat_id: this.state.chat[0].id,
+            chat_id: this.state.chat.id,
             text: message[0].text
-        }).catch((error) =>{
+        }).catch((error) => {
             console.error('ChatScreen, error send msg', error);
         })
     };
@@ -129,11 +122,13 @@ export default class ChatScreen extends React.Component {
     render() {
         if (!this.state.ready)
             return (
-                <Text>WARTEN</Text>
+                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                    <Spinner color='red'/>
+                </View>
             );
         return (
             <GiftedChat
-                messages={this.store.messages}
+                messages={this.state.messages}
                 onSend={(messages) => this.send(messages)}
                 user={this.store.user}
                 locale='de'

@@ -55,7 +55,7 @@ export default class LoginScreen extends React.Component {
         <Container>
           <Image style={baseStyles.backgroundImage} source={require('../../assets/img/bg.png')}/>
             <Form style={baseStyles.middle}>
-              <Item style={baseStyles.backgroundButtonInput}>
+              <Item last style={baseStyles.backgroundButtonInput}>
                 <Label>E-mail</Label>
                 <Input onChangeText={this.setName}
                        bordered
