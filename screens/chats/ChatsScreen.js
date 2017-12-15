@@ -59,6 +59,8 @@ export default class ChatsScreen extends Component {
 
     _keyExtractor = (item, index) => index;
     renderChats = (item) => {
+        //Load the last msg send to this chat
+        let msg = this.store.getLastMessagesForChat(item.item);
         return (
             <TouchableOpacity onPress={() => {
                 this.props.navigation.navigate('Chat', {chat: item.item});}} >
@@ -67,9 +69,24 @@ export default class ChatsScreen extends Component {
                     <Col size={1}>
                         <Thumbnail source={{uri: 'https://api.adorable.io/avatars/200/' + item.item.recievers[0].email + '.png'}}/>
                     </Col>
-                    <Col size={4}>
-                        <Text>{item.item.recievers[0].prename}</Text>
-                    </Col>
+                    <Grid>
+                        <Row>
+                            <Col size={4}>
+                                <Text>{item.item.recievers[0].prename}</Text>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Text>{msg[0]}</Text>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                Vor <TimeAgo time={msg.send_date} hideAgo={true}/>
+                            </Col>
+                        </Row>
+                    </Grid>
+
                 </Row>
             </Grid>
             </TouchableOpacity>

@@ -68,6 +68,7 @@ export default class ChatScreen extends React.Component {
             if (chat !== undefined) {
                 //Set user to the current state
                 this.setState({chat: chat});
+                // Get the messages to the current Chat
                 this.store.getMessagesForChat(chat).then((msgs) => {
                     this.setState({messages: msgs, ready: true});
                 });
@@ -101,8 +102,6 @@ export default class ChatScreen extends React.Component {
 
 
     renderChat = (item) => {
-        let position = (this.store.user.id === item.sender_id) ? 'right' : 'left';
-        // <Message pos={position} message={item.message}/>
         return (
             <ListItem avatar>
                 <Left>
