@@ -45,7 +45,7 @@ export default class ChatScreen extends React.Component {
     static navigationOptions = ({navigation, screenProps}) => {
         const params = navigation.state.params || {};
         return {
-            headerTitle: `Chat mit ${params.chat.recievers[0].prename}`,
+            headerTitle: `Chat mit ${params.chat.participants[0].prename}`,
         };
     };
 

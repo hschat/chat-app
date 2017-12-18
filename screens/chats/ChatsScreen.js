@@ -67,12 +67,12 @@ export default class ChatsScreen extends Component {
             <Grid style={styles.list}>
                 <Row>
                     <Col size={1}>
-                        <Thumbnail source={{uri: 'https://api.adorable.io/avatars/200/' + item.item.recievers[0].email + '.png'}}/>
+                        <Thumbnail source={{uri: 'https://api.adorable.io/avatars/200/' + item.item.type === 'group' ? item.item.avatar : item.item.participants.filter(u => u.id !== this.store.user.id)[0].email + '.png'}}/>
                     </Col>
                     <Grid>
                         <Row>
                             <Col size={4}>
-                                <Text>{item.item.recievers[0].prename}</Text>
+                                <Text>{item.item.type === 'group' ? item.item.name : item.item.participants.filter(u => u.id !== this.store.user.id)[0].prename}</Text>
                             </Col>
                         </Row>
                         <Row>
@@ -82,7 +82,7 @@ export default class ChatsScreen extends Component {
                         </Row>
                         <Row>
                             <Col>
-                                Vor <TimeAgo time={msg.send_date} hideAgo={true}/>
+                              <Text>Vor <TimeAgo time={msg.send_date} hideAgo={true}/></Text>
                             </Col>
                         </Row>
                     </Grid>

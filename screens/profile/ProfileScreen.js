@@ -149,8 +149,7 @@ export default class ProfileScreen extends Component {
     };
 
     goToChat = () => {
-        this.store.createChat({owner:this.store.user.id, recievers: [this.state.user.id]}).then((chat) => {
-            console.log('SDFFADSDAFSAFDSAFDS', chat);
+        this.store.createChat({participants: [this.state.user.id, this.store.user.id], type: 'personal'}).then((chat) => {
             this.props.navigation.navigate('Chat', {chat: chat});
         }).catch((error)=>{
             Alert.alert('Fehler', `Chat mit ${this.state.user.prename} nicht gefunden`, [{
