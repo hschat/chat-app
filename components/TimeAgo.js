@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text} from "native-base";
 
-const moment = require('moment');
+import moment from 'moment/min/moment-with-locales';
 
 export default class TimeAgo extends React.Component {
 
@@ -21,6 +21,12 @@ export default class TimeAgo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {text: ''};
+
+  }
+
+  async componentWillMount() {
+    let locale = await Expo.Util.getCurrentLocaleAsync();
+    moment.locale(locale);
   }
 
   componentDidMount() {

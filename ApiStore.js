@@ -269,15 +269,17 @@ export default class ApiStore {
     });
   }
 
-  getLastMessagesForChat(chat) {
+  getLastMessageForChat(chat) {
     return this.app.service('messages').find({
       query: {
         chat_id: chat.id,
         $limit: 2,
-        $sort: {send_date: -1}
+        $sort: {
+          send_date: -1
+        }
       }
     }).then((msgs) => {
-      return msgs;
+      return msgs[0];
     });
   }
 
