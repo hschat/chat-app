@@ -32,26 +32,29 @@ export default class App extends Component {
     showAlert = () => {
         if (Object.keys(this.store.alert).length === 0) return;
         this.dropdown.alertWithType(this.store.alert.type, this.store.alert.title, this.store.alert.msg);
-        
+
     };
 
     onClose(data) {
         console.log('DROPDOWN NAV CLOSED', data);
+
         if (data.action === 'tap') {
-            // get the chat object from the id
-            // navigate to chat with the user
-            this.store.findChat(this.store.alert.chat_id).then((chat)=>{
-                console.log(chat);
-                this.navigator && this.navigator.dispatch(
-                    NavigationActions.navigate(
-                        {
-                            routeName: 'Chats',
-                            //params: {chat: this.store.alert.chat_id},
-                            action: NavigationActions.navigate({ routeName: 'Chat', params: {chat: chat[0]}})
-                        })
-                );
-            });
+            // user taped on the dropdown
+            if(this.store.alert.hasOwnProperty('chat_id')) {
+                // if a chat_id is set try to navigate to the view
+                this.store.findChat(this.store.alert.chat_id).then((chat) => {
+                    console.log(chat);
+                    this.navigator && this.navigator.dispatch(
+                        NavigationActions.navigate(
+                            {
+                                routeName: 'Chats',
+                                action: NavigationActions.navigate({routeName: 'Chat', params: {chat: chat[0]}})
+                            })
+                    );
+                });
+            }
         }
+        //Clear the store
         this.store.alert = {};
     }
 
