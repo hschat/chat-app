@@ -35,10 +35,8 @@ export default class ApiStore {
 
         // For recieving new messages
         this.app.service('messages').on('created', createdMessage => {
-            console.info('Recieved new msg: ', createdMessage);
             if(createdMessage.sender.id !== this.user.id) {
                 // Only notify people not created this msg
-                console.info('Recieved new msg: ', createdMessage);
                 this.alert = {
                     type: 'info',
                     title: createdMessage.sender.prename + ' ' + createdMessage.sender.lastname,
@@ -205,7 +203,7 @@ export default class ApiStore {
         return this.app.service('users').get(id).then(user => {
             return Promise.resolve(user)
         }).catch(error => {
-            console.log('GET', error);
+            console.log('GET user', error);
             return Promise.reject(error)
         })
     }
@@ -233,7 +231,12 @@ export default class ApiStore {
             // Check if chat is already in storage
             if (this.chats.find(o => o.id === chat.id) === undefined) {
                 this.chats.push(chat);
-                console.log('DER CHAT wurde gepushed', chat);
+                this.getMessagesForChat(chat).then((msgs)=>{
+                   if(msgs===undefined){
+                       //Is a new chat push a system msg
+                       this.sendMessage({text: 'Neuer Chat erstellt', system:ture, chat_id: chat.id });
+                   }
+                });
             }
             return chat;
         });
@@ -259,6 +262,7 @@ export default class ApiStore {
             _id: message.id,
             text: message.text,
             createdAt: message.send_date,
+            system: message.system===undefined ? false : message.system,
             user: {
                 _id: message.sender.id,
                 name: message.sender.email,
@@ -284,7 +288,8 @@ export default class ApiStore {
             chat_id: undefined,
             send_date: Date.now(),
             recieve_date: undefined,
-            read_date: undefined
+            read_date: undefined,
+            system: false,
         };
         let data = Object.assign(template, message);
         return this.app.service('messages').create(data);
