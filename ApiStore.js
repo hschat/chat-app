@@ -35,13 +35,15 @@ export default class ApiStore {
 
         // For recieving new messages
         this.app.service('messages').on('created', createdMessage => {
+            console.info('Recieved new msg: ', createdMessage);
             if(createdMessage.sender.id !== this.user.id) {
                 // Only notify people not created this msg
                 console.info('Recieved new msg: ', createdMessage);
                 this.alert = {
                     type: 'info',
                     title: createdMessage.sender.prename + ' ' + createdMessage.sender.lastname,
-                    msg: createdMessage.text
+                    msg: createdMessage.text,
+                    chat_id: createdMessage.chat_id
                 };
             }else{
                 //Update the msg is delivered to the Server
@@ -145,6 +147,9 @@ export default class ApiStore {
         this.isAuthenticated = false;
     }
 
+    findChat(chat_id){
+        return this.app.service('chats').find({query: {id: chat_id}});
+    }
 
     findUser(partial) {
         partial = '^' + partial + '[\s\S]*';
@@ -220,6 +225,7 @@ export default class ApiStore {
             type: undefined,
             name: undefined,
             owner: undefined,
+            updated_at: Date.now(),
         };
 
         let data = Object.assign(template, chatData);
@@ -238,11 +244,12 @@ export default class ApiStore {
             query: {
                 participants: {
                     $contains: user.id
-                }
+                },
+            $sort: {updated_at: 1}
             }
         }).then((chats) => {
             this.chats = chats;
-            return chats;
+            return new Promise.resolve(chats);
         });
     }
 

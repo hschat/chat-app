@@ -9,6 +9,8 @@ import UnauthenticatedNavigator from "./components/LaunchNavigator";
 import {autobind} from "core-decorators";
 import {observer} from "mobx-react";
 import {observe} from "mobx";
+import { NavigationActions } from 'react-navigation';
+
 
 @autobind @observer
 export default class App extends Component {
@@ -30,13 +32,27 @@ export default class App extends Component {
     showAlert = () => {
         if (Object.keys(this.store.alert).length === 0) return;
         this.dropdown.alertWithType(this.store.alert.type, this.store.alert.title, this.store.alert.msg);
-        this.store.alert = {};
+        
     };
 
     onClose(data) {
-        if (data.action === 'pan') {
+        console.log('DROPDOWN NAV CLOSED', data);
+        if (data.action === 'tap') {
+            // get the chat object from the id
             // navigate to chat with the user
+            this.store.findChat(this.store.alert.chat_id).then((chat)=>{
+                console.log(chat);
+                this.navigator && this.navigator.dispatch(
+                    NavigationActions.navigate(
+                        {
+                            routeName: 'Chats',
+                            //params: {chat: this.store.alert.chat_id},
+                            action: NavigationActions.navigate({ routeName: 'Chat', params: {chat: chat[0]}})
+                        })
+                );
+            });
         }
+        this.store.alert = {};
     }
 
     render() {
@@ -49,7 +65,7 @@ export default class App extends Component {
                 />
                 <Root>
                     {
-                        this.store.isAuthenticated ? <MainNavigator screenProps={{store: this.store}}/> :
+                        this.store.isAuthenticated ? <MainNavigator ref={nav => { this.navigator = nav; }} screenProps={{store: this.store}}/> :
                             <UnauthenticatedNavigator screenProps={{store: this.store}}/>
                     }
                 </Root>

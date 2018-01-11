@@ -34,14 +34,35 @@ export default class ChatsScreen extends Component {
         this.state = {
             chats: [],
         };
-
     }
 
     componentWillMount() {
-        observe(this.store, "chats", this.updateChats, true);
+        //Load all chats from the server
+        this.store.getChats(this.store.user).then((chats)=>{
+            this.setState({chats: chats});
+        });
     }
 
     componentDidMount() {
+
+        this.store.app.service('chats').on('created', createdChat => {
+            let chats = this.state.chats;
+            chats.push(createdChat);
+            this.setState({chats: chats});
+        });
+        this.store.app.service('chats').on('update', updatedChat => {
+            let chats = this.state.chats;
+            chats.forEach((chat, index)=>{
+               if(chat.id === updatedChat.id){
+                   chats[index]=updatedChat;
+                   this.setState({chats: chats});
+               }
+            });
+
+        });
+
+        /*
+        observe(this.store, "chats", this.updateChats, true);
         let chats = this.state.chats;
         chats.forEach(async (c, i) => {
             // Lode for each chat the last msg send to it
@@ -50,6 +71,7 @@ export default class ChatsScreen extends Component {
             c[i].last_message = msg;
         });
         this.setState({chats: chats});
+         */
     }
 
     /**

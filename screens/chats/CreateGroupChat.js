@@ -117,7 +117,7 @@ export default class CreateGroupChat extends Component {
     /**
      * Creats a new Chat with all selectet user + the user himself
      */
-    createGroup = () => {
+    createGroup = (name) => {
 
         //Add yourself to the group
         let users = this.state.usersToAdd;
@@ -128,12 +128,12 @@ export default class CreateGroupChat extends Component {
         users.forEach((user) => {
            part.push(user.id);
         });
-
+        console.log('GRUPPEN NAME:', name);
         // Creat group Object
         let group = {
             participants: part,
             type: 'group',
-            name: this.state.groupName,
+            name: name,
             owner: this.store.user.id,
         };
 

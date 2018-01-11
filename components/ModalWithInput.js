@@ -61,7 +61,7 @@ export default class ModalWithInput extends Component {
         }
     }
     _updateInput = (input) => {
-        this.props.input=input;
+        this.state.input=input;
     };
 
     render() {
@@ -86,7 +86,7 @@ export default class ModalWithInput extends Component {
                                 </TouchableOpacity>
                             </Col>
                             <Col style={[styles.middle]}>
-                                <TouchableOpacity style={[styles.middle,{flex:1}]} onPress={this.props.positiv}>
+                                <TouchableOpacity style={[styles.middle,{flex:1}]} onPress={() => this.props.positiv(this.state.input)}>
                                     <Text style={styles.button}>O.K.</Text>
                                 </TouchableOpacity>
                             </Col>

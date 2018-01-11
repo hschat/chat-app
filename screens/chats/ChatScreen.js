@@ -97,23 +97,31 @@ export default class ChatScreen extends React.Component {
     componentDidMount() {
         // Start listen for created messages
         this.store.app.service('messages').on('created', createdMessage => {
-            console.log('NEUE NACHRICHT WTF!')
+            console.log('NEUE NACHRICHT WTF!', this.store.user.email);
             if (createdMessage.chat_id === this.state.chat.id) {
                 //If the message is for this chat add it to the state for msgs
                 let msgs = this.state.messages;
                 createdMessage = ApiStore.formatMessage(createdMessage);
-                msgs.push(createdMessage);
-                this.setState({messages: msgs});
+                this.setState((previousState) => {
+                    return {
+                        messages: GiftedChat.append(previousState.messages, createdMessage)
+                    }
+                });
+                //msgs.push(createdMessage);
+                //this.setState({messages: msgs});
                 console.log('Neue Nachricht gepusht!')
             }
         });
     }
 
     send = (message) => {
+
         this.store.sendMessage({
             sender_id: this.store.user.id,
             chat_id: this.state.chat.id,
             text: message[0].text
+        }).then(()=>{
+            console.log('Nachricht wurde gesendet:', message[0].text);
         }).catch((error) => {
             console.error('ChatScreen, error send msg', error);
         })
