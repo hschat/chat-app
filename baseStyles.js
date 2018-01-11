@@ -9,7 +9,8 @@ const colors = {
     secondaryColorDark: 'rgb(68, 74, 78)',
     accent1Color: 'rgb(215, 216, 216)',
     accent2Color: 'rgb(234, 235, 235)',
-    accent3Color: 'rgb(255, 255, 255)'
+    accent3Color: 'rgb(255, 255, 255)',
+    error: 'rgb(186, 52, 41)'
 };
 
 module.exports.colors = colors;

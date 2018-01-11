@@ -5,6 +5,8 @@ import {GiftedChat} from 'react-native-gifted-chat';
 
 import Message from '../../components/message'
 import TimeAgo from "../../components/TimeAgo";
+import ApiStore from '../../ApiStore'
+
 
 const styles = StyleSheet.create({
     input: {
@@ -44,8 +46,11 @@ const styles = StyleSheet.create({
 export default class ChatScreen extends React.Component {
     static navigationOptions = ({navigation, screenProps}) => {
         const params = navigation.state.params || {};
+
+        let name = params.chat.participants.filter(u => u.id !== screenProps.store.user.id)[0];
+        let title = params.chat.name === undefined ? `Chat mit ${name.prename} ${name.lastname}` : params.chat.name;
         return {
-            headerTitle: `Chat mit ${params.chat.participants[0].prename}`,
+            headerTitle: title,
         };
     };
 
@@ -61,12 +66,12 @@ export default class ChatScreen extends React.Component {
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         if (this.props.navigation.state.hasOwnProperty('params') && this.props.navigation.state.params !== undefined) {
             //Get the given chat
             let chat = this.props.navigation.state.params.chat;
             if (chat !== undefined) {
-                //Set user to the current state
+                //Set chat to the current state
                 this.setState({chat: chat});
                 // Get the messages to the current Chat
                 this.store.getMessagesForChat(chat).then((msgs) => {
@@ -89,8 +94,22 @@ export default class ChatScreen extends React.Component {
 
     }
 
+    componentDidMount() {
+        // Start listen for created messages
+        this.store.app.service('messages').on('created', createdMessage => {
+            console.log('NEUE NACHRICHT WTF!')
+            if (createdMessage.chat_id === this.state.chat.id) {
+                //If the message is for this chat add it to the state for msgs
+                let msgs = this.state.messages;
+                createdMessage = ApiStore.formatMessage(createdMessage);
+                msgs.push(createdMessage);
+                this.setState({messages: msgs});
+                console.log('Neue Nachricht gepusht!')
+            }
+        });
+    }
+
     send = (message) => {
-        console.log('message', message);
         this.store.sendMessage({
             sender_id: this.store.user.id,
             chat_id: this.state.chat.id,
@@ -129,7 +148,13 @@ export default class ChatScreen extends React.Component {
             <GiftedChat
                 messages={this.state.messages}
                 onSend={(messages) => this.send(messages)}
-                user={this.store.user}
+                user={
+                    {
+                        _id: this.store.user.id,
+                        name: this.store.user.prename + ' ' + this.store.user.lastname,
+                        avatar: 'https://api.adorable.io/avatars/200/' + this.store.user.email,
+                    }
+                }
                 locale='de'
             />
         )
