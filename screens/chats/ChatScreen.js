@@ -127,7 +127,7 @@ export default class ChatScreen extends React.Component {
         })
     };
 
-
+    /*
     renderChat = (item) => {
         return (
             <ListItem avatar>
@@ -144,6 +144,7 @@ export default class ChatScreen extends React.Component {
             </ListItem>
         )
     };
+    */
 
     render() {
         if (!this.state.ready)

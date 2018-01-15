@@ -23,7 +23,7 @@ export default class ApiStore {
         console.info('API:', API_URL);
         const options = {transports: ['websocket'], pingTimeout: 3000, pingInterval: 5000};
         const socket = io(API_URL, options);
-
+        this.getCurrentPosition();
         this.app = feathers()
             .configure(socketio(socket))
             .configure(hooks())
@@ -35,7 +35,7 @@ export default class ApiStore {
 
         // For recieving new messages
         this.app.service('messages').on('created', createdMessage => {
-            if(createdMessage.sender.id !== this.user.id) {
+            if (createdMessage.sender.id !== this.user.id) {
                 // Only notify people not created this msg
                 this.alert = {
                     type: 'info',
@@ -43,7 +43,7 @@ export default class ApiStore {
                     msg: createdMessage.text,
                     chat_id: createdMessage.chat_id
                 };
-            }else{
+            } else {
                 //Update the msg is delivered to the Server
                 this.updateMessage(createdMessage, {recieve_date: Date.now()});
             }
@@ -58,15 +58,8 @@ export default class ApiStore {
         });
         */
 
-        if (
-
-            this
-                .app
-                .get(
-                    'accessToken'
-                )) {
-            this
-                .isAuthenticated = this.app.get('accessToken') !== null;
+        if (this.app.get('accessToken')) {
+            this.isAuthenticated = this.app.get('accessToken') !== null;
         }
     }
 
@@ -145,7 +138,7 @@ export default class ApiStore {
         this.isAuthenticated = false;
     }
 
-    findChat(chat_id){
+    findChat(chat_id) {
         return this.app.service('chats').find({query: {id: chat_id}});
     }
 
@@ -231,12 +224,26 @@ export default class ApiStore {
             // Check if chat is already in storage
             if (this.chats.find(o => o.id === chat.id) === undefined) {
                 this.chats.push(chat);
-                this.getMessagesForChat(chat).then((msgs)=>{
-                   if(msgs===undefined){
-                       //Is a new chat push a system msg
-                       this.sendMessage({text: 'Neuer Chat erstellt', system:ture, chat_id: chat.id });
-                   }
+                /*
+                this.getMessagesForChat(chat).then((msgs) => {
+                    console.log('NEUER CHAT NEUES GLÜCK', msgs);
+                    if (!msgs.length) {
+                        //Is a new chat push a system msg
+
+                        this.sendMessage({
+                            text: 'Neuer Chat erstellt',
+                            system: true,
+                            sender_id: '-69',
+                            chat_id: chat.id
+                        }).then((msg) => {
+                            console.log('ERTMAL NE SYSTEM MSG', msg);
+                        }).catch(error => {
+                            console.log('FEHLER BEI SYSTEM MSG');
+                            console.log(JSON.stringify(error));
+                        });
+                    }
                 });
+                */
             }
             return chat;
         });
@@ -248,7 +255,7 @@ export default class ApiStore {
                 participants: {
                     $contains: user.id
                 },
-            $sort: {updated_at: 1}
+                $sort: {updated_at: 1}
             }
         }).then((chats) => {
             this.chats = chats;
@@ -262,7 +269,7 @@ export default class ApiStore {
             _id: message.id,
             text: message.text,
             createdAt: message.send_date,
-            system: message.system===undefined ? false : message.system,
+            system: message.system === undefined ? false : message.system,
             user: {
                 _id: message.sender.id,
                 name: message.sender.email,
@@ -320,6 +327,14 @@ export default class ApiStore {
 
     updateMessage(msg, obj) {
         return this.app.service('messages').patch(msg.id, obj);
+    }
+
+    getCurrentPosition() {
+        console.log('POSITION!!!')
+        console.log(navigator);
+        navigator.geolocation.getCurrentPosition(function(position) {
+            console.log(position.coords.latitude, position.coords.longitude);
+        });
     }
 
 }

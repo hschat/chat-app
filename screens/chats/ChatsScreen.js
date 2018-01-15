@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Button, Icon, Text, View, List, ListItem, Left, Body, Right, Thumbnail, Content} from "native-base";
-import {FlatList, TouchableOpacity, StyleSheet} from 'react-native';
+import {FlatList, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import {Col, Row, Grid} from 'react-native-easy-grid';
-
+import BaseStyles from '../../baseStyles';
 import UpdateComponent from '../../components/UpdateComponent';
 import TimeAgo from "../../components/TimeAgo";
 import {autobind} from "core-decorators";
@@ -134,11 +134,15 @@ export default class ChatsScreen extends Component {
     render() {
         if (this.state.chats.length === 0) {
             return (
-                <Text>Keine chats vorhanden</Text>
+                <View>
+
+                    <Text>Keine chats vorhanden</Text>
+                </View>
             )
         }
         return (
             <Content>
+
                 <FlatList data={this.state.chats} renderItem={this.renderChats} keyExtractor={this._keyExtractor}/>
             </Content>
         );

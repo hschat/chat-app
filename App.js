@@ -36,8 +36,6 @@ export default class App extends Component {
     };
 
     onClose(data) {
-        console.log('DROPDOWN NAV CLOSED', data);
-
         if (data.action === 'tap') {
             // user taped on the dropdown
             if(this.store.alert.hasOwnProperty('chat_id')) {
