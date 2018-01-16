@@ -163,7 +163,6 @@ export default class ProfileScreen extends Component {
         }, style: 'destroy'
       }]);
     });
-
   };
 
   renderUserInformations = () => {
@@ -207,6 +206,20 @@ export default class ProfileScreen extends Component {
     )
   };
 
+
+  renderLocation = () => {
+    if (this.state.user.location_in_hs) {
+      return (
+        <Text><TimeAgo time={this.state.user.location_check_time} name={'last_location_time'}/> das letzte mal an der
+          Hochschule</Text>)
+    } else if (!this.state.user.location_in_hs) {
+      return <Text><TimeAgo time={this.state.user.location_check_time}/> {Math.round(this.state.user.meter_to_hs)} m
+        weg</Text>
+    }
+
+    return (<Text>Standort unbekannt!</Text>)
+  };
+
   render() {
     if (this.state.user === undefined || this.state.user === null)
       return (
@@ -214,104 +227,28 @@ export default class ProfileScreen extends Component {
                  color='red'/>
       );
 
-    goToChat = () => {
-      this.store.createChat({
-        participants: [this.state.user.id, this.store.user.id],
-        type: 'personal'
-      }).then((chat) => {
-        if (Array.isArray(chat)) chat = chat[0];
-        this.props.navigation.navigate('Chat', {chat: chat});
-      }).catch((error) => {
-        Alert.alert('Fehler', `Chat mit ${this.state.user.prename} nicht gefunden`, [{
-          text: 'Ok', onPress: () => {
-          }, style: 'destroy'
-        }]);
-      });
-
-    };
-
-    renderUserInformations = () => {
-      return (
-        <Grid style={{backgroundColor: 'rgba(0,0,0,0)',}}>
-          <Row size={1}>
-            <Col>
-            </Col>
-            <Col>
-              <TouchableOpacity onPress={this.showAlerts}>
-                <View style={styles.roundedIcon}>
-                  <Icon color='#FFFFFF' name='ios-chatboxes-outline'/>
-                </View>
-              </TouchableOpacity>
-            </Col>
-            <Col>
-              <TouchableOpacity onPress={this.goToChat}>
-                <View style={styles.roundedIcon}>
-                  <Icon name='ios-chatboxes-outline'/>
-                </View>
-              </TouchableOpacity>
-            </Col>
-            <Col>
-              <View style={styles.roundedIcon}>
-                <Icon name='ios-chatboxes-outline'/>
-              </View>
-            </Col>
-            <Col></Col>
-          </Row>
-          <Row size={4}>
-            <View>
-              <View style={{flex: 1, flexDirection: 'row', alignItems: 'flex-start'}}>
-                <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-                  <Icon ios='ios-mail-outline' android='ios-mail-outline'/>
-                  <Text> {this.state.user.email}</Text>
-                </View>
-              </View>
-            </View>
-          </Row>
-        </Grid>
-      )
-    };
-
-    renderLocation = () => {
-      if (this.state.user.location_in_hs) {
-        return (<Text><TimeAgo time={this.state.user.location_check_time} name={'last_location_time'}/> das letzte mal an der Hochschule</Text>)
-      } else if (!this.state.user.location_in_hs) {
-        return <Text><TimeAgo time={this.state.user.location_check_time}/> {Math.round(this.state.user.meter_to_hs)} m
-          weg</Text>
-      }
-
-      return (<Text>Standort unbekannt!</Text>)
-    };
-
-    render()
-    {
-      if (this.state.user === undefined || this.state.user === null)
-        return (
-          <Spinner style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center',}}
-                   color='red'/>
-        );
-
-      return (
-        <Grid style={{padding: 10}}>
-          <Image style={BaseStyles.backgroundImage} source={require('../../assets/img/bg.png')}/>
-          <Row size={1} style={{marginTop: 15}}>
-            <Col size={1}>
-              <Image style={styles.image}
-                     source={{uri: 'https://api.adorable.io/avatars/200/' + this.state.user.email + '.png'}}/>
-            </Col>
-            <Col size={2} style={BaseStyles.transparent}>
-              <H3 style={styles.header}>{this.state.user.prename} {this.state.user.lastname}</H3>
-              <Text style={styles.subheader}>{this.state.user.hsid}</Text>
-              <TimeAgo time={this.state.user.last_time_online} name={'last_online'}/>
-              {(this.state.user.status === undefined || this.state.user.status === '') ? <Text></Text> :
-                <Text>{this.state.user.status}</Text>
-              }
-              {this.renderLocation()}
-            </Col>
-          </Row>
-          <Row size={3}>
-            {this.state.user.id === this.store.user.id ? this.renderSettings() : this.renderUserInformations()}
-          </Row>
-        </Grid>
-      );
-    }
+    return (
+      <Grid style={{padding: 10}}>
+        <Image style={BaseStyles.backgroundImage} source={require('../../assets/img/bg.png')}/>
+        <Row size={1} style={{marginTop: 15}}>
+          <Col size={1}>
+            <Image style={styles.image}
+                   source={{uri: 'https://api.adorable.io/avatars/200/' + this.state.user.email + '.png'}}/>
+          </Col>
+          <Col size={2} style={BaseStyles.transparent}>
+            <H3 style={styles.header}>{this.state.user.prename} {this.state.user.lastname}</H3>
+            <Text style={styles.subheader}>{this.state.user.hsid}</Text>
+            <TimeAgo time={this.state.user.last_time_online} name={'last_online'}/>
+            {(this.state.user.status === undefined || this.state.user.status === '') ? <Text></Text> :
+              <Text>{this.state.user.status}</Text>
+            }
+            {this.renderLocation()}
+          </Col>
+        </Row>
+        <Row size={3}>
+          {this.state.user.id === this.store.user.id ? this.renderSettings() : this.renderUserInformations()}
+        </Row>
+      </Grid>
+    );
   }
+}

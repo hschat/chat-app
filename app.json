@@ -21,7 +21,7 @@
       "resizeMode": "cover"
     },
     "android": {
-      "package": "codes.dschwarz.hsc-chat",
+      "package": "codes.dschwarz.hsc_chat",
       "versionCode": 1,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
