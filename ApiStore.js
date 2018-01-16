@@ -6,6 +6,7 @@ import feathers from 'feathers/client'
 import hooks from 'feathers-hooks';
 import socketio from 'feathers-socketio/client'
 import authentication from 'feathers-authentication-client';
+import Location from './Location'
 
 const API_URL = process.env['CHAT_ENDPOINT'] || "http://hsc-backend.herokuapp.com";
 
@@ -23,14 +24,13 @@ export default class ApiStore {
         console.info('API:', API_URL);
         const options = {transports: ['websocket'], pingTimeout: 3000, pingInterval: 5000};
         const socket = io(API_URL, options);
-        this.getCurrentPosition();
         this.app = feathers()
             .configure(socketio(socket))
             .configure(hooks())
             .configure(authentication({
                 storage: AsyncStorage // To store our accessToken
             }));
-
+        this.location = new Location();
         this.connect();
 
         // For recieving new messages
@@ -49,14 +49,6 @@ export default class ApiStore {
             }
 
         });
-
-        // Listen if a new with you is created
-        /*
-        this.app.service('chats').on('created', createdChat => {
-            console.log('neuer chat wurde erstellt');
-            this.chats.push(createdChat);
-        });
-        */
 
         if (this.app.get('accessToken')) {
             this.isAuthenticated = this.app.get('accessToken') !== null;
@@ -101,7 +93,15 @@ export default class ApiStore {
             this.isAuthenticated = true;
             // Get all current chats
             this.getChats(this.user);
-            return Promise.resolve(user);
+            // Set last time Online
+            this.updateAccount(this.user, {last_time_online: Date.now()});
+            //Update location
+            return this.location.getOnHS().then((loc) =>{
+                return this.updateAccount(this.user, {location_check_time: Date.now(), location_in_hs: loc.on_hs, meter_to_hs: loc.distance}).then(user=>{
+                    return Promise.resolve(user);
+                });
+            });
+            //return Promise.resolve(user);
         }).catch(error => {
             console.log('authenticated failed', error.message);
             return Promise.reject(error);
@@ -327,14 +327,6 @@ export default class ApiStore {
 
     updateMessage(msg, obj) {
         return this.app.service('messages').patch(msg.id, obj);
-    }
-
-    getCurrentPosition() {
-        console.log('POSITION!!!')
-        console.log(navigator);
-        navigator.geolocation.getCurrentPosition(function(position) {
-            console.log(position.coords.latitude, position.coords.longitude);
-        });
     }
 
 }

@@ -22,6 +22,7 @@ import {StyleSheet, Image, Alert, Dimensions, TouchableOpacity} from 'react-nati
 import {Col, Row, Grid} from 'react-native-easy-grid';
 import TimeAgo from '../../components/TimeAgo';
 import BaseStyles from '../../baseStyles';
+import Location from '../../Location'
 
 
 const styles = StyleSheet.create({
@@ -76,6 +77,10 @@ export default class ProfileScreen extends Component {
             status: '',
         };
         this.store = this.props.screenProps.store;
+    }
+
+    componentWillMount() {
+
     }
 
     componentDidMount() {
@@ -205,6 +210,16 @@ export default class ProfileScreen extends Component {
         )
     };
 
+    renderLocation = () => {
+        if(this.state.user.location_in_hs) {
+            return ( <Text><TimeAgo time={this.state.user.location_check_time}/> das Letzte mal an der HS</Text> )
+        }else if(!this.state.user.location_in_hs){
+            return <Text><TimeAgo time={this.state.user.location_check_time}/> {Math.round(this.state.user.meter_to_hs)} m weg</Text>
+        }
+
+        return( <Text>Standort unbekannt!</Text> )
+    };
+
     render() {
         if (this.state.user === undefined || this.state.user === null)
             return (
@@ -223,10 +238,11 @@ export default class ProfileScreen extends Component {
                     <Col size={2} style={BaseStyles.transparent}>
                         <H3 style={styles.header}>{this.state.user.prename} {this.state.user.lastname}</H3>
                         <Text style={styles.subheader}>{this.state.user.hsid}</Text>
-                        <TimeAgo time={Date.now()}/>
+                        <TimeAgo time={this.state.user.last_time_online}/>
                         {(this.state.user.status === undefined || this.state.user.status === '') ? <Text></Text> :
                             <Text>{this.state.user.status}</Text>
                         }
+                        {this.renderLocation()}
                     </Col>
                 </Row>
                 <Row size={3}>

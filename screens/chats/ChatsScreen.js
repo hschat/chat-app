@@ -60,18 +60,6 @@ export default class ChatsScreen extends Component {
             });
 
         });
-
-        /*
-        observe(this.store, "chats", this.updateChats, true);
-        let chats = this.state.chats;
-        chats.forEach(async (c, i) => {
-            // Lode for each chat the last msg send to it
-            let msg = await this.store.getLastMessageForChat(c);
-            msg = msg === undefined ? "Keine Nachrichten vorhanden" : msg;
-            c[i].last_message = msg;
-        });
-        this.setState({chats: chats});
-         */
     }
 
     /**

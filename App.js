@@ -10,6 +10,7 @@ import {autobind} from "core-decorators";
 import {observer} from "mobx-react";
 import {observe} from "mobx";
 import { NavigationActions } from 'react-navigation';
+import Location from './Location'
 
 
 @autobind @observer
@@ -19,6 +20,7 @@ export default class App extends Component {
         super(props);
         this.store = new ApiStore();
         observe(this.store, "alert", this.showAlert, true);
+        new Location();
     }
 
     async componentWillMount() {
