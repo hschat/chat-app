@@ -1,5 +1,36 @@
 {
   "expo": {
-    "sdkVersion": "24.0.0"
+    "name": "HSChat",
+    "slug": "hsc-chat",
+    "sdkVersion": "24.0.0",
+    "privacy": "unlisted",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "primaryColor": "#D80030",
+    "icon": "./icon.png",
+    "assetBundlePatterns": [
+      "./assets/*"
+    ],
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#D80030"
+    },
+    "splash": {
+      "backgroundColor": "#D80030",
+      "image": "./assets/img/bg.png",
+      "resizeMode": "cover"
+    },
+    "android": {
+      "package": "codes.dschwarz.hsc-chat",
+      "versionCode": 1,
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
+    },
+    "ios": {
+      "bundleIdentifier": "codes.dschwarz.hsc-chat",
+      "buildNumber": "1.0.0"
+    }
   }
 }
