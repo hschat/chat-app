@@ -43,7 +43,7 @@ export default class LoginScreen extends React.Component {
       password: this.state.password,
       strategy: 'local'
     }).catch(error => {
-      console.error('Login error:', error);
+      //console.error('Login error:', error);
       Alert.alert('Fehler', error.message);
     });
   };

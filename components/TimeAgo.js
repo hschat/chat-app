@@ -1,5 +1,7 @@
 import React from 'react';
 import {Text} from "native-base";
+const timer = require('react-native-timer');
+
 
 import moment from 'moment/min/moment-with-locales';
 
@@ -8,7 +10,8 @@ export default class TimeAgo extends React.Component {
   props: {
     time: string,
     interval?: number,
-    hideAgo?: boolean
+    hideAgo?: boolean,
+    name: string,
   };
 
   state: { timer: null | number } = {timer: null};
@@ -20,8 +23,7 @@ export default class TimeAgo extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {text: ''};
-
+    timer.setInterval(this, this.props.name, this.update, this.props.interval);
   }
 
   async componentWillMount() {
@@ -29,25 +31,14 @@ export default class TimeAgo extends React.Component {
     moment.locale(locale);
   }
 
-  componentDidMount() {
-    this.createRenderTimer();
-  }
-
   componentWillUnmount() {
-    clearTimeout(this.state.timer);
+    if(timer.intervalExists(this, this.props.name)) {
+      timer.clearInterval(this, this.props.name);
+    }
   }
-
-  createRenderTimer = () => {
-    this.setState({
-      timer: setTimeout(() => {
-        this.update();
-      }, this.props.interval)
-    });
-  };
 
   update = () => {
     this.forceUpdate();
-    this.createRenderTimer();
   };
 
   render() {
