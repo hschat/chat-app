@@ -45,9 +45,8 @@ export default class Location {
     getDistanceBetweenLocAndHS() {
         return new Promise(resolve => {
             navigator.geolocation.getCurrentPosition((position) => {
-                console.log('Position!!!');
                 let dis = this.getDistanceBetweenCoords(GEO_HS.middle.latitude, GEO_HS.middle.longitude, position.coords.latitude, position.coords.longitude);
-                console.log('Zwischen dir lat:' + position.coords.latitude + ' long:' + position.coords.longitude + ' und der HS liegen ' + dis + ' m');
+                console.debug('Zwischen dir lat:' + position.coords.latitude + ' long:' + position.coords.longitude + ' und der HS liegen ' + dis + ' m');
                 return resolve(dis);
             });
         });

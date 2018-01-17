@@ -31,6 +31,18 @@
     "ios": {
       "bundleIdentifier": "codes.dschwarz.hsc-chat",
       "buildNumber": "1.0.0"
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "personal-og",
+            "project": "hschat-app",
+            "authToken": "cae7937679074354918b66cb46b9434b15fa8ede7e824be3917d5ed4abd1d95d"
+          }
+        }
+      ]
     }
   }
 }
