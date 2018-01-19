@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
     list: {
         borderBottomWidth: 2,
         borderColor: '#333333',
-        paddingBottom: 3,
+        paddingBottom: 5,
+        paddingTop: 5,
     }
 });
 
@@ -25,6 +26,9 @@ export default class ChatsScreen extends Component {
             <Button onPress={() => {
                 navigation.navigate('CreateGroup')
             }} transparent><Icon name="md-person-add"/></Button>
+        ),
+        headerLeft: (
+            <Text></Text>
         )
     });
 
@@ -38,7 +42,8 @@ export default class ChatsScreen extends Component {
 
     componentWillMount() {
         //Load all chats from the server
-        this.store.getChats(this.store.user).then((chats)=>{
+        this.store.getChats(this.store.user).then((chats) => {
+            console.log('LADEN DER ALTEN CHATS')
             this.setState({chats: chats});
         });
     }
@@ -46,19 +51,20 @@ export default class ChatsScreen extends Component {
     componentDidMount() {
 
         this.store.app.service('chats').on('created', createdChat => {
+            console.log('NEUER CHAT');
             let chats = this.state.chats;
             chats.push(createdChat);
             this.setState({chats: chats});
         });
         this.store.app.service('chats').on('update', updatedChat => {
+            console.log('UPDATE ALTE CHATS');
             let chats = this.state.chats;
-            chats.forEach((chat, index)=>{
-               if(chat.id === updatedChat.id){
-                   chats[index]=updatedChat;
-                   this.setState({chats: chats});
-               }
+            chats.forEach((chat, index) => {
+                if (chat.id === updatedChat.id) {
+                    chats[index] = updatedChat;
+                    this.setState({chats: chats});
+                }
             });
-
         });
     }
 
@@ -83,37 +89,40 @@ export default class ChatsScreen extends Component {
     renderChats = (item) => {
         //Load the last msg send to this chat
         let chat = item.item;
+        let title = chat.type === 'group' ? chat.name : chat.participants.filter(u => u.id !== this.store.user.id).map(u =>  u.prename + ' ' + u.lastname)[0];
 
         return (
             <TouchableOpacity onPress={() => {
                 this.props.navigation.navigate('Chat', {chat: chat});
             }}>
                 <Grid style={styles.list}>
-                    <Row>
-                        <Col size={1}>
-                            <Thumbnail
-                                source={{uri: 'https://api.adorable.io/avatars/200/' + chat.type === 'group' ? chat.name : chat.participants.filter(u => u.id !== this.store.user.id)[0].email + '.png'}}/>
-                        </Col>
-                        <Grid>
-                            <Row>
-                                <Col size={4}>
-                                    <Text>{chat.type === 'group' ? chat.name : chat.participants.filter(u => u.id !== this.store.user.id)[0].prename}</Text>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <Text>{chat.last_message === undefined ? 'Loading...' : this.state.chats[item.index].last_message.text}</Text>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <Text>{this.state.chats[item.index].last_message === undefined ? 'Loading...' :
-                                        <TimeAgo time={this.state.chats[item.index].last_message.send_date}/>}</Text>
-                                </Col>
-                            </Row>
-                        </Grid>
-
-                    </Row>
+                    <Col>
+                        <Row>
+                            <Col size={1}>
+                                <Thumbnail
+                                    source={{uri: `https://api.adorable.io/avatars/200/${chat.type === 'group' ? chat.name : chat.participants.filter(u => u.id !== this.store.user.id)[0].email}.png`}}/>
+                            </Col>
+                            <Col size={4}>
+                                <Row>
+                                    <Col size={4}>
+                                        <Text>{title}</Text>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Text>{chat.last_message === undefined ? 'Loading...' : this.state.chats[item.index].last_message.text}</Text>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Text>{this.state.chats[item.index].last_message === undefined ? 'Loading...' :
+                                            <TimeAgo
+                                                time={this.state.chats[item.index].last_message.send_date}/>}</Text>
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                    </Col>
                 </Grid>
             </TouchableOpacity>
         )
@@ -123,14 +132,12 @@ export default class ChatsScreen extends Component {
         if (this.state.chats.length === 0) {
             return (
                 <View>
-
                     <Text>Keine chats vorhanden</Text>
                 </View>
             )
         }
         return (
             <Content>
-
                 <FlatList data={this.state.chats} renderItem={this.renderChats} keyExtractor={this._keyExtractor}/>
             </Content>
         );

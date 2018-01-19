@@ -46,11 +46,13 @@ const styles = StyleSheet.create({
 export default class ChatScreen extends React.Component {
     static navigationOptions = ({navigation, screenProps}) => {
         const params = navigation.state.params || {};
-
-        let name = params.chat.participants.filter(u => u.id !== screenProps.store.user.id)[0];
-        let title = params.chat.name === undefined ? `Chat mit ${name.prename} ${name.lastname}` : params.chat.name;
+        console.log('CHAT:',params.chat);
+        let title = params.chat.type === 'group' ? params.chat.name : params.chat.participants.filter(u => u.id !== screenProps.store.user.id).map(u =>  u.prename + ' ' + u.lastname)[0];
         return {
             headerTitle: title,
+            headerLeft: (
+                <Button onPress={() => navigation.goBack()} transparent><Icon name="ios-arrow-back-outline"/></Button>
+            )
         };
     };
 
@@ -91,7 +93,6 @@ export default class ChatScreen extends React.Component {
                 }, style: 'destroy'
             }]);
         }
-
     }
 
     componentDidMount() {

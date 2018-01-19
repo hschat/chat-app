@@ -85,7 +85,7 @@ export default class SearchScreen extends Component {
         </Left>
         <Body>
         <Text>{user.prename} {user.lastname}</Text>
-        <Text note>Doing what you like will always keep you happy . .</Text>
+        <Text note>{user.status}</Text>
         </Body>
       </ListItem>
     )

@@ -59,9 +59,6 @@ export default class ProfileScreen extends Component {
     // No logout button for other profiles
     if (navigation.state.hasOwnProperty("params") && navigation.state.params !== undefined) return {};
     return {
-      headerLeft: (
-        <Button onPress={() => null} transparent><Icon name="ios-more-outline"/></Button>
-      ),
       headerRight: (
         <Button onPress={screenProps.store.promptForLogout} transparent><Text>Abmelden</Text></Button>
       )
@@ -142,22 +139,17 @@ export default class ProfileScreen extends Component {
     )
   };
 
-  showAlerts = () => {
-    this.store.alert = {
-      type: 'error',
-      title: 'LUL',
-      msg: 'David stinkt!!'
-    };
-  };
-
   goToChat = () => {
     this.store.createChat({
       participants: [this.state.user.id, this.store.user.id],
       type: 'personal'
     }).then((chat) => {
+      console.log('GOTOCHAT:', chat);
+      console.log('USERFORTHATCHAT', this.state.user);
       if (Array.isArray(chat)) chat = chat[0];
       this.props.navigation.navigate('Chat', {chat: chat});
     }).catch((error) => {
+      console.log(error);
       Alert.alert('Fehler', `Chat mit ${this.state.user.prename} nicht gefunden`, [{
         text: 'Ok', onPress: () => {
         }, style: 'destroy'
@@ -172,13 +164,6 @@ export default class ProfileScreen extends Component {
           <Col>
           </Col>
           <Col>
-            <TouchableOpacity onPress={this.showAlerts}>
-              <View style={styles.roundedIcon}>
-                <Icon color='#FFFFFF' name='ios-chatboxes-outline'/>
-              </View>
-            </TouchableOpacity>
-          </Col>
-          <Col>
             <TouchableOpacity onPress={this.goToChat}>
               <View style={styles.roundedIcon}>
                 <Icon name='ios-chatboxes-outline'/>
@@ -186,9 +171,10 @@ export default class ProfileScreen extends Component {
             </TouchableOpacity>
           </Col>
           <Col>
-            <View style={styles.roundedIcon}>
-              <Icon name='ios-chatboxes-outline'/>
-            </View>
+
+          </Col>
+          <Col>
+
           </Col>
           <Col></Col>
         </Row>
