@@ -71,9 +71,10 @@ export default class App extends Component {
         />
         <Root>
           {
-            this.store.isAuthenticated ? <MainNavigator ref={nav => {
-                this.navigator = nav;
-              }} screenProps={{store: this.store}}/> :
+            this.store.isAuthenticated ?
+                <MainNavigator ref={nav => {
+                  this.navigator = nav;
+                }} screenProps={{store: this.store}}/> :
               <UnauthenticatedNavigator screenProps={{store: this.store}}/>
           }
         </Root>

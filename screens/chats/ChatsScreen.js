@@ -4,6 +4,8 @@ import {FlatList, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import {Col, Row, Grid} from 'react-native-easy-grid';
 import BaseStyles from '../../baseStyles';
 import UpdateComponent from '../../components/UpdateComponent';
+import LastChatMessage from '../../components/LastChatMessage'
+import ChatUpdateTime from '../../components/ChatUpdateTime'
 import TimeAgo from "../../components/TimeAgo";
 import {autobind} from "core-decorators";
 import {observer} from "mobx-react";
@@ -89,7 +91,7 @@ export default class ChatsScreen extends Component {
     renderChats = (item) => {
         //Load the last msg send to this chat
         let chat = item.item;
-        let title = chat.type === 'group' ? chat.name : chat.participants.filter(u => u.id !== this.store.user.id).map(u =>  u.prename + ' ' + u.lastname)[0];
+        let title = chat.type === 'group' ? chat.name : chat.participants.filter(u => u.id !== this.store.user.id).map(u => u.prename + ' ' + u.lastname)[0];
 
         return (
             <TouchableOpacity onPress={() => {
@@ -110,14 +112,12 @@ export default class ChatsScreen extends Component {
                                 </Row>
                                 <Row>
                                     <Col>
-                                        <Text>{chat.last_message === undefined ? 'Loading...' : this.state.chats[item.index].last_message.text}</Text>
+                                        <LastChatMessage chat={chat} store={this.store}/>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col>
-                                        <Text>{this.state.chats[item.index].last_message === undefined ? 'Loading...' :
-                                            <TimeAgo
-                                                time={this.state.chats[item.index].last_message.send_date}/>}</Text>
+                                        <ChatUpdateTime chat={chat} store={this.store}/>
                                     </Col>
                                 </Row>
                             </Col>

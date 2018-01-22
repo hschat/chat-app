@@ -224,26 +224,6 @@ export default class ApiStore {
             // Check if chat is already in storage
             if (this.chats.find(o => o.id === chat.id) === undefined) {
                 this.chats.push(chat);
-                /*
-                this.getMessagesForChat(chat).then((msgs) => {
-                    console.log('NEUER CHAT NEUES GLÜCK', msgs);
-                    if (!msgs.length) {
-                        //Is a new chat push a system msg
-
-                        this.sendMessage({
-                            text: 'Neuer Chat erstellt',
-                            system: true,
-                            sender_id: '-69',
-                            chat_id: chat.id
-                        }).then((msg) => {
-                            console.log('ERTMAL NE SYSTEM MSG', msg);
-                        }).catch(error => {
-                            console.log('FEHLER BEI SYSTEM MSG');
-                            console.log(JSON.stringify(error));
-                        });
-                    }
-                });
-                */
             }
             return chat;
         });
@@ -279,7 +259,7 @@ export default class ApiStore {
     }
 
     /**
-     * Creats a new chat for for the Person
+     * sends a new message
      * sendMessage({
      *  text: this.state.text,
      *  sender_id: this.store.user.id,
