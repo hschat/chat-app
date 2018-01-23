@@ -12,20 +12,20 @@ export default class LastChatMessage extends Component {
         super(props);
         this.store = this.props.store;
         this.state = {
-            text: 'Loading…'
+            text: 'Lädt…'
         };
     }
 
     componentWillMount() {
         //Load the last msg
         this.store.getLastMessageForChat(this.props.chat).then(msg => {
-            if (msg !== undefined)
+            if (msg !== undefined && !msg.system)
                 this.setState({text: msg.text});
             else
                 this.setState({text: 'Noch keine Nachrichten'})
         });
         //Set a listener for changes
-        this.store.app.service('chats').on('update', () => {
+        this.store.app.service('chats').on('patched', () => {
             this.store.getLastMessageForChat(this.props.chat).then(msg => {
                 this.setState({text: msg.text});
             });

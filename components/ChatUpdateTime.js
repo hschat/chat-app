@@ -19,8 +19,8 @@ export default class ChatUpdateTime extends Component {
         //Get the last time
         this.setState({time: this.props.chat.updated_at});
         //Set a listener for changes
-        this.store.app.service('chats').on('update', () => {
-            this.setState({time: msg.updated_at});
+        this.store.app.service('chats').on('patched', (chat) => {
+            this.setState({time: chat.updated_at});
         });
     }
 

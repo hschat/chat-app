@@ -58,7 +58,8 @@ export default class ChatsScreen extends Component {
             chats.push(createdChat);
             this.setState({chats: chats});
         });
-        this.store.app.service('chats').on('update', updatedChat => {
+        /*
+        this.store.app.service('chats').on('patched', updatedChat => {
             console.log('UPDATE ALTE CHATS');
             let chats = this.state.chats;
             chats.forEach((chat, index) => {
@@ -68,6 +69,7 @@ export default class ChatsScreen extends Component {
                 }
             });
         });
+        */
     }
 
     /**
