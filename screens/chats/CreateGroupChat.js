@@ -75,7 +75,6 @@ export default class CreateGroupChat extends Component {
      */
     search = (text=null) => {
         let searchText= text===null ? this.state.search : text;
-        console.log('search called');
         this.setState({loading: true});
         //Keyboard.dismiss();
         this.store.findUser(searchText).then((users) => {
@@ -128,7 +127,7 @@ export default class CreateGroupChat extends Component {
         users.forEach((user) => {
            part.push(user.id);
         });
-        console.log('GRUPPEN NAME:', name);
+
         // Creat group Object
         let group = {
             participants: part,

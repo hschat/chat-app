@@ -25,7 +25,7 @@ export default class ChatUpdateTime extends Component {
     }
 
     render() {
-        if(this.state.time===undefined)
+        if(!this.state.time)
             return (<Text>Loading…</Text>)
         return (
             <TimeAgo time={this.state.time}/>

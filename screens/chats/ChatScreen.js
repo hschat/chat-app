@@ -51,7 +51,7 @@ export default class ChatScreen extends React.Component {
         return {
             headerTitle: title,
             headerLeft: (
-                <Button onPress={() => navigation.goBack()} transparent><Icon name="ios-arrow-back-outline"/></Button>
+                <Button onPress={() => navigation.navigate('Home')} transparent><Icon name="ios-arrow-back-outline"/></Button>
             )
         };
     };

@@ -35,7 +35,7 @@ export default class ApiStore {
 
         // For recieving new messages
         this.app.service('messages').on('created', createdMessage => {
-            if (createdMessage.sender.id !== this.user.id) {
+            if (!createdMessage.system && createdMessage.sender.id !== this.user.id) {
                 // Only notify people not created this msg
                 this.alert = {
                     type: 'info',
@@ -250,7 +250,7 @@ export default class ApiStore {
             text: message.text,
             createdAt: message.send_date,
             system: message.system === undefined ? false : message.system,
-            user: {
+            user:  message.system ? undefined : {
                 _id: message.sender.id,
                 name: message.sender.email,
                 avatar: 'https://api.adorable.io/avatars/200/' + message.sender.email,
