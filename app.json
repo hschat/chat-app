@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "HSChat",
+    "description": "",
     "slug": "hsc-chat",
     "sdkVersion": "24.0.0",
     "privacy": "unlisted",
@@ -17,8 +18,7 @@
     },
     "splash": {
       "backgroundColor": "#D80030",
-      "image": "./assets/img/bg.png",
-      "resizeMode": "cover"
+      "image": "./icon.png"
     },
     "android": {
       "package": "codes.dschwarz.hsc_chat",
