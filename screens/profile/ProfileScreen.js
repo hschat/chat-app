@@ -39,9 +39,9 @@ const styles = StyleSheet.create({
         color: '#999999'
     },
     middle: {
-        flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'center',
+        alignItems: 'flex-start',
     },
     roundedIcon: {
         backgroundColor: '#ff3232',
@@ -209,7 +209,8 @@ export default class ProfileScreen extends Component {
                     an der
                     Hochschule</Text>)
         } else if (!this.state.user.location_in_hs) {
-            return <Text><TimeAgo time={this.state.user.location_check_time}/> <Distance distance={this.state.user.meter_to_hs}/> von der HS entferent</Text>
+            return <Text><TimeAgo time={this.state.user.location_check_time}/> <Distance
+                distance={this.state.user.meter_to_hs}/> von der HS entferent</Text>
         }
         return (<Text>Standort unbekannt!</Text>)
     };
@@ -222,21 +223,41 @@ export default class ProfileScreen extends Component {
             );
 
         return (
-            <Grid style={{padding: 10}}>
+            <Grid style={{padding: 10, paddingTop: 1}}>
                 <Image style={BaseStyles.backgroundImage} source={require('../../assets/img/bg.png')}/>
                 <Row size={1} style={{marginTop: 15}}>
                     <Col style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center',}} size={1}>
                         <Image style={styles.image}
                                source={{uri: 'https://api.adorable.io/avatars/200/' + this.state.user.email + '.png'}}/>
                     </Col>
-                    <Col size={2} style={BaseStyles.transparent}>
+                    <Col size={2} style={[BaseStyles.transparent, {
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'flex-start',
+                    }]}>
                         <H3 style={styles.header}>{this.state.user.prename} {this.state.user.lastname}</H3>
                         <Text style={styles.subheader}>{this.state.user.hsid}</Text>
-                        <Text><TimeAgo time={this.state.user.last_time_online} name={'last_online'}/> das letzte mal Online</Text>
+                        <Text>{this.state.user.email}</Text>
                         {(this.state.user.status === undefined || this.state.user.status === '') ? <Text></Text> :
                             <Text>{this.state.user.status}</Text>
                         }
-                        {this.renderLocation()}
+                    </Col>
+                </Row>
+                <Row size={0.25} style={BaseStyles.transparent}>
+                    <Col style={styles.middle}>
+                        <Icon ios='ios-clock-outline' android='md-clock'/>
+                    </Col>
+                    <Col style={styles.middle} size={8}>
+                        <Text><TimeAgo time={this.state.user.last_time_online} name={'last_online'}/> das letzte mal
+                            Online</Text>
+                    </Col>
+                </Row>
+                <Row size={0.25} style={[BaseStyles.transparent]}>
+                    <Col style={styles.middle}>
+                        <Icon ios='ios-locate-outline' android='md-locate'/>
+                    </Col>
+                    <Col style={styles.middle} size={8}>
+                        <Text>{this.renderLocation()}</Text>
                     </Col>
                 </Row>
                 <Row size={3}>
