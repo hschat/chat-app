@@ -22,7 +22,7 @@ import {StyleSheet, Image, Alert, Dimensions, TouchableOpacity} from 'react-nati
 import {Col, Row, Grid} from 'react-native-easy-grid';
 import TimeAgo from '../../components/TimeAgo';
 import BaseStyles from '../../baseStyles';
-import Location from '../../Location'
+import Location from '../../Location';
 import Distance from '../../components/Distance'
 
 
