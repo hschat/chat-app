@@ -14,7 +14,7 @@ export default class SearchScreen extends Component {
         <Header searchBar rounded>
           <Item>
             <Icon name="ios-search"/>
-            <Input placeholder="Suchen" onChangeText={(text) => params.updateState(text)}/>
+            <Input placeholder="Suchen" onChangeText={(text) => params.updateState(text)} onSubmitEditing={params.search ? params.search : () => null} returnKeyLabel='Suchen'/>
             <Icon name="ios-people"/>
           </Item>
           <Button transparent onPress={params.search ? params.search : () => null}>
