@@ -32,7 +32,7 @@ export default class SearchScreen extends Component {
     this.store = this.props.screenProps.store;
     this.state = {
       search: '',
-      users: [],
+      users: ['a'],
       searched: false,
       loading: false
     };
@@ -45,11 +45,6 @@ export default class SearchScreen extends Component {
 
   _updateSearch = (searchText) => {
     this.setState({search: searchText});
-    if (this.state.search !== '') {
-      this.setState({searched: true})
-    } else {
-      this.setState({searched: false})
-    }
   };
 
   search = () => {
@@ -104,18 +99,15 @@ export default class SearchScreen extends Component {
         </Content>
       );
     }
-
-    if (this.state.searched && this.state.users.length === 0) {
+    if (!this.state.loading && this.state.users.length === 0) {
       return (
         <Content>
-          <List>
             <ListItem style={{backgroundColor: 'transparent'}}>
               <Body>
               <Text>Es wurde kein Benutzer gefunden</Text>
               <Text note>Möchtest du den Benutzer einladen?</Text>
               </Body>
             </ListItem>
-          </List>
         </Content>
       );
     }
