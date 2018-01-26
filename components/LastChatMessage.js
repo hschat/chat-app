@@ -38,7 +38,7 @@ export default class LastChatMessage extends Component {
         if (text.length > MAX_CHARS)
             text = text.substring(0, MAX_CHARS) + '...';
         return (
-            <Text note>{text}</Text>
+            <Text {...this.props} note>{text}</Text>
         )
     }
 

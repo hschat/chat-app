@@ -243,7 +243,7 @@ export default class ProfileScreen extends Component {
                         }
                     </Col>
                 </Row>
-                <Row size={0.25} style={BaseStyles.transparent}>
+                <Row size={0.3} style={BaseStyles.transparent}>
                     <Col style={styles.middle}>
                         <Icon ios='ios-clock-outline' android='md-clock'/>
                     </Col>
@@ -252,7 +252,7 @@ export default class ProfileScreen extends Component {
                             Online</Text>
                     </Col>
                 </Row>
-                <Row size={0.25} style={[BaseStyles.transparent]}>
+                <Row size={0.3} style={[BaseStyles.transparent]}>
                     <Col style={styles.middle}>
                         <Icon ios='ios-locate-outline' android='md-locate'/>
                     </Col>

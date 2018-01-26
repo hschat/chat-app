@@ -82,7 +82,7 @@ export default class ModalWithInput extends Component {
                         <Row>
                             <Col style={[styles.middle, styles.spacer]}>
                                 <TouchableOpacity style={[styles.middle,{flex:1}]} onPress={this.props.negativ}>
-                                    <Text style={styles.button}>Cancel</Text>
+                                    <Text style={styles.button}>Abbrechen</Text>
                                 </TouchableOpacity>
                             </Col>
                             <Col style={[styles.middle]}>
