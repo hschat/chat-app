@@ -61,7 +61,13 @@ const chatsNavigator = StackNavigator({
         navigationOptions: {
             headerTitle: 'Gruppe erstellen',
         }
-    }
+    },
+    View: {
+        screen: ProfileScreen,
+        navigationOptions: {
+            headerTitle: 'Profil',
+        }
+    },
 });
 
 /**

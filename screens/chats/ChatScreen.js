@@ -2,6 +2,7 @@ import React from 'react';
 import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage, Text, Image, Alert} from 'react-native';
 import {Body, Button, Container, Icon, Left, List, ListItem, Right, Thumbnail, Spinner} from 'native-base'
 import {GiftedChat} from 'react-native-gifted-chat';
+import {NavigationActions} from 'react-navigation';
 
 import Message from '../../components/message'
 import TimeAgo from "../../components/TimeAgo";
@@ -158,6 +159,7 @@ export default class ChatScreen extends React.Component {
             <GiftedChat
                 messages={this.state.messages}
                 onSend={(messages) => this.send(messages)}
+                onPressAvatar={(user) => {this.props.navigation.navigate('View', {id: user._id})}}
                 user={
                     {
                         _id: this.store.user.id,
