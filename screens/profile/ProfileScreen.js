@@ -170,36 +170,7 @@ export default class ProfileScreen extends Component {
 
     renderUserInformations = () => {
         return (
-            <Grid style={{backgroundColor: 'rgba(0,0,0,0)',}}>
-                <Row size={1}>
-                    <Col>
-                    </Col>
-                    <Col>
-                        <TouchableOpacity onPress={this.goToChat}>
-                            <View style={styles.roundedIcon}>
-                                <Icon name='ios-chatboxes-outline'/>
-                            </View>
-                        </TouchableOpacity>
-                    </Col>
-                    <Col>
-
-                    </Col>
-                    <Col>
-
-                    </Col>
-                    <Col></Col>
-                </Row>
-                <Row size={4}>
-                    <View>
-                        <View style={{flex: 1, flexDirection: 'row', alignItems: 'flex-start'}}>
-                            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-                                <Icon ios='ios-mail-outline' android='ios-mail-outline'/>
-                                <Text> {this.state.user.email}</Text>
-                            </View>
-                        </View>
-                    </View>
-                </Row>
-            </Grid>
+            <Button transparent danger onPress={this.goToChat}><Text>Nachricht senden</Text></Button>
         )
     };
 
@@ -261,7 +232,7 @@ export default class ProfileScreen extends Component {
                         <Text>{this.renderLocation()}</Text>
                     </Col>
                 </Row>
-                <Row size={3}>
+                <Row size={3} style={{marginTop: 10}}>
                     {this.state.user.id === this.store.user.id ? this.renderSettings() : this.renderUserInformations()}
                 </Row>
             </Grid>
