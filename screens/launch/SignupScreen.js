@@ -88,7 +88,7 @@ export default class SignupScreen extends React.Component {
       case 'prename':
         if (!this.validate('nullOrEmpty', this.state.prename)) {
           this.setState({errorPrename: true});
-          this.toastIt("Bitte Vornamen angeben");
+          this.toastIt("Bitte Vornamen angeben!");
         } else {
           this.setState({errorPrename: false});
         }
@@ -96,7 +96,7 @@ export default class SignupScreen extends React.Component {
       case 'lastname':
         if (!this.validate('nullOrEmpty', this.state.lastname)) {
           this.setState({errorLastname: true});
-          this.toastIt("Bitte Nachnamen angeben");
+          this.toastIt("Bitte Nachnamen angeben!");
         } else {
           this.setState({errorLastname: false});
         }
@@ -111,7 +111,7 @@ export default class SignupScreen extends React.Component {
         break;
         if (!this.validate('nullOrEmpty', this.state.identifier)) {
           this.setState({errorIdentifier: true});
-          this.toastIt("Bitte Kennung angeben");
+          this.toastIt("Bitte Kennung angeben!");
         } else {
           this.setState({errorIdentifier: false});
         }
@@ -119,7 +119,10 @@ export default class SignupScreen extends React.Component {
       case 'email':
         if (!this.validate('nullOrEmpty', this.state.email)) {
           this.setState({errorEmail: true});
-          this.toastIt("Bitte Email angeben");
+          this.toastIt("Bitte Email angeben!");
+        } else if(!this.validate('isHSMail', this.state.email)) {
+          this.setState({errorEmail: true});
+          this.toastIt("Es sind nur Hochschul-Email-Adressen erlaubt!");
         } else {
           this.setState({errorEmail: false});
         }
@@ -184,6 +187,14 @@ export default class SignupScreen extends React.Component {
         ) return false;
         else if (!(/\w\w\w\w\d\d\d\d/.test(p1) )) return false;
         break;
+      case 'isHSMail':
+        let c_at = p1.lastIndexOf('@');
+        if (c_at === -1) {
+          return false;
+        } else {
+          let domain = p1.slice(c_at+1);
+          return domain.match(/(stud\.)?hs-coburg.de/g) !== null;
+        }
     }
     return true;
   };
