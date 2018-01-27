@@ -25,7 +25,6 @@ export default class SearchScreen extends Component {
     };
   };
 
-
   constructor(props) {
     super(props);
 

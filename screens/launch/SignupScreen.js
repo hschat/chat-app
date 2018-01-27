@@ -220,28 +220,28 @@ export default class SignupScreen extends React.Component {
             <Form style={[styles.form, styles.middle]}>
               <Item stackedLabel error={this.state.errorPrename}>
                 <Label>Vorname</Label>
-                <Input onChangeText={this.setPreName} onBlur={() => this.check('prename')} returnKeyType='next' autoCapitalize='words'/>
+                <Input onChangeText={this.setPreName} onBlur={() => this.check('prename')} returnKeyType='next' autoCapitalize='words' onSubmitEditing={Keyboard.dismiss}/>
               </Item>
               <Item stackedLabel error={this.state.errorLastname}>
                 <Label>Nachname</Label>
-                <Input onChangeText={this.setLastName} onBlur={() => this.check('lastname')} returnKeyType='next' autoCapitalize='words'/>
+                <Input onChangeText={this.setLastName} onBlur={() => this.check('lastname')} returnKeyType='next' autoCapitalize='words' onSubmitEditing={Keyboard.dismiss}/>
               </Item>
               <Item stackedLabel error={this.state.errorIdentifier}>
                 <Label>Kennung</Label>
-                <Input onChangeText={this.setIdentifier} onBlur={() => this.check('identifier')} returnKeyType='next' autoCapitalize='none'/>
+                <Input onChangeText={this.setIdentifier} onBlur={() => this.check('identifier')} returnKeyType='next' autoCapitalize='none' onSubmitEditing={Keyboard.dismiss}/>
               </Item>
               <Item stackedLabel error={this.state.errorEmail}>
                 <Label>Email</Label>
-                <Input onChangeText={this.setEmai} onBlur={() => this.check('email')} keyboardType='email-address' returnKeyType='next' autoCapitalize='none'/>
+                <Input onChangeText={this.setEmai} onBlur={() => this.check('email')} keyboardType='email-address' returnKeyType='next' autoCapitalize='none' onSubmitEditing={Keyboard.dismiss}/>
               </Item>
               <Item stackedLabel error={this.state.errorPassword}>
                 <Label>Passwort</Label>
-                <Input secureTextEntry={true} onChangeText={this.setPassword} onBlur={() => this.check('password')} returnKeyType='next' autoCapitalize='none'/>
+                <Input secureTextEntry={true} onChangeText={this.setPassword} onBlur={() => this.check('password')} returnKeyType='next' autoCapitalize='none' onSubmitEditing={Keyboard.dismiss}/>
               </Item>
               <Item stackedLabel last error={this.state.errorPasswordRepeat}>
                 <Label>Passwort wiederholen</Label>
                 <Input secureTextEntry={true} onChangeText={this.setPasswordRepeat}
-                       onBlur={() => this.check('passwordRepeat')} returnKeyType='done' autoCapitalize='none'/>
+                       onBlur={() => this.check('passwordRepeat')} returnKeyType='done' autoCapitalize='none' onSubmitEditing={Keyboard.dismiss}/>
               </Item>
               <Button onPress={this.register}
                       style={baseStyles.redButton}
