@@ -28,7 +28,7 @@ export default class ChatUpdateTime extends Component {
         if(!this.state.time)
             return (<Text>Loading…</Text>)
         return (
-            <TimeAgo {...this.props} time={this.state.time}/>
+            <TimeAgo {...this.props} time={this.state.time} name={`chat-${this.props.chat.id}`}/>
         )
     }
 

@@ -177,11 +177,11 @@ export default class ProfileScreen extends Component {
     renderLocation = () => {
         if (this.state.user.location_in_hs) {
             return (
-                <Text><TimeAgo time={this.state.user.location_check_time} name={'last_location_time'}/> das letzte mal
+                <Text><TimeAgo name={'profile_location'} time={this.state.user.location_check_time}/> das letzte mal
                     an der
                     Hochschule</Text>)
         } else if (!this.state.user.location_in_hs) {
-            return <Text><TimeAgo time={this.state.user.location_check_time}/> <Distance
+            return <Text><TimeAgo name={'profile_location'} time={this.state.user.location_check_time}/> <Distance
                 distance={this.state.user.meter_to_hs}/> von der HS entferent</Text>
         }
         return (<Text>Standort unbekannt!</Text>)
