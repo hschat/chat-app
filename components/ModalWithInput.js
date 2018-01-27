@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     },
 
     spacer: {
-        borderRightWidth: 3,
+        borderRightWidth: 1,
         borderRightColor: '#666666',
     }
 

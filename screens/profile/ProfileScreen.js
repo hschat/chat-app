@@ -16,7 +16,8 @@ import {
     Left,
     Right,
     Spinner,
-    Toast
+    Toast,
+    Thumbnail
 } from "native-base";
 import {StyleSheet, Image, Alert, Dimensions, TouchableOpacity} from 'react-native';
 import {Col, Row, Grid} from 'react-native-easy-grid';
@@ -44,14 +45,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-start',
     },
+    left:{
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+    },
     roundedIcon: {
         backgroundColor: '#ff3232',
         padding: 10,
         borderRadius: 100,
         width: 47,
         height: 47,
+    },
+    item: {
+        borderBottomWidth: 0,
     }
-
 });
 
 
@@ -104,7 +112,7 @@ export default class ProfileScreen extends Component {
     updateStatus = (status) => {
         console.log('neuer status', status);
         this.store.updateAccount(this.state.user, {status: status}).then((result) => {
-            this.setState({user: result});
+            if(!Array.isArray(result)) this.setState({user: result});
         }).catch((error) => {
             console.error(error);
             this.toastIt('Fehler beim Aktualisieren des Status');
@@ -148,8 +156,12 @@ export default class ProfileScreen extends Component {
         });
     };
 
-    showModalStatus = () => {this.setState({showStatusModal: true})};
-    hideModalStatus = () => {this.setState({showStatusModal: false})};
+    showModalStatus = () => {
+        this.setState({showStatusModal: true})
+    };
+    hideModalStatus = () => {
+        this.setState({showStatusModal: false})
+    };
 
     renderSettings = () => {
         return (
@@ -175,16 +187,29 @@ export default class ProfileScreen extends Component {
     };
 
     renderLocation = () => {
-        if (this.state.user.location_in_hs) {
-            return (
-                <Text><TimeAgo name={'profile_location'} time={this.state.user.location_check_time}/> das letzte mal
-                    an der
-                    Hochschule</Text>)
-        } else if (!this.state.user.location_in_hs) {
-            return <Text><TimeAgo name={'profile_location'} time={this.state.user.location_check_time}/> <Distance
-                distance={this.state.user.meter_to_hs}/> von der HS entferent</Text>
+
+        let time = <Text></Text>;
+        let text = <Text></Text>;
+        if(this.state.user.location_check_time){
+            time = <TimeAgo time={this.state.user.location_check_time} name={'last_location_time'}/>
         }
-        return (<Text>Standort unbekannt!</Text>)
+        if (this.state.user.location_in_hs) {
+            // Set a text for a user who were near hs
+            text = <Text>An der Hochschule</Text>;
+        } else if (!this.state.user.location_in_hs) {
+            // Set a text for a user who is far away from the hs
+            text = <Text><Distance distance={this.state.user.meter_to_hs}/> von der HS entferent</Text>
+        }else{
+            // Set default text if the user has not been online yet
+            text= (<Text>Standort unbekannt!</Text>)
+        }
+
+        return (
+            <Item stackedLabel style={[styles.item, styles.left]}>
+                <Label>Standort</Label>
+                <Text>{time} {text}</Text>
+             </Item>)
+
     };
 
     render() {
@@ -195,47 +220,47 @@ export default class ProfileScreen extends Component {
             );
 
         return (
-            <Grid style={{padding: 10, paddingTop: 1}}>
+            <View
+                style={{flex: 1, padding: 25, paddingTop: 15, justifyContent: 'flex-start', alignItems: 'flex-start'}}>
                 <Image style={BaseStyles.backgroundImage} source={require('../../assets/img/bg.png')}/>
-                <Row size={1} style={{marginTop: 15}}>
-                    <Col style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center',}} size={1}>
-                        <Image style={styles.image}
-                               source={{uri: 'https://api.adorable.io/avatars/200/' + this.state.user.email + '.png'}}/>
-                    </Col>
-                    <Col size={2} style={[BaseStyles.transparent, {
+                <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center',}}>
+                    <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center',}}
+                          size={1}>
+                        <Thumbnail large
+                                   source={{uri: 'https://api.adorable.io/avatars/200/' + this.state.user.email + '.png'}}/>
+                    </View>
+                    <View style={[BaseStyles.transparent, {
                         flexDirection: 'column',
                         justifyContent: 'center',
                         alignItems: 'flex-start',
+                        marginLeft: 5,
                     }]}>
                         <H3 style={styles.header}>{this.state.user.prename} {this.state.user.lastname}</H3>
-                        <Text style={styles.subheader}>{this.state.user.hsid}</Text>
-                        <Text>{this.state.user.email}</Text>
-                        {(this.state.user.status === undefined || this.state.user.status === '') ? <Text> </Text> :
-                            <Text>{this.state.user.status}</Text>
-                        }
-                    </Col>
-                </Row>
-                <Row size={0.3} style={BaseStyles.transparent}>
-                    <Col style={styles.middle}>
-                        <Icon ios='ios-clock-outline' android='md-clock'/>
-                    </Col>
-                    <Col style={styles.middle} size={8}>
-                        <Text><TimeAgo time={this.state.user.last_time_online} name={'last_online'}/> das letzte mal
-                            Online</Text>
-                    </Col>
-                </Row>
-                <Row size={0.3} style={[BaseStyles.transparent]}>
-                    <Col style={styles.middle}>
-                        <Icon ios='ios-locate-outline' android='md-locate'/>
-                    </Col>
-                    <Col style={styles.middle} size={8}>
-                        <Text>{this.renderLocation()}</Text>
-                    </Col>
-                </Row>
-                <Row size={3} style={{marginTop: 10}}>
+                        <Text>zuletzt online <TimeAgo time={this.state.user.last_time_online}
+                                                      name={'last_online'}/></Text>
+                    </View>
+                </View>
+                <Form>
+                    {!(this.state.user.status === undefined || this.state.user.status === '') &&
+                    <Item stackedLabel style={[styles.item, styles.left]}>
+                        <Label>Status</Label>
+                        <Text style={styles.left}>{this.state.user.status}</Text>
+                    </Item>
+                    }
+                    {this.renderLocation()}
+                    <Item stackedLabel style={[styles.item, styles.left]}>
+                        <Label>E-Mail</Label>
+                        <Text >{this.state.user.email}</Text>
+                    </Item>
+                    <Item stackedLabel style={[styles.item, styles.left]}>
+                        <Label>Kürzel</Label>
+                        <Text>{this.state.user.hsid}</Text>
+                    </Item>
+                </Form>
+                <View style={{marginTop: 10}}>
                     {this.state.user.id === this.store.user.id ? this.renderSettings() : this.renderUserInformations()}
-                </Row>
-            </Grid>
+                </View>
+            </View>
         );
     }
 }
