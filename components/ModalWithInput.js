@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Alert, Keyboard, StyleSheet, TouchableOpacity, View, Text} from 'react-native';
 import {
-    Header, Input
+    Header, Input, Toast
 } from "native-base";
 
 import {Col, Row, Grid} from 'react-native-easy-grid';
@@ -61,12 +61,30 @@ export default class ModalWithInput extends Component {
         }
     }
     _updateInput = (input) => {
-        this.state.input=input;
+        if(this.props.maxLength !== undefined && this.props.maxLength < input.length){
+            this.toastIt(`Nicht mehr als ${this.props.maxLength} Zeichen möglich`);
+        }else {
+            this.setState({input: input});
+        }
+    };
+
+    clear = () =>{
+        this.setState({input: ''})
+    }
+
+    toastIt = (text) => {
+        Toast.show({
+            text: text,
+            position: 'top',
+            buttonText: 'ok',
+            type: 'warning',
+            duration: 2000
+        })
     };
 
     render() {
         return (
-            <Modal onBackButtonPress={this.close} isVisible={this.props.visible}>
+            <Modal onBackButtonPress={this.close} isVisible={this.props.visible} onModalHide={this.clear}>
                 <View style={styles.modal}>
                     <Grid style={styles.default}>
                         <Row size={1}>
@@ -76,7 +94,10 @@ export default class ModalWithInput extends Component {
                         </Row>
                         <Row>
                             <Col style={styles.middle}>
-                                <Input placeholder='Name eingeben…' onChangeText={(text) => this._updateInput(text)}/>
+                                <Input placeholder={this.props.placeholder}
+                                       onChangeText={(text) => this._updateInput(text)}
+                                       value={this.state.input}
+                                />
                             </Col>
                         </Row>
                         <Row>
@@ -86,7 +107,7 @@ export default class ModalWithInput extends Component {
                                 </TouchableOpacity>
                             </Col>
                             <Col style={[styles.middle]}>
-                                <TouchableOpacity style={[styles.middle,{flex:1}]} onPress={() => this.props.positiv(this.state.input)}>
+                                <TouchableOpacity style={[styles.middle,{flex:1}]} onPress={() => {this.props.positiv(this.state.input)}}>
                                     <Text style={styles.button}>O.K.</Text>
                                 </TouchableOpacity>
                             </Col>

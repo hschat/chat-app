@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Root, View, Text} from 'native-base';
+import {Root, View, Text, Spinner} from 'native-base';
 import DropdownAlert from 'react-native-dropdownalert';
 
 
@@ -23,6 +23,7 @@ export default class App extends Component {
     super(props);
     this.store = new ApiStore();
     observe(this.store, "alert", this.showAlert, true);
+    this.state={font: false};
     new Location();
   }
 
@@ -31,6 +32,7 @@ export default class App extends Component {
       'Roboto': require('native-base/Fonts/Roboto.ttf'),
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
     });
+    this.setState({font: true});
   }
 
 
@@ -62,6 +64,12 @@ export default class App extends Component {
   }
 
   render() {
+      if(!this.state.font){
+          return(
+              <Spinner style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center',}}
+                       color='red'/>
+          )
+      }
     return (
       <View style={{flex: 1}}>
         <DropdownAlert

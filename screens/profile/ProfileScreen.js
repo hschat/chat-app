@@ -24,6 +24,7 @@ import TimeAgo from '../../components/TimeAgo';
 import BaseStyles from '../../baseStyles';
 import Location from '../../Location';
 import Distance from '../../components/Distance'
+import ModalInput from '../../components/ModalWithInput'
 
 
 const styles = StyleSheet.create({
@@ -73,6 +74,7 @@ export default class ProfileScreen extends Component {
             user: null,
             ready: false,
             status: '',
+            showStatusModal: false,
         };
         this.store = this.props.screenProps.store;
     }
@@ -99,22 +101,15 @@ export default class ProfileScreen extends Component {
     }
 
 
-    setStatus = (n) => {
-        if (n.length > 99) {
-            this.toastIt('Nicht mehr als 100 Zeichen möglich');
-
-        } else {
-            this.setState({status: n});
-        }
-    };
-
-    updateStatus = () => {
-        this.store.updateAccount(this.state.user, {status: this.state.status}).then((result) => {
+    updateStatus = (status) => {
+        console.log('neuer status', status);
+        this.store.updateAccount(this.state.user, {status: status}).then((result) => {
             this.setState({user: result});
         }).catch((error) => {
             console.error(error);
             this.toastIt('Fehler beim Aktualisieren des Status');
         });
+        this.setState({showStatusModal: false});
     };
 
     toastIt = (text) => {
@@ -125,19 +120,6 @@ export default class ProfileScreen extends Component {
             type: 'warning',
             duration: 2000
         })
-    };
-
-    renderSettings = () => {
-        return (
-            <View style={{flex: 1, flexDirection: 'row', alignItems: 'flex-start'}}>
-                <Form style={{flex: 1, flexDirection: 'row', alignItems: 'flex-start'}}>
-                    <Item inlineLabel>
-                        <Label>Status ändern</Label>
-                        <Input onChangeText={this.setStatus} maxLength={100} onBlur={this.updateStatus}/>
-                    </Item>
-                </Form>
-            </View>
-        )
     };
 
     goToChat = () => {
@@ -164,6 +146,26 @@ export default class ProfileScreen extends Component {
                 }, style: 'destroy'
             }]);
         });
+    };
+
+    showModalStatus = () => {this.setState({showStatusModal: true})};
+    hideModalStatus = () => {this.setState({showStatusModal: false})};
+
+    renderSettings = () => {
+        return (
+            <View>
+                <ModalInput
+                    text='Geb deinen neuen Status ein'
+                    placeholder='Status...'
+                    visible={this.state.showStatusModal}
+                    input={this.state.status}
+                    positiv={this.updateStatus}
+                    negativ={this.hideModalStatus}
+                    maxLength={99}
+                />
+                <Button transparent danger onPress={this.showModalStatus}><Text>Status ändern</Text></Button>
+            </View>
+        )
     };
 
     renderUserInformations = () => {
@@ -201,7 +203,6 @@ export default class ProfileScreen extends Component {
         )
     };
 
-
     renderLocation = () => {
         if (this.state.user.location_in_hs) {
             return (
@@ -238,7 +239,7 @@ export default class ProfileScreen extends Component {
                         <H3 style={styles.header}>{this.state.user.prename} {this.state.user.lastname}</H3>
                         <Text style={styles.subheader}>{this.state.user.hsid}</Text>
                         <Text>{this.state.user.email}</Text>
-                        {(this.state.user.status === undefined || this.state.user.status === '') ? <Text></Text> :
+                        {(this.state.user.status === undefined || this.state.user.status === '') ? <Text> </Text> :
                             <Text>{this.state.user.status}</Text>
                         }
                     </Col>
