@@ -282,7 +282,7 @@ export default class CreateGroupChat extends Component {
                     zIndex={10}
                 />
                 <ModalInput
-                    text='Bitte Geben Sie einen Gruppennamen ein'
+                    text='Bitte geben Sie einen Gruppennamen ein'
                     placeholder='Gib einen Namen ein…'
                     visible={this.state.showModal}
                     input={this.state.groupName}

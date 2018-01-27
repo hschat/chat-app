@@ -60,22 +60,21 @@ export default class ChatsScreen extends Component {
             this.setState({chats: chats});
         });
 
-        /*
         this.store.app.service('chats').on('patched', updatedChat => {
             let chats = this.state.chats;
             chats.forEach((chat, index) => {
-                if(chat.id === updatedChat){
-                    chats[index]= updatedChat;
+                if (chat.id === updatedChat) {
+                    chats[index] = updatedChat;
                 }
             });
             chats.sort(this.compare);
             this.setState({chats: chats});
 
         });
-        */
     }
 
-    compare= (a,b) =>{
+
+    compare = (a, b) => {
         if (a.updated_at < b.updated_at)
             return 1;
         if (a.updated_at > b.updated_at)
