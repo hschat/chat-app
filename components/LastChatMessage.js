@@ -34,7 +34,8 @@ export default class LastChatMessage extends Component {
 
     render() {
         let text = this.state.text;
-
+        let i = text.indexOf('\n');
+        if(i!==-1) text = text.substring(0, i);
         if (text.length > MAX_CHARS)
             text = text.substring(0, MAX_CHARS) + '...';
         return (
