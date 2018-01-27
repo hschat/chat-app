@@ -45,7 +45,8 @@ export default class ChatsScreen extends Component {
     componentWillMount() {
         //Load all chats from the server
         this.store.getChats(this.store.user).then((chats) => {
-            console.log('LADEN DER ALTEN CHATS')
+            console.log('LADEN DER ALTEN CHATS');
+            chats.sort(this.compare);
             this.setState({chats: chats});
         });
     }
@@ -58,36 +59,29 @@ export default class ChatsScreen extends Component {
             chats.push(createdChat);
             this.setState({chats: chats});
         });
+
         /*
         this.store.app.service('chats').on('patched', updatedChat => {
-            console.log('UPDATE ALTE CHATS');
             let chats = this.state.chats;
             chats.forEach((chat, index) => {
-                if (chat.id === updatedChat.id) {
-                    chats[index] = updatedChat;
-                    this.setState({chats: chats});
+                if(chat.id === updatedChat){
+                    chats[index]= updatedChat;
                 }
             });
+            chats.sort(this.compare);
+            this.setState({chats: chats});
+
         });
         */
     }
 
-    /**
-     * called if there is a new chat in the store
-     * also this function loads all chats from the store in this state
-     */
-    updateChats = () => {
-        console.log('CHATS UPDATED CALLED', this.state.chats);
-        this.setState({chats: this.store.chats});
-        console.log('CHATS UPDATED FINISH', this.state.chats);
+    compare= (a,b) =>{
+        if (a.updated_at < b.updated_at)
+            return 1;
+        if (a.updated_at > b.updated_at)
+            return -1;
+        return 0;
     };
-
-    /*
-    shouldComponentUpdate(nextProps, nextState) {
-        //console.log('nextState',nextState);
-        return true;
-    }
-    */
 
     _keyExtractor = (item, index) => index;
     renderChats = (item) => {

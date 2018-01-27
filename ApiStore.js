@@ -96,11 +96,7 @@ export default class ApiStore {
             // Set last time Online
             this.updateAccount(this.user, {last_time_online: Date.now()});
             //Update location
-            return this.location.getOnHS().then((loc) =>{
-                return this.updateAccount(this.user, {location_check_time: Date.now(), location_in_hs: loc.on_hs, meter_to_hs: loc.distance}).then(user=>{
-                    return Promise.resolve(user);
-                });
-            });
+            return this.updateUserStatus()
             //return Promise.resolve(user);
         }).catch(error => {
             console.log('authenticated failed', error.message);
@@ -137,6 +133,14 @@ export default class ApiStore {
         this.user = null;
         this.isAuthenticated = false;
     }
+
+    updateUserStatus = () =>{
+        return this.location.getOnHS().then((loc) =>{
+            return this.updateAccount(this.user, {location_check_time: Date.now(), location_in_hs: loc.on_hs, meter_to_hs: loc.distance}).then(user=>{
+                return Promise.resolve(user);
+            });
+        });
+    };
 
     findChat(chat_id) {
         return this.app.service('chats').find({query: {id: chat_id}});
@@ -279,6 +283,7 @@ export default class ApiStore {
             system: false,
         };
         let data = Object.assign(template, message);
+        this.updateUserStatus();
         return this.app.service('messages').create(data);
     }
 

@@ -108,7 +108,6 @@ export default class ProfileScreen extends Component {
         }
     }
 
-
     updateStatus = (status) => {
         console.log('neuer status', status);
         this.store.updateAccount(this.state.user, {status: status}).then((result) => {

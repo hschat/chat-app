@@ -20,7 +20,7 @@ export default class ChatUpdateTime extends Component {
         this.setState({time: this.props.chat.updated_at});
         //Set a listener for changes
         this.store.app.service('chats').on('patched', (chat) => {
-            this.setState({time: chat.updated_at});
+            if(chat.id === this.props.id) this.setState({time: chat.updated_at});
         });
     }
 
