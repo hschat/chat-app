@@ -55,13 +55,7 @@ export default class SearchScreen extends Component {
             this.setState({loading: false});
         }).catch(error => {
             console.error('Search error:', error);
-            Alert.alert('Fehler', error.message, [
-                {
-                    text: 'Ok', onPress: () => {
-                    this.setState({loading: false});
-                }
-                }
-            ]);
+            console.error('Search error:', this.state);
         });
     };
 

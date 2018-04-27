@@ -212,6 +212,7 @@ export default class ProfileScreen extends Component {
     };
 
     render() {
+
         if (this.state.user === undefined || this.state.user === null)
             return (
                 <Spinner style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center',}}
@@ -240,7 +241,7 @@ export default class ProfileScreen extends Component {
                     </View>
                 </View>
                 <Form>
-                    {!(this.state.user.status === undefined || this.state.user.status === '') &&
+                    {!(this.state.user.status === null || this.state.user.status === '') &&
                     <Item stackedLabel style={[styles.item, styles.left]}>
                         <Label>Status</Label>
                         <Text style={styles.left}>{this.state.user.status}</Text>

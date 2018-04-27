@@ -153,28 +153,32 @@ export default class ApiStore {
                 $or: [
                     {
                         email: {
-                            $search: partial
+                            $like: partial
                         }
                     },
                     {
                         prename: {
-                            $search: partial
+                            $like: partial
                         }
                     },
                     {
-                        surname: {
-                            $search: partial
+                        lastname: {
+                            $like: partial
                         }
                     },
                     {
                         hsid: {
-                            $search: partial
+                            $like: partial
                         }
                     }
                 ],
+                id:{
+                    $ne: this.user.id
+                }
+                /*
                 $ne: {
                     id: this.user.id
-                }
+                }*/
             }
         };
 
