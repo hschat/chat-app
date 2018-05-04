@@ -171,11 +171,11 @@ export default class ApiStore {
                             $like: partial
                         }
                     }
-                ],
+                ]/*
                 id:{
                     $ne: this.user.id
                 }
-                /*
+
                 $ne: {
                     id: this.user.id
                 }*/

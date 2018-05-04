@@ -7,6 +7,7 @@ import SearchScreen from "../screens/search/SearchScreen";
 import InviteScreen from "../screens/search/InviteScreen";
 import ChatScreen from "../screens/chats/ChatScreen";
 import CreateGroup from "../screens/chats/CreateGroupChat"
+import FeedbackScreen from "../screens/feedback/FeedbackScreen"
 
 const profileNavigator = StackNavigator({
     Home: {
@@ -16,7 +17,6 @@ const profileNavigator = StackNavigator({
         }
     }
 });
-
 
 const searchNavigator = StackNavigator({
     Home: {
@@ -70,6 +70,15 @@ const chatsNavigator = StackNavigator({
     },
 });
 
+const feedbackNavigator = StackNavigator({
+    Home: {
+        screen: FeedbackScreen,
+        navigationOptions: {
+            headerTitle: 'Feedback',
+        }
+    }
+});
+
 /**
  * Tab Navigation that contains the references to the components based above
  */
@@ -95,7 +104,16 @@ const RootTabs = TabNavigator({
                 tabBarLabel: 'Suchen',
                 tabBarIcon: <Icon ios='ios-search-outline' android='md-search' size={20}/>
             }
+        },
+        Feedback: {
+            screen: feedbackNavigator,
+            navigationOptions: {
+                tabBarLabel: 'Feedback',
+                tabBarIcon: <Icon ios='ios-information-circle-outline' android='ios-information-circle-outline' size={20}/>
+            }
         }
+
+
     }
 );
 
