@@ -23,7 +23,7 @@ export default class FeedbackScreen extends React.Component {
     constructor(props) {
         super(props);
         this.store = this.props.screenProps.store;
-        this.maxTextInput=1000;
+        this.maxTextInput=2000;
         this.state = {
             text: '',
             loading: false
@@ -56,16 +56,27 @@ export default class FeedbackScreen extends React.Component {
         if (this.state.text.length < 15) {
             this.toastIt('Bitte gib etwas mehr Text ein', 'warning');
             return;
+        } else if(this.state.loading){
+            return;
         }
-
 
         //Send it
         this.setState({loading: true});
+        let data={
+            text: this.state.text,
+            createdAt: Date.now(),
+        };
+        this.store.app.service('feedback').create(data).then(()=>{
+            //After
+            this.setState({loading: false, text: ''});
+            this.toastIt('Danke für dein Feedback', 'success');
+
+        }).catch(error =>{
+            this.setState({loading: false});
+            this.toastIt('Bei senden ist ein Fehler aufgetretten 😩', 'error');
+        });
 
 
-        //After
-        this.setState({loading: false});
-        this.toastIt('Danke für dein Feedback', 'success');
 
 
     };
@@ -114,7 +125,7 @@ export default class FeedbackScreen extends React.Component {
 
                     <Form style={{marginTop: 20}}>
                         <View style={{marginBottom: 20}}>
-                            <Textarea onChangeText={(text) => this.setState({text: text})}
+                            <Textarea onChangeText={(text) => this.setState({text: text})} value={this.state.text}
                                       style={{backgroundColor: 'white', marginBottom: 5}} rowSpan={11} bordered
                                       placeholder="Dein Feedback!"/>
                             {this.renderTextCounter()}
