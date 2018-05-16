@@ -147,7 +147,7 @@ export default class ApiStore {
     }
 
     findUser(partial) {
-        partial = '^' + partial + '[\s\S]*';
+        partial = `${partial}%`;
         const query = {
             query: {
                 $or: [
@@ -171,14 +171,10 @@ export default class ApiStore {
                             $like: partial
                         }
                     }
-                ]/*
-                id:{
-                    $ne: this.user.id
+                ],
+                id: {
+                  $ne: this.user.id
                 }
-
-                $ne: {
-                    id: this.user.id
-                }*/
             }
         };
 
@@ -220,11 +216,10 @@ export default class ApiStore {
      */
     createChat(chatData) {
         let template = {
-            participants: [],
             type: undefined,
             name: undefined,
             owner: undefined,
-            updated_at: Date.now(),
+            updatedAt: Date.now(),
         };
 
         let data = Object.assign(template, chatData);
@@ -240,10 +235,7 @@ export default class ApiStore {
     getChats(user) {
         return this.app.service('chats').find({
             query: {
-                participants: {
-                    $contains: user.id
-                },
-                $sort: {updated_at: 1}
+                $sort: {updatedAt: 1}
             }
         }).then((chats) => {
             this.chats = chats;
