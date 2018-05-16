@@ -1,5 +1,16 @@
 import React from 'react';
-import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage, Text, Image, Alert} from 'react-native';
+import {
+    KeyboardAvoidingView,
+    TextInput,
+    StyleSheet,
+    View,
+    AsyncStorage,
+    Text,
+    Image,
+    Alert,
+    Keyboard,
+    TouchableWithoutFeedback
+} from 'react-native';
 import {Icon, Spinner, H1, Form, Textarea, Button, Toast} from 'native-base'
 import baseStyles from '../../baseStyles';
 
@@ -102,7 +113,7 @@ export default class FeedbackScreen extends React.Component {
         let buttonText= <Text>Absenden!</Text>
         if(this.state.loading) buttonText=<Spinner color='green'/>
         return (
-            <View>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <Image style={baseStyles.backgroundImage} source={require('../../assets/img/bg.png')}/>
                 <View style={{marginTop: 25, marginLeft: 25, marginRight: 25}}>
                     <View style={{flexDirection: 'row'}}>
@@ -134,10 +145,8 @@ export default class FeedbackScreen extends React.Component {
                             {buttonText}
                         </Button>
                     </Form>
-
                 </View>
-
-            </View>
+            </TouchableWithoutFeedback>
         )
 
     }
