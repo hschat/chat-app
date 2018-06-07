@@ -182,10 +182,9 @@ export default class SignupScreen extends React.Component {
         p1 = p1.toLowerCase();
         p2 = p2.toLowerCase();
         p3 = p3.toLowerCase();
-        if (!(p1.charAt(0) === p3.charAt(0)) || !(p1.charAt(1) === p3.charAt(1)) ||
-          !(p1.charAt(2) === p2.charAt(0)) || !(p1.charAt(3) === p2.charAt(1))
-        ) return false;
-        else if (!(/\w\w\w\w\d\d\d\d/.test(p1) )) return false;
+        if ((!(p1.charAt(0) === p3.charAt(0)) || !(p1.charAt(1) === p3.charAt(1)) ||
+          !(p1.charAt(2) === p2.charAt(0)) || !(p1.charAt(3) === p2.charAt(1)) || !(/\w\w\w\w\d\d\d\d/.test(p1) ))
+          && !(/\w\w\w\d\d\d\d\w/.test(p1) )  ) return false;
         break;
       case 'isHSMail':
         let c_at = p1.lastIndexOf('@');
