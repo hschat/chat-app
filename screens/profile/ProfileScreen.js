@@ -91,6 +91,7 @@ export default class ProfileScreen extends Component {
         // Check if there is a user given else print your own profile
         if (this.props.navigation.state.hasOwnProperty('params') && this.props.navigation.state.params !== undefined) {
             let id = this.props.navigation.state.params.id;
+
             if (id !== undefined) {
                 // Try to find the user else print an error
                 this.store.getUserInformation(id).then(user => {

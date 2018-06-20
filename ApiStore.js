@@ -110,6 +110,7 @@ export default class ApiStore {
                 return this.app.passport.verifyJWT(response.accessToken);
             })
             .then(payload => {
+              console.log(`AUTH:!! ${payload.userId}`)
                 return this.app.service('users').get(payload.userId);
             }).catch(e => Promise.reject(e));
     }
@@ -153,22 +154,22 @@ export default class ApiStore {
                 $or: [
                     {
                         email: {
-                            $like: partial
+                            $ilike: partial
                         }
                     },
                     {
                         prename: {
-                            $like: partial
+                            $ilike: partial
                         }
                     },
                     {
                         lastname: {
-                            $like: partial
+                            $ilike: partial
                         }
                     },
                     {
                         hsid: {
-                            $like: partial
+                            $ilike: partial
                         }
                     }
                 ],
@@ -197,6 +198,7 @@ export default class ApiStore {
      * @return {Promise.<user>}
      */
     getUserInformation(id) {
+
         return this.app.service('users').get(id).then(user => {
             return Promise.resolve(user)
         }).catch(error => {
