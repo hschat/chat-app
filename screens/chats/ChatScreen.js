@@ -2,7 +2,7 @@ import React from 'react';
 import {KeyboardAvoidingView, TextInput, StyleSheet, View, AsyncStorage, Text, Image, Alert} from 'react-native';
 import {Body, Button, Container, Icon, Left, List, ListItem, Right, Thumbnail, Spinner} from 'native-base'
 import {GiftedChat} from 'react-native-gifted-chat';
-import {NavigationActions} from 'react-navigation';
+import {NavigationActions, SafeAreaView} from 'react-navigation';
 
 import Message from '../../components/message'
 import TimeAgo from "../../components/TimeAgo";
@@ -47,12 +47,13 @@ const styles = StyleSheet.create({
 export default class ChatScreen extends React.Component {
     static navigationOptions = ({navigation, screenProps}) => {
         const params = navigation.state.params || {};
-        console.log('CHAT:',params.chat);
-        let title = params.chat.type === 'group' ? params.chat.name : params.chat.participants.filter(u => u.id !== screenProps.store.user.id).map(u =>  u.prename + ' ' + u.lastname)[0];
+        console.log('CHAT:', params.chat);
+        let title = params.chat.type === 'group' ? params.chat.name : params.chat.participants.filter(u => u.id !== screenProps.store.user.id).map(u => u.prename + ' ' + u.lastname)[0];
         return {
             headerTitle: title,
             headerLeft: (
-                <Button onPress={() => navigation.navigate('Home')} transparent><Icon name="ios-arrow-back-outline"/></Button>
+                <Button onPress={() => navigation.navigate('Home')} transparent><Icon
+                    name="ios-arrow-back-outline"/></Button>
             )
         };
     };
@@ -122,31 +123,13 @@ export default class ChatScreen extends React.Component {
             sender_id: this.store.user.id,
             chat_id: this.state.chat.id,
             text: message[0].text
-        }).then(()=>{
+        }).then(() => {
             console.log('Nachricht wurde gesendet:', message[0].text);
         }).catch((error) => {
             console.error('ChatScreen, error send msg', error);
         })
     };
 
-    /*
-    renderChat = (item) => {
-        return (
-            <ListItem avatar>
-                <Left>
-                    <Thumbnail source={{uri: 'https://api.adorable.io/avatars/200/' + this.state.user.email + '.png'}}/>
-                </Left>
-                <Body>
-                <Text>#{this.store.user.prename}</Text>
-                <Text note>{item.text}</Text>
-                </Body>
-                <Right>
-                    <TimeAgo time={item.send_date}/>
-                </Right>
-            </ListItem>
-        )
-    };
-    */
 
     render() {
         if (!this.state.ready)
@@ -155,20 +138,26 @@ export default class ChatScreen extends React.Component {
                     <Spinner color='red'/>
                 </View>
             );
+        console.log('CHAT TYPE???', this.state.chat ,this.state.chat.type)
         return (
-            <GiftedChat
-                messages={this.state.messages}
-                onSend={(messages) => this.send(messages)}
-                onPressAvatar={(user) => {this.props.navigation.navigate('View', {id: user._id})}}
-                user={
-                    {
-                        _id: this.store.user.id,
-                        name: this.store.user.prename + ' ' + this.store.user.lastname,
-                        avatar: 'https://api.adorable.io/avatars/200/' + this.store.user.email,
+            <SafeAreaView style={{flex: 1}}>
+                <GiftedChat
+                    messages={this.state.messages}
+                    onSend={(messages) => this.send(messages)}
+                    renderAvatar={this.state.chat.type === 'group' ? '':null}
+                    onPressAvatar={(user) => {
+                        this.props.navigation.navigate('View', {id: user._id})
+                    }}
+                    user={
+                        {
+                            _id: this.store.user.id,
+                            name: this.store.user.prename + ' ' + this.store.user.lastname,
+                            avatar: 'https://api.adorable.io/avatars/200/' + this.store.user.email,
+                        }
                     }
-                }
-                locale='de'
-            />
+                    locale='de'
+                />
+            </SafeAreaView>
         )
     }
 }

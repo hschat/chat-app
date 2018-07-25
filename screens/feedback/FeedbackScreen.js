@@ -11,7 +11,7 @@ import {
     Keyboard,
     TouchableWithoutFeedback
 } from 'react-native';
-import {Icon, Spinner, H1, Form, Textarea, Button, Toast} from 'native-base'
+import {Content, Icon, Spinner, H1, Form, Textarea, Button, Toast} from 'native-base'
 import baseStyles from '../../baseStyles';
 
 const styles = StyleSheet.create({
@@ -111,7 +111,7 @@ export default class FeedbackScreen extends React.Component {
         let buttonText = <Text>Absenden!</Text>
         if (this.state.loading) buttonText = <Spinner color='green'/>
         return (
-            <View>
+            <Content>
                 <Image style={baseStyles.backgroundImage} source={require('../../assets/img/bg.png')}/>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View style={{marginTop: 25, marginLeft: 25, marginRight: 25}}>
@@ -146,7 +146,7 @@ export default class FeedbackScreen extends React.Component {
                         </Form>
                     </View>
                 </TouchableWithoutFeedback>
-            </View>
+            </Content>
         )
 
     }
