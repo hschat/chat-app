@@ -49,9 +49,6 @@ export default class ChatsScreen extends Component {
             chats.sort(this.compare);
             this.setState({chats: chats});
         });
-    }
-
-    componentDidMount() {
 
         this.store.app.service('chats').on('created', createdChat => {
             console.log('NEUER CHAT', createdChat);
@@ -59,6 +56,9 @@ export default class ChatsScreen extends Component {
             chats.push(createdChat);
             this.setState({chats: chats});
         });
+    }
+
+    componentDidMount() {
 
         this.store.app.service('chats').on('patched', updatedChat => {
             let chats = this.state.chats;

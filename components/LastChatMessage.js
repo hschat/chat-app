@@ -25,7 +25,7 @@ export default class LastChatMessage extends Component {
                 this.setState({text: 'Noch keine Nachrichten'})
         });
         //Set a listener for changes
-        this.store.app.service('chats').on('patched', () => {
+        this.store.app.service('messages').on('created', () => {
             this.store.getLastMessageForChat(this.props.chat).then(msg => {
                 this.setState({text: msg.text});
             });

@@ -133,7 +133,6 @@ export default class CreateGroupChat extends Component {
             participants: part,
             type: 'group',
             name: name,
-            owner: this.store.user.id,
         };
 
         this.store.createChat(group).then((chat)=>{
@@ -150,8 +149,7 @@ export default class CreateGroupChat extends Component {
     };
 
     /**
-     * addes a user to the List for users to add to the group, only if he isnt allready in it
-     * @param user
+     * adds a user to the List for users to add to the group, only if he is` nt already in it
      */
     addUser = (user) => {
         let found = false;
@@ -283,7 +281,7 @@ export default class CreateGroupChat extends Component {
                 />
                 <ModalInput
                     text='Bitte geben Sie einen Gruppennamen ein'
-                    placeholder='Gib einen Namen ein…'
+                    placeholder='Gruppenname'
                     visible={this.state.showModal}
                     input={this.state.groupName}
                     positiv={this.createGroup}

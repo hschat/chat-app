@@ -16,7 +16,6 @@ export default class ApiStore {
     @observable isAuthenticated = false;
     @observable isConnecting = false;
     @observable user = null;
-    @observable chats = [];
     @observable skip = 0;
     @observable alert = {};
 
@@ -48,6 +47,10 @@ export default class ApiStore {
                 this.updateMessage(createdMessage, {recieve_date: Date.now()});
             }
 
+        });
+
+        this.app.service('chats').on('created', chat => {
+           console.log('Meine nerven, NEUER CHATTTTTTTT', chat);
         });
 
         if (this.app.get('accessToken')) {
@@ -91,8 +94,6 @@ export default class ApiStore {
             console.info('authenticated successfully', user.id, user.email);
             this.user = user;
             this.isAuthenticated = true;
-            // Get all current chats
-            this.getChats(this.user);
             // Set last time Online
             this.updateAccount(this.user, {last_time_online: Date.now()});
             //Update location
@@ -220,16 +221,11 @@ export default class ApiStore {
         let template = {
             type: undefined,
             name: undefined,
-            owner: undefined,
             updatedAt: Date.now(),
         };
 
         let data = Object.assign(template, chatData);
         return this.app.service('chats').create(data).then((chat) => {
-            // Check if chat is already in storage
-            if (this.chats.find(o => o.id === chat.id) === undefined) {
-                this.chats.push(chat);
-            }
             return chat;
         });
     }
@@ -240,7 +236,6 @@ export default class ApiStore {
                 $sort: {updatedAt: 1}
             }
         }).then((chats) => {
-            this.chats = chats;
             return new Promise.resolve(chats);
         });
     }

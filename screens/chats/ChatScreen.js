@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
 export default class ChatScreen extends React.Component {
     static navigationOptions = ({navigation, screenProps}) => {
         const params = navigation.state.params || {};
-        console.log('CHAT:', params.chat);
         let title = params.chat.type === 'group' ? params.chat.name : params.chat.participants.filter(u => u.id !== screenProps.store.user.id).map(u => u.prename + ' ' + u.lastname)[0];
         return {
             headerTitle: title,
@@ -138,7 +137,6 @@ export default class ChatScreen extends React.Component {
                     <Spinner color='red'/>
                 </View>
             );
-        console.log('CHAT TYPE???', this.state.chat ,this.state.chat.type)
         return (
             <SafeAreaView style={{flex: 1}}>
                 <GiftedChat
