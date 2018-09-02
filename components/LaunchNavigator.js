@@ -1,10 +1,10 @@
 import React from 'react';
-import {StackNavigator} from 'react-navigation';
-import {Icon} from "native-base";
+import { StackNavigator } from 'react-navigation';
+import { Icon } from 'native-base';
 
-import SignupScreen from "../screens/launch/SignupScreen";
-import LaunchScreen from "../screens/launch/LaunchScreen";
-import LoginScreen from "../screens/launch/LoginScreen";
+import SignupScreen from '../screens/launch/SignupScreen';
+import LaunchScreen from '../screens/launch/LaunchScreen';
+import LoginScreen from '../screens/launch/LoginScreen';
 
 const Items = StackNavigator({
   Launch: {

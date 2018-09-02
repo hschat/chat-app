@@ -1,6 +1,8 @@
 import React from 'react';
-import {TouchableWithoutFeedback, Keyboard, Image} from 'react-native';
-import {Container, Text, Button, Content} from 'native-base'
+import { TouchableWithoutFeedback, Keyboard, Image } from 'react-native';
+import {
+  Container, Text, Button, Content,
+} from 'native-base';
 
 const baseStyles = require('../../baseStyles');
 
@@ -14,7 +16,7 @@ export default class LaunchScreen extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>
-          <Image style={baseStyles.backgroundImage} source={require('../../assets/img/bg.png')}/>
+          <Image style={baseStyles.backgroundImage} source={require('../../assets/img/bg.png')} />
           <Content contentContainerStyle={baseStyles.middle}>
 
 
