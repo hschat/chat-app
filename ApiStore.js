@@ -155,22 +155,22 @@ export default class ApiStore {
                 $or: [
                     {
                         email: {
-                            $ilike: partial
+                            $iLike: partial
                         }
                     },
                     {
                         prename: {
-                            $ilike: partial
+                            $iLike: partial
                         }
                     },
                     {
                         lastname: {
-                            $ilike: partial
+                            $iLike: partial
                         }
                     },
                     {
                         hsid: {
-                            $ilike: partial
+                            $iLike: partial
                         }
                     }
                 ],
@@ -188,7 +188,7 @@ export default class ApiStore {
             }
             return Promise.resolve(users);
         }).catch(error => {
-            console.log('Find User error: ', error);
+            console.error('Find User error: ', error);
             return Promise.reject(error);
         });
     }
@@ -242,6 +242,7 @@ export default class ApiStore {
 
 
     static formatMessage(message) {
+        console.log('APIStore/formatMessage', message)
         return {
             _id: message.id,
             text: message.text,
@@ -282,10 +283,12 @@ export default class ApiStore {
 
     getMessagesForChat(chat) {
         return this.app.service('messages').find({query: {chat_id: chat.id, $sort: {send_date: -1}}}).then((msgs) => {
-            for (let i in msgs) {
-                msgs[i] = ApiStore.formatMessage(msgs[i]);
+            let m=msgs;
+            for (let i in m) {
+                console.log('APISTORE/getMessagesForChat', m[i]);
+                m[i] = ApiStore.formatMessage(m[i]);
             }
-            return msgs;
+            return m;
         });
     }
 

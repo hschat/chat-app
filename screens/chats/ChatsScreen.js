@@ -51,7 +51,7 @@ export default class ChatsScreen extends Component {
         });
 
         this.store.app.service('chats').on('created', createdChat => {
-            console.log('NEUER CHAT', createdChat);
+            console.log('NEUER CHAT',this.store.user.email, createdChat);
             let chats = this.state.chats;
             chats.push(createdChat);
             this.setState({chats: chats});

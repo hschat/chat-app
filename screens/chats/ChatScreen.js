@@ -77,6 +77,7 @@ export default class ChatScreen extends React.Component {
                 //Set chat to the current state
                 this.setState({chat: chat});
                 // Get the messages to the current Chat
+                //console.log('ChatScreen/WillMount', chat);
                 this.store.getMessagesForChat(chat).then((msgs) => {
                     this.setState({messages: msgs, ready: true});
                 });
@@ -103,6 +104,7 @@ export default class ChatScreen extends React.Component {
             if (createdMessage.chat_id === this.state.chat.id) {
                 //If the message is for this chat add it to the state for msgs
                 let msgs = this.state.messages;
+                console.log('Wat you gona dooo with this he?', createdMessage);
                 createdMessage = ApiStore.formatMessage(createdMessage);
                 this.setState((previousState) => {
                     return {
