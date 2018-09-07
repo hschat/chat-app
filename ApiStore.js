@@ -233,10 +233,12 @@ export default class ApiStore {
     getChats(user) {
         return this.app.service('chats').find({
             query: {
-                $sort: {updatedAt: 1}
+                $sort: {updatedAt: 1},
             }
         }).then((chats) => {
             return new Promise.resolve(chats);
+        }).catch(e =>{
+            console.error('ApiStore/getChats', e)
         });
     }
 
