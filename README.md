@@ -2,7 +2,7 @@
 
 ## Requirements
 
-### Windows
+### Linux / Windows (WSL)
 
 ```bash
 # Install yarn
