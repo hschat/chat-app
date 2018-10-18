@@ -7,7 +7,9 @@
     "start": "expo start",
     "eject": "expo eject",
     "test": "node node_modules/jest/bin/jest.js --watchAll",
-    "lint": "eslint components/ context/ screens/"
+    "lint": "eslint components/ context/ screens/",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "jest": {
     "preset": "jest-expo"
@@ -39,13 +41,14 @@
     "react-native-gifted-chat": "^0.3.0",
     "react-native-modal": "^4.1.1",
     "react-native-scripts": "^2.0.1",
-    "react-native-sentry": "^0.32.1",
+    "react-native-sentry": "^0.39.0",
     "react-native-timer": "^1.3.1",
     "react-navigation": "^2.9.3",
     "react-navigation-fluid-transitions": "^0.2.2",
     "react-redux": "^5.0.6",
     "sentry-expo": "^1.7.0",
-    "socket.io-client": "^2.0.4"
+    "socket.io-client": "^2.0.4",
+    "snyk": "^1.104.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -60,5 +63,6 @@
     "flow-bin": "^0.77.0",
     "jest-expo": "29.0.0",
     "react-test-renderer": "^16.0.0"
-  }
+  },
+  "snyk": true
 }
