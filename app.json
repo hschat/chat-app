@@ -3,7 +3,7 @@
     "name": "HSChat",
     "description": "",
     "slug": "hsc-chat",
-    "sdkVersion": "24.0.0",
+    "sdkVersion": "30.0.0",
     "privacy": "unlisted",
     "version": "1.0.0",
     "orientation": "portrait",

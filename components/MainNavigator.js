@@ -1,5 +1,5 @@
 import React from 'react';
-import { TabNavigator, StackNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Icon, Button } from 'native-base';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import ChatsScreen from '../screens/chats/ChatsScreen';
@@ -9,7 +9,7 @@ import ChatScreen from '../screens/chats/ChatScreen';
 import CreateGroup from '../screens/chats/CreateGroupChat';
 import FeedbackScreen from '../screens/feedback/FeedbackScreen';
 
-const profileNavigator = StackNavigator({
+const profileNavigator = createStackNavigator({
   Home: {
     screen: ProfileScreen,
     navigationOptions: {
@@ -18,7 +18,7 @@ const profileNavigator = StackNavigator({
   },
 });
 
-const searchNavigator = StackNavigator({
+const searchNavigator = createStackNavigator({
   Home: {
     screen: SearchScreen,
     navigationOptions: {
@@ -43,7 +43,7 @@ const searchNavigator = StackNavigator({
 /**
  * a Navigator for the chats view e.g. navigate to Create a new Group or a chat screen
  */
-const chatsNavigator = StackNavigator({
+const chatsNavigator = createStackNavigator({
   Home: {
     screen: ChatsScreen,
     navigationOptions: {
@@ -70,7 +70,7 @@ const chatsNavigator = StackNavigator({
   },
 });
 
-const feedbackNavigator = StackNavigator({
+const feedbackNavigator = createStackNavigator({
   Home: {
     screen: FeedbackScreen,
     navigationOptions: {
@@ -82,7 +82,7 @@ const feedbackNavigator = StackNavigator({
 /**
  * Tab Navigation that contains the references to the components based above
  */
-const RootTabs = TabNavigator({
+const RootTabs = createBottomTabNavigator({
   Profile: {
     screen: profileNavigator,
     navigationOptions: {

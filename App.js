@@ -13,8 +13,9 @@ import {NavigationActions} from 'react-navigation';
 import Location from './Location'
 import Sentry from 'sentry-expo';
 
-Sentry.config('https://c8a2ac63b73546fe9d216953cded0069@sentry.io/273476').install();
-
+if (process.env.NODE_ENV === 'production') {
+  Sentry.config(process.env.SENTRY_DSN).install();
+}
 
 @autobind @observer
 export default class App extends Component {
@@ -90,5 +91,3 @@ export default class App extends Component {
     );
   }
 }
-
-
