@@ -6,8 +6,6 @@
   "scripts": {
     "start": "expo start",
     "eject": "expo eject",
-    "android": "expo android",
-    "ios": "expo ios",
     "test": "node node_modules/jest/bin/jest.js --watchAll",
     "lint": "eslint components/ context/ screens/"
   },
