@@ -11,11 +11,13 @@ import {
     Label,
     Input,
     Form,
+    CheckBox,
     List,
     Body,
     Left,
     Right,
     Spinner,
+    Switch,
     Toast,
     Thumbnail
 } from "native-base";
@@ -26,6 +28,8 @@ import BaseStyles from '../../baseStyles';
 import Location from '../../Location';
 import Distance from '../../components/Distance'
 import ModalInput from '../../components/ModalWithInput'
+//import Switch from 'react-toggle-switch'
+
 
 
 const styles = StyleSheet.create({
@@ -82,7 +86,11 @@ export default class ProfileScreen extends Component {
             user: null,
             ready: false,
             status: '',
+           // switched: false,
+            checked: true,
+            location: false,
             showStatusModal: false,
+
         };
         this.store = this.props.screenProps.store;
     }
@@ -162,6 +170,22 @@ export default class ProfileScreen extends Component {
     hideModalStatus = () => {
         this.setState({showStatusModal: false})
     };
+    /*toggleSwitch = () => {
+        this.setState(prevState => {
+            return {
+                switched: !prevState.switched
+            };
+        });
+    };
+
+    */
+    /*toggleChecked = () => {
+        this.state.checked= !this.state.checked;
+    }*/
+    _checkBoxHandler(){
+        this.setState({ checked: !this.state.checked});
+        this.store.locationEnabled = this.state.checked;
+    }
 
     renderSettings = () => {
         return (
@@ -176,10 +200,30 @@ export default class ProfileScreen extends Component {
                     maxLength={99}
                 />
                 <Button transparent danger onPress={this.showModalStatus}><Text>Status ändern</Text></Button>
+                <Content>
+                        <ListItem style={{width: 200}}>
+                            <Body>
+                            <Text>Standort erlauben?</Text>
+                            </Body>
+                            <CheckBox
+                                checked={this.state.checked}
+                                onPress={() => this._checkBoxHandler()}
+                            />
+                        </ListItem>
+                </Content>
+
             </View>
+
         )
     };
-
+//<Switch onClick={this.toggleSwitch} on={this.state.switched}/>
+/*
+<Text style={{paddingLeft: 15}}>Standort erlauben?</Text>
+                <CheckBox
+                    checked={this.state.checked}
+                    onPress={() => this._checkBoxHandler()}
+                />
+ */
     renderUserInformations = () => {
         return (
             <Button transparent danger onPress={this.goToChat}><Text>Nachricht senden</Text></Button>
@@ -196,14 +240,15 @@ export default class ProfileScreen extends Component {
         if (this.state.user.location_in_hs) {
             // Set a text for a user who were near hs
             text = <Text>An der Hochschule</Text>;
-        } else if (!this.state.user.location_in_hs) {
+        } else if (!this.state.user.location_in_hs && this.state.user.meter_to_hs !== 123) {
             // Set a text for a user who is far away from the hs
             text = <Text><Distance distance={this.state.user.meter_to_hs}/> von der HS entferent</Text>
+        }else if(this.state.user.meter_to_hs === 123){
+            text = (<Text>Standort deaktiviert!</Text>)
         }else{
-            // Set default text if the user has not been online yet
-            text= (<Text>Standort unbekannt!</Text>)
+                // Set default text if the user has not been online yet
+                text= (<Text>Standort unbekannt!</Text>)
         }
-
         return (
             <Item stackedLabel style={[styles.item, styles.left]}>
                 <Label>Standort</Label>
@@ -261,6 +306,7 @@ export default class ProfileScreen extends Component {
                 <View style={{marginTop: 10}}>
                     {this.state.user.id === this.store.user.id ? this.renderSettings() : this.renderUserInformations()}
                 </View>
+
             </View>
         );
     }
