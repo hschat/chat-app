@@ -8,7 +8,7 @@ import socketio from 'feathers-socketio/client'
 import authentication from 'feathers-authentication-client';
 import Location from './Location'
 
-const API_URL = process.env['CHAT_ENDPOINT'] || "https://hschat.app";
+const API_URL = process.env['CHAT_ENDPOINT'] || "http://192.168.178.61:3030/";
 
 @autobind
 export default class ApiStore {
