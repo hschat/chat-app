@@ -2,10 +2,10 @@ import {Alert, AsyncStorage} from 'react-native';
 import {observable, action, computed} from 'mobx';
 import {autobind} from 'core-decorators';
 import io from 'socket.io-client';
-import feathers from 'feathers/client'
-import hooks from 'feathers-hooks';
-import socketio from 'feathers-socketio/client'
-import authentication from 'feathers-authentication-client';
+import feathers from '@feathersjs/feathers'
+import hooks from '@feathersjs/feathers';
+import socketio from '@feathersjs/socketio-client'
+import authentication from '@feathersjs/authentication-client';
 import Location from './Location'
 
 const API_URL = process.env['CHAT_ENDPOINT'] || "http://192.168.178.61:3030/";
@@ -25,7 +25,6 @@ export default class ApiStore {
         const socket = io(API_URL, options);
         this.app = feathers()
             .configure(socketio(socket))
-            .configure(hooks())
             .configure(authentication({
                 storage: AsyncStorage // To store our accessToken
             }));
