@@ -43,9 +43,17 @@ export default class LoginScreen extends React.Component {
       password: this.state.password,
       strategy: 'local'
     }).catch(error => {
-      //console.error('Login error:', error);
-      Alert.alert('Fehler', error.message);
+      //console.error('Email nicht gefunden, versuche Kennung: ', error);
+      this.store.authenticate({
+        hsid: this.state.name,
+        password: this.state.password,
+        strategy: 'localhsid'
+      }).catch(error => {
+        //console.error('Login error:', error);
+        Alert.alert('Fehler', error.message);
+      });
     });
+
   };
 
 
@@ -56,7 +64,7 @@ export default class LoginScreen extends React.Component {
           <Image style={baseStyles.backgroundImage} source={require('../../assets/img/bg.png')}/>
             <Form style={baseStyles.middle}>
               <Item last style={baseStyles.backgroundButtonInput}>
-                <Label>E-mail</Label>
+                <Label>E-mail oder Kennung</Label>
                 <Input onChangeText={this.setName}
                        bordered
                        keyboardType='email-address'
