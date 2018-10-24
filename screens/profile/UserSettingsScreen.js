@@ -71,6 +71,7 @@ export default class ProfileScreen extends Component {
         // No logout button for other profiles
         if (navigation.state.hasOwnProperty("params") && navigation.state.params !== undefined) return {};
         return {
+
             headerLeft: (
                 <Image onPress={() => this.showNewSite()} style={{marginLeft: 20}}
                        source={require('../../assets/img/settingsWheel.png')}/>
@@ -178,7 +179,7 @@ export default class ProfileScreen extends Component {
     }
 
     showNewSite() {
-        //this.props.navigation.navigate(UserSettingsScreen,null,null);
+
     }
 
     renderSettings = () => {
@@ -220,21 +221,6 @@ export default class ProfileScreen extends Component {
 
         let time = <Text></Text>;
         let text = <Text></Text>;
-        if (this.state.user.location_check_time) {
-            time = <TimeAgo time={this.state.user.location_check_time} name={'last_location_time'}/>
-        }
-        if (this.state.user.location_in_hs) {
-            // Set a text for a user who were near hs
-            text = <Text>An der Hochschule</Text>;
-        } else if (!this.state.user.location_in_hs && this.state.user.meter_to_hs !== 123) {
-            // Set a text for a user who is far away from the hs
-            text = <Text><Distance distance={this.state.user.meter_to_hs}/> von der HS entferent</Text>
-        } else if (this.state.user.meter_to_hs === 123) {
-            text = (<Text>Standort deaktiviert!</Text>)
-        } else {
-            // Set default text if the user has not been online yet
-            text = (<Text>Standort unbekannt!</Text>)
-        }
         return (
             <Item stackedLabel style={[styles.item, styles.left]}>
                 <Label>Standort</Label>
@@ -255,40 +241,7 @@ export default class ProfileScreen extends Component {
             <View
                 style={{flex: 1, padding: 25, paddingTop: 15, justifyContent: 'flex-start', alignItems: 'flex-start'}}>
                 <Image style={BaseStyles.backgroundImage} source={require('../../assets/img/bg.png')}/>
-                <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center',}}>
-                    <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center',}}
-                          size={1}>
-                        <Thumbnail large
-                                   source={{uri: 'https://api.adorable.io/avatars/200/' + this.state.user.email + '.png'}}/>
-                    </View>
-                    <View style={[BaseStyles.transparent, {
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'flex-start',
-                        marginLeft: 5,
-                    }]}>
-                        <H3 style={styles.header}>{this.state.user.prename} {this.state.user.lastname}</H3>
-                        <Text>zuletzt online <TimeAgo time={this.state.user.last_time_online}
-                                                      name={'last_online'}/></Text>
-                    </View>
-                </View>
-                <Form>
-                    {!(this.state.user.status === null || this.state.user.status === '') &&
-                    <Item stackedLabel style={[styles.item, styles.left]}>
-                        <Label>Status</Label>
-                        <Text style={styles.left}>{this.state.user.status}</Text>
-                    </Item>
-                    }
-                    {this.renderLocation()}
-                    <Item stackedLabel style={[styles.item, styles.left]}>
-                        <Label>E-Mail</Label>
-                        <Text>{this.state.user.email}</Text>
-                    </Item>
-                    <Item stackedLabel style={[styles.item, styles.left]}>
-                        <Label>Kürzel</Label>
-                        <Text>{this.state.user.hsid}</Text>
-                    </Item>
-                </Form>
+
                 <View style={{marginTop: 10}}>
                     {this.state.user.id === this.store.user.id ? this.renderSettings() : this.renderUserInformations()}
                 </View>
