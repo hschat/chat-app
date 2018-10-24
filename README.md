@@ -47,5 +47,5 @@ Control the used backend via the CHAT_ENDPOINT env variable
 CHAT_ENDPOINT=http://localhost:3030 yarn start
 ```
 
-
+  
  
