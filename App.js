@@ -13,7 +13,7 @@ import {NavigationActions} from 'react-navigation';
 import Location from './Location'
 import Sentry from 'sentry-expo';
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.SENTRY_DSN) {
   Sentry.config(process.env.SENTRY_DSN).install();
 }
 
