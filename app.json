@@ -37,9 +37,9 @@
         {
           "file": "sentry-expo/upload-sourcemaps",
           "config": {
-            "organization": "personal-og",
+            "organization": "hochschule-coburg",
             "project": "hschat-app",
-            "authToken": "cae7937679074354918b66cb46b9434b15fa8ede7e824be3917d5ed4abd1d95d"
+            "authToken": "a2a220bcb3ed46b39d7d2f9a6eb60ede78378aec99e84acb966e4ba684246884"
           }
         }
       ]
