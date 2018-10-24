@@ -8,7 +8,7 @@
     "eject": "expo eject",
     "test": "node node_modules/jest/bin/jest.js --watchAll",
     "lint": "eslint components/ context/ screens/",
-    "appr": "appr"
+    "appr": "appr",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect"
   },
