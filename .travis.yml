@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - "node"
+cache: yarn
+install: yarn
+script:
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then yarn appr; fi'
