@@ -22,12 +22,11 @@ import {
     Thumbnail
 } from "native-base";
 import {StyleSheet, Image, Alert, Dimensions, TouchableOpacity} from 'react-native';
-import {Col, Row, Grid} from 'react-native-easy-grid';
 import TimeAgo from '../../components/TimeAgo';
 import BaseStyles from '../../baseStyles';
-import Location from '../../Location';
 import Distance from '../../components/Distance'
 import ModalInput from '../../components/ModalWithInput'
+import {NavigationActions, SafeAreaView} from 'react-navigation';
 
 
 const styles = StyleSheet.create({
@@ -72,8 +71,8 @@ export default class ProfileScreen extends Component {
         if (navigation.state.hasOwnProperty("params") && navigation.state.params !== undefined) return {};
         return {
             headerLeft: (
-                <Image onPress={() => this.showNewSite()} style={{marginLeft: 20}}
-                       source={require('../../assets/img/settingsWheel.png')}/>
+                <Button onPress={() => navigation.navigate('View')} transparent><Icon
+                    name="ios-settings"/></Button>
             ),
             headerRight: (
                 <Button onPress={screenProps.store.promptForLogout} transparent><Text>Abmelden</Text></Button>
@@ -172,15 +171,6 @@ export default class ProfileScreen extends Component {
         this.setState({showStatusModal: false})
     };
 
-    _checkBoxHandler() {
-        this.setState({checked: !this.state.checked});
-        this.store.locationEnabled = this.state.checked;
-    }
-
-    showNewSite() {
-        //this.props.navigation.navigate(UserSettingsScreen,null,null);
-    }
-
     renderSettings = () => {
         return (
             <View>
@@ -194,18 +184,6 @@ export default class ProfileScreen extends Component {
                     maxLength={99}
                 />
                 <Button transparent danger onPress={this.showModalStatus}><Text>Status ändern</Text></Button>
-                <Content>
-                    <ListItem style={{width: 200}}>
-                        <Body>
-                        <Text>Standort erlauben?</Text>
-                        </Body>
-                        <CheckBox
-                            checked={this.state.checked}
-                            onPress={() => this._checkBoxHandler()}
-                        />
-                    </ListItem>
-                </Content>
-
             </View>
 
         )

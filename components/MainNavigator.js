@@ -17,6 +17,12 @@ const profileNavigator = createStackNavigator({
             headerTitle: 'Profil',
         },
     },
+    View: {
+        screen: UserSettingsScreen,
+        navigationOptions: {
+            headerTitle: 'Einstellungen',
+        }
+    }
 });
 
 const searchNavigator = createStackNavigator({

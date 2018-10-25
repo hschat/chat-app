@@ -22,12 +22,7 @@ import {
     Thumbnail
 } from "native-base";
 import {StyleSheet, Image, Alert, Dimensions, TouchableOpacity} from 'react-native';
-import {Col, Row, Grid} from 'react-native-easy-grid';
-import TimeAgo from '../../components/TimeAgo';
 import BaseStyles from '../../baseStyles';
-import Location from '../../Location';
-import Distance from '../../components/Distance'
-import ModalInput from '../../components/ModalWithInput'
 
 
 const styles = StyleSheet.create({
@@ -65,16 +60,15 @@ const styles = StyleSheet.create({
 });
 
 
-export default class ProfileScreen extends Component {
+export default class UserSettingsScreen extends Component {
 
     static navigationOptions = ({navigation, screenProps}) => {
         // No logout button for other profiles
         if (navigation.state.hasOwnProperty("params") && navigation.state.params !== undefined) return {};
         return {
-
             headerLeft: (
-                <Image onPress={() => this.showNewSite()} style={{marginLeft: 20}}
-                       source={require('../../assets/img/settingsWheel.png')}/>
+                <Button onPress={() => navigation.navigate('Home')} transparent><Icon
+                    name="ios-arrow-back-outline"/></Button>
             ),
             headerRight: (
                 <Button onPress={screenProps.store.promptForLogout} transparent><Text>Abmelden</Text></Button>
@@ -119,82 +113,13 @@ export default class ProfileScreen extends Component {
         }
     }
 
-    updateStatus = (status) => {
-        console.log('neuer status', status);
-        this.store.updateAccount(this.state.user, {status: status}).then((result) => {
-            if (!Array.isArray(result)) this.setState({user: result});
-        }).catch((error) => {
-            console.error(error);
-            this.toastIt('Fehler beim Aktualisieren des Status');
-        });
-        this.setState({showStatusModal: false});
-    };
-
-    toastIt = (text) => {
-        Toast.show({
-            text: text,
-            position: 'top',
-            buttonText: 'ok',
-            type: 'warning',
-            duration: 2000
-        })
-    };
-
-    goToChat = () => {
-        this.store.createChat({
-            participants: [this.state.user.id, this.store.user.id],
-            type: 'personal'
-        }).then((chat) => {
-            if (Array.isArray(chat)) chat = chat[0];
-            // Chatobjekt aufgelöst holen
-            this.store.findChat(chat.id).then(chat => {
-                if (Array.isArray(chat)) chat = chat[0];
-                this.props.navigation.navigate('Chat', {chat: chat});
-            }).catch(error => {
-                console.log(error);
-                Alert.alert('Fehler', `Chat nicht gefunden`, [{
-                    text: 'Ok', onPress: () => {
-                    }, style
-                }]);
-            });
-        }).catch((error) => {
-            console.log(error);
-            Alert.alert('Fehler', `Chat mit ${this.state.user.prename} nicht gefunden`, [{
-                text: 'Ok', onPress: () => {
-                }, style: 'destroy'
-            }]);
-        });
-    };
-
-    showModalStatus = () => {
-        this.setState({showStatusModal: true})
-    };
-    hideModalStatus = () => {
-        this.setState({showStatusModal: false})
-    };
-
     _checkBoxHandler() {
         this.setState({checked: !this.state.checked});
         this.store.locationEnabled = this.state.checked;
     }
-
-    showNewSite() {
-
-    }
-
     renderSettings = () => {
         return (
             <View>
-                <ModalInput
-                    text='Geb deinen neuen Status ein'
-                    placeholder='Status...'
-                    visible={this.state.showStatusModal}
-                    input={this.state.status}
-                    positiv={this.updateStatus}
-                    negativ={this.hideModalStatus}
-                    maxLength={99}
-                />
-                <Button transparent danger onPress={this.showModalStatus}><Text>Status ändern</Text></Button>
                 <Content>
                     <ListItem style={{width: 200}}>
                         <Body>
@@ -210,23 +135,6 @@ export default class ProfileScreen extends Component {
             </View>
 
         )
-    };
-    renderUserInformations = () => {
-        return (
-            <Button transparent danger onPress={this.goToChat}><Text>Nachricht senden</Text></Button>
-        )
-    };
-
-    renderLocation = () => {
-
-        let time = <Text></Text>;
-        let text = <Text></Text>;
-        return (
-            <Item stackedLabel style={[styles.item, styles.left]}>
-                <Label>Standort</Label>
-                <Text>{time} {text}</Text>
-            </Item>)
-
     };
 
     render() {
