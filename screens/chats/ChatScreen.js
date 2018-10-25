@@ -79,6 +79,7 @@ export default class ChatScreen extends React.Component {
                 // Get the messages to the current Chat
                 //console.log('ChatScreen/WillMount', chat);
                 this.store.getMessagesForChat(chat).then((msgs) => {
+                    msgs = msgs.filter(msg => msg.text !== '$$META$$Typing$$');
                     this.setState({messages: msgs, ready: true});
                 });
             } else {
@@ -106,17 +107,45 @@ export default class ChatScreen extends React.Component {
                 let msgs = this.state.messages;
                 console.log('Wat you gona dooo with this he?', createdMessage);
                 createdMessage = ApiStore.formatMessage(createdMessage);
-                this.setState((previousState) => {
-                    return {
-                        messages: GiftedChat.append(previousState.messages, createdMessage)
+
+                if(createdMessage.text === '$$META$$Typing$$'){
+                    console.log("User is typing!!"); 
+
+                    if(createdMessage.user._id !== this.store.user.id) {
+                        console.log("Another user is typing");
+                    } else {
+                        console.log("I am typing");
                     }
-                });
+
+                } else {
+                    this.setState((previousState) => {
+                        return {
+                            messages: GiftedChat.append(previousState.messages, createdMessage)
+                        }
+                    });
+                } 
+
+                
                 //msgs.push(createdMessage);
                 //this.setState({messages: msgs});
                 console.log('Neue Nachricht gepusht!')
             }
         });
     }
+
+    sendTyping = () =>{
+
+        this.store.sendMessage({
+            sender_id: this.store.user.id,
+            chat_id: this.state.chat.id,
+            text: '$$META$$Typing$$'
+        }).then(() => {
+            console.log('Typing wurde gesendet');
+        }).catch((error) => {
+            console.error('ChatScreen, error send msg', error);
+        })
+
+    };
 
     send = (message) => {
 
@@ -144,6 +173,9 @@ export default class ChatScreen extends React.Component {
                 <GiftedChat
                     messages={this.state.messages}
                     onSend={(messages) => this.send(messages)}
+
+                    onInputTextChanged={text => this.sendTyping()}
+
                     renderAvatar={this.state.chat.type === 'group' ? '':null}
                     onPressAvatar={(user) => {
                         this.props.navigation.navigate('View', {id: user._id})
