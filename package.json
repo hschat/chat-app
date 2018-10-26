@@ -34,6 +34,7 @@
     "mobx-react": "^5.3.4",
     "moment": "*",
     "native-base": "*",
+    "node": "^11.0.0",
     "prop-types": "*",
     "react": "^16.5.2",
     "react-native": "~0.55.4",
