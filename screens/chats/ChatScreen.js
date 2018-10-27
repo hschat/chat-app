@@ -108,43 +108,46 @@ export default class ChatScreen extends React.Component {
                 console.log('Wat you gona dooo with this he?', createdMessage);
                 createdMessage = ApiStore.formatMessage(createdMessage);
 
-                if(createdMessage.text === '$$META$$Typing$$'){
-                    console.log("User is typing!!"); 
-
-                    if(createdMessage.user._id !== this.store.user.id) {
-                        console.log("Another user is typing");
-                    } else {
-                        console.log("I am typing");
+                this.setState((previousState) => {
+                    return {
+                        messages: GiftedChat.append(previousState.messages, createdMessage)
                     }
-
-                } else {
-                    this.setState((previousState) => {
-                        return {
-                            messages: GiftedChat.append(previousState.messages, createdMessage)
-                        }
-                    });
-                } 
-
+                });
                 
                 //msgs.push(createdMessage);
                 //this.setState({messages: msgs});
                 console.log('Neue Nachricht gepusht!')
             }
         });
+
+        // Start listening for recieving typing events
+        this.store.app.service('messages').on('typing', typingEvent =>{
+            console.log('typing event recieved', typingEvent);
+
+            if(typingEvent.chat_id === this.state.chat.id){
+
+                typingEvent = ApiStore.formatMessage(typingEvent);
+                console.log('typing event for this chat', typingEvent);
+
+                if(typingEvent.user._id !== this.store.user.id) {
+                    console.log("Another user is typing");
+                } else {
+                    console.log("I am typing");
+                }
+            } //else ignore typing message in this chat
+        });
     }
 
     sendTyping = () =>{
-
         this.store.sendTyping({
             sender_id: this.store.user.id,
             chat_id: this.state.chat.id,
-            text: '$$META$$Typing$$'
+            text: 'Typing'
         }).then(() => {
             console.log('Typing wurde gesendet');
         }).catch((error) => {
             console.error('ChatScreen, error send msg', error);
         })
-
     };
 
     send = (message) => {

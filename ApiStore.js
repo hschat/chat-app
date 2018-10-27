@@ -300,7 +300,8 @@ export default class ApiStore {
             system: true,
         };
         let data = Object.assign(template, message);
-        return this.app.service('messages').create(data);
+
+        return this.app.service('messages').emit('typing', data);
     }
 
     getMessagesForChat(chat) {
