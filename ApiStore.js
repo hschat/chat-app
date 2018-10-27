@@ -283,6 +283,20 @@ export default class ApiStore {
         return this.app.service('messages').create(data);
     }
 
+    sendTyping(message) {
+        let template = {
+            text: undefined,
+            sender_id: undefined,
+            chat_id: undefined,
+            send_date: Date.now(),
+            recieve_date: undefined,
+            read_date: undefined,
+            system: true,
+        };
+        let data = Object.assign(template, message);
+        return this.app.service('messages').create(data);
+    }
+
     getMessagesForChat(chat) {
         return this.app.service('messages').find({query: {chat_id: chat.id, $sort: {send_date: -1}}}).then((msgs) => {
             let m=msgs;
