@@ -135,7 +135,7 @@ export default class ChatScreen extends React.Component {
 
     sendTyping = () =>{
 
-        this.store.sendMessage({
+        this.store.sendTyping({
             sender_id: this.store.user.id,
             chat_id: this.state.chat.id,
             text: '$$META$$Typing$$'
