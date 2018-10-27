@@ -79,7 +79,6 @@ export default class ChatScreen extends React.Component {
                 // Get the messages to the current Chat
                 //console.log('ChatScreen/WillMount', chat);
                 this.store.getMessagesForChat(chat).then((msgs) => {
-                    msgs = msgs.filter(msg => msg.text !== '$$META$$Typing$$');
                     this.setState({messages: msgs, ready: true});
                 });
             } else {
@@ -121,7 +120,13 @@ export default class ChatScreen extends React.Component {
         });
 
         // Start listening for recieving typing events
-        this.store.app.service('messages').on('typing', typingEvent =>{
+
+        /*
+        this.store.app.io.on('typing', typingEvent => {
+            console.log('typing recieved', typingEvent);
+        });*/
+
+        this.store.app.service('messages').on('typing', typingEvent => {
             console.log('typing event recieved', typingEvent);
 
             if(typingEvent.chat_id === this.state.chat.id){
@@ -138,16 +143,21 @@ export default class ChatScreen extends React.Component {
         });
     }
 
-    sendTyping = () =>{
-        this.store.sendTyping({
-            sender_id: this.store.user.id,
-            chat_id: this.state.chat.id,
-            text: 'Typing'
-        }).then(() => {
-            console.log('Typing wurde gesendet');
-        }).catch((error) => {
-            console.error('ChatScreen, error send msg', error);
-        })
+    sendTyping = (text) => {
+        if(text && text !== ''){
+            console.log('Typed: ', text);
+            //if at least one key was typed
+            this.store.sendTyping({
+                sender_id: this.store.user.id,
+                chat_id: this.state.chat.id,
+                text: 'Typing'
+            }).then(() => {
+                console.log('Typing wurde gesendet');
+            }).catch((error) => {
+                console.error('ChatScreen, error send typing', error);
+            });
+        }
+        
     };
 
     send = (message) => {
@@ -177,7 +187,7 @@ export default class ChatScreen extends React.Component {
                     messages={this.state.messages}
                     onSend={(messages) => this.send(messages)}
 
-                    onInputTextChanged={text => this.sendTyping()}
+                    onInputTextChanged={text => this.sendTyping(text)}
 
                     renderAvatar={this.state.chat.type === 'group' ? '':null}
                     onPressAvatar={(user) => {

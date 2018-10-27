@@ -301,7 +301,10 @@ export default class ApiStore {
         };
         let data = Object.assign(template, message);
 
+        console.log('Will emit typing event', data);
+
         return this.app.service('messages').emit('typing', data);
+        //return this.app.io.emit('typing', data);
     }
 
     getMessagesForChat(chat) {
