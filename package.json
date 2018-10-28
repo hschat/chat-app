@@ -52,8 +52,8 @@
     "react-navigation-fluid-transitions": "*",
     "react-redux": "*",
     "sentry-expo": "*",
-    "socket.io-client": "*",
-    "snyk": "^1.104.1"
+    "snyk": "^1.104.1",
+    "socket.io-client": "*"
   },
   "devDependencies": {
     "appr": "^2.0.0",
@@ -63,7 +63,7 @@
     "eslint-plugin-jsx-a11y": "*",
     "eslint-plugin-react": "*",
     "eslint-plugin-react-native": "*",
-    "expo-cli": "*",
+    "expo-cli": "^2.2.4",
     "flow-bin": "^0.83.0",
     "jest-expo": "^30.0.0",
     "react-test-renderer": "*"
