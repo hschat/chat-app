@@ -120,44 +120,34 @@ export default class ChatScreen extends React.Component {
         });
 
         // Start listening for recieving typing events
-
-        /*
-        this.store.app.io.on('typing', typingEvent => {
-            console.log('typing recieved', typingEvent);
-        });*/
-
-        this.store.app.service('messages').on('typing', typingEvent => {
+        this.store.app.service('typing').on('created', typingEvent => {
             console.log('typing event recieved', typingEvent);
-
             if(typingEvent.chat_id === this.state.chat.id){
-
-                typingEvent = ApiStore.formatMessage(typingEvent);
                 console.log('typing event for this chat', typingEvent);
-
-                if(typingEvent.user._id !== this.store.user.id) {
+                if(typingEvent.sender_id !== this.store.user.id) {
                     console.log("Another user is typing");
                 } else {
                     console.log("I am typing");
                 }
             } //else ignore typing message in this chat
+            
         });
     }
 
     sendTyping = (text) => {
         if(text && text !== ''){
-            console.log('Typed: ', text);
             //if at least one key was typed
-            this.store.sendTyping({
+            let data = {
                 sender_id: this.store.user.id,
                 chat_id: this.state.chat.id,
-                text: 'Typing'
-            }).then(() => {
-                console.log('Typing wurde gesendet');
+            };
+            this.store.sendTyping(data)
+            .then(() => {
+                console.log('Typing wurde gesendet:', data);
             }).catch((error) => {
-                console.error('ChatScreen, error send typing', error);
-            });
+                console.error('ChatScreen, error send msg', error);
+            })
         }
-        
     };
 
     send = (message) => {

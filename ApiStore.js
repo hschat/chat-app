@@ -76,6 +76,7 @@ export default class ApiStore {
             console.info('disconnected');
             this.isConnecting = true;
         });
+
     }
 
     createAccount(userData) {
@@ -291,20 +292,14 @@ export default class ApiStore {
 
     sendTyping(message) {
         let template = {
-            text: undefined,
             sender_id: undefined,
             chat_id: undefined,
             send_date: Date.now(),
-            recieve_date: undefined,
-            read_date: undefined,
-            system: true,
         };
         let data = Object.assign(template, message);
 
-        console.log('Will emit typing event', data);
-
-        return this.app.service('messages').emit('typing', data);
-        //return this.app.io.emit('typing', data);
+        console.log('Will emit typing event', data);   
+        return this.app.service('typing').create(data);
     }
 
     getMessagesForChat(chat) {
