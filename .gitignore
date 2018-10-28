@@ -266,3 +266,6 @@ fabric.properties
 .idea/
 
 # End of https://www.gitignore.io/api/reactnative,webstorm+all
+
+*.lock
+.expo/*
