@@ -66,8 +66,15 @@ export default class ChatScreen extends React.Component {
             text: '',
             ready: false,
             messages: [],
+            isTyping: false,
+            typingUser: undefined,
+            
         };
     }
+
+    getState() {
+        return this.state;
+    } 
 
     componentWillMount() {
         if (this.props.navigation.state.hasOwnProperty('params') && this.props.navigation.state.params !== undefined) {
@@ -126,8 +133,13 @@ export default class ChatScreen extends React.Component {
                 console.log('typing event for this chat', typingEvent);
                 if(typingEvent.sender_id !== this.store.user.id) {
                     console.log("Another user is typing");
+                    this.setState({isTyping: true});
+                    this.setState({typingUser: typingEvent});
                 } else {
                     console.log("I am typing");
+                    // For testing: REMOVE LATER $FIXME$
+                    this.setState({isTyping: true});
+                    this.setState({typingUser: typingEvent});
                 }
             } //else ignore typing message in this chat
             
@@ -163,6 +175,14 @@ export default class ChatScreen extends React.Component {
         })
     };
 
+    renderFooter(props) {
+        if(this.state !== undefined && this.state.isTyping){
+            return (<Text>Schreibt...</Text>);
+        } else {
+            return null;
+        } 
+    }
+
 
     render() {
         if (!this.state.ready)
@@ -174,12 +194,12 @@ export default class ChatScreen extends React.Component {
         return (
             <SafeAreaView style={{flex: 1}}>
                 <GiftedChat
+                    state={this.state} 
                     messages={this.state.messages}
                     onSend={(messages) => this.send(messages)}
-
                     onInputTextChanged={text => this.sendTyping(text)}
-
                     renderAvatar={this.state.chat.type === 'group' ? '':null}
+                    renderFooter={this.renderFooter}
                     onPressAvatar={(user) => {
                         this.props.navigation.navigate('View', {id: user._id})
                     }}
