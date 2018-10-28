@@ -11,21 +11,22 @@ import {
     Label,
     Input,
     Form,
+    CheckBox,
     List,
     Body,
     Left,
     Right,
     Spinner,
+    Switch,
     Toast,
     Thumbnail
 } from "native-base";
 import {StyleSheet, Image, Alert, Dimensions, TouchableOpacity} from 'react-native';
-import {Col, Row, Grid} from 'react-native-easy-grid';
 import TimeAgo from '../../components/TimeAgo';
 import BaseStyles from '../../baseStyles';
-import Location from '../../Location';
 import Distance from '../../components/Distance'
 import ModalInput from '../../components/ModalWithInput'
+import {NavigationActions, SafeAreaView} from 'react-navigation';
 
 
 const styles = StyleSheet.create({
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-start',
     },
-    left:{
+    left: {
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
@@ -69,6 +70,10 @@ export default class ProfileScreen extends Component {
         // No logout button for other profiles
         if (navigation.state.hasOwnProperty("params") && navigation.state.params !== undefined) return {};
         return {
+            headerLeft: (
+                <Button onPress={() => navigation.navigate('View')} transparent><Icon
+                    name="ios-settings"/></Button>
+            ),
             headerRight: (
                 <Button onPress={screenProps.store.promptForLogout} transparent><Text>Abmelden</Text></Button>
             )
@@ -82,7 +87,10 @@ export default class ProfileScreen extends Component {
             user: null,
             ready: false,
             status: '',
+            checked: true,
+            location: false,
             showStatusModal: false,
+
         };
         this.store = this.props.screenProps.store;
     }
@@ -112,7 +120,7 @@ export default class ProfileScreen extends Component {
     updateStatus = (status) => {
         console.log('neuer status', status);
         this.store.updateAccount(this.state.user, {status: status}).then((result) => {
-            if(!Array.isArray(result)) this.setState({user: result});
+            if (!Array.isArray(result)) this.setState({user: result});
         }).catch((error) => {
             console.error(error);
             this.toastIt('Fehler beim Aktualisieren des Status');
@@ -177,9 +185,9 @@ export default class ProfileScreen extends Component {
                 />
                 <Button transparent danger onPress={this.showModalStatus}><Text>Status ändern</Text></Button>
             </View>
+
         )
     };
-
     renderUserInformations = () => {
         return (
             <Button transparent danger onPress={this.goToChat}><Text>Nachricht senden</Text></Button>
@@ -190,25 +198,26 @@ export default class ProfileScreen extends Component {
 
         let time = <Text></Text>;
         let text = <Text></Text>;
-        if(this.state.user.location_check_time){
+        if (this.state.user.location_check_time) {
             time = <TimeAgo time={this.state.user.location_check_time} name={'last_location_time'}/>
         }
         if (this.state.user.location_in_hs) {
             // Set a text for a user who were near hs
             text = <Text>An der Hochschule</Text>;
-        } else if (!this.state.user.location_in_hs) {
+        } else if (!this.state.user.location_in_hs && this.state.user.meter_to_hs !== 123) {
             // Set a text for a user who is far away from the hs
             text = <Text><Distance distance={this.state.user.meter_to_hs}/> von der HS entferent</Text>
-        }else{
+        } else if (this.state.user.meter_to_hs === 123) {
+            text = (<Text>Standort deaktiviert!</Text>)
+        } else {
             // Set default text if the user has not been online yet
-            text= (<Text>Standort unbekannt!</Text>)
+            text = (<Text>Standort unbekannt!</Text>)
         }
-
         return (
             <Item stackedLabel style={[styles.item, styles.left]}>
                 <Label>Standort</Label>
                 <Text>{time} {text}</Text>
-             </Item>)
+            </Item>)
 
     };
 
@@ -251,7 +260,7 @@ export default class ProfileScreen extends Component {
                     {this.renderLocation()}
                     <Item stackedLabel style={[styles.item, styles.left]}>
                         <Label>E-Mail</Label>
-                        <Text >{this.state.user.email}</Text>
+                        <Text>{this.state.user.email}</Text>
                     </Item>
                     <Item stackedLabel style={[styles.item, styles.left]}>
                         <Label>Kürzel</Label>
@@ -261,6 +270,7 @@ export default class ProfileScreen extends Component {
                 <View style={{marginTop: 10}}>
                     {this.state.user.id === this.store.user.id ? this.renderSettings() : this.renderUserInformations()}
                 </View>
+
             </View>
         );
     }

@@ -7,7 +7,10 @@
     "start": "expo start",
     "eject": "expo eject",
     "test": "node node_modules/jest/bin/jest.js --watchAll",
-    "lint": "eslint components/ context/ screens/"
+    "lint": "eslint components/ context/ screens/",
+    "appr": "appr",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "jest": {
     "preset": "jest-expo"
@@ -49,9 +52,11 @@
     "react-navigation-fluid-transitions": "*",
     "react-redux": "*",
     "sentry-expo": "*",
-    "socket.io-client": "*"
+    "socket.io-client": "*",
+    "snyk": "^1.104.1"
   },
   "devDependencies": {
+    "appr": "^2.0.0",
     "eslint": "*",
     "eslint-config-airbnb": "*",
     "eslint-plugin-import": "*",
@@ -62,5 +67,6 @@
     "flow-bin": "^0.83.0",
     "jest-expo": "^30.0.0",
     "react-test-renderer": "*"
-  }
+  },
+  "snyk": true
 }
