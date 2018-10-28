@@ -26,7 +26,7 @@
   dependencies:
     "@babel/highlight" "^7.0.0"
 
-"@babel/core@^7.0.0-beta":
+"@babel/core@^7.0.0-beta", "@babel/core@^7.1.2":
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.1.2.tgz#f8d2a9ceb6832887329a7b60f9d035791400ba4e"
   integrity sha512-IFeSSnjXdhDaoysIlev//UzHZbdEmm7D0EIH2qtse9xK7mXEZQpYjs2P00XlP1qYsYvid79p+Zgg6tz1mp6iVw==
@@ -1589,6 +1589,11 @@ babel-plugin-external-helpers@^6.22.0:
   integrity sha1-IoX0iwK9Xe3oUXXK+MYuhq3M76E=
   dependencies:
     babel-runtime "^6.22.0"
+
+babel-plugin-ignite-ignore-reactotron@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-ignite-ignore-reactotron/-/babel-plugin-ignite-ignore-reactotron-0.3.0.tgz#1801b207c7e3de5b3482671ca3cbb75dd4abd29e"
+  integrity sha1-GAGyB8fj3ls0gmcco8u3XdSr0p4=
 
 babel-plugin-istanbul@^4.1.5:
   version "4.1.6"
@@ -8565,7 +8570,7 @@ react-native-vector-icons@4.6.0:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
-react-native@~0.55.4:
+react-native@^0.55.4:
   version "0.55.4"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.55.4.tgz#eecffada3750a928e2ddd07cf11d857ae9751c30"
   integrity sha512-J6U2KeuFIfH0I6kbwymQWe7Yw7AVzPq22tq6z5VmvcYQiKbqKkvjJukgHqR6keRreHjohEaWP5Gi007IGFJdyQ==
