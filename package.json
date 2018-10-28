@@ -30,6 +30,7 @@
     "babel-preset-flow": "^6.23.0",
     "body-parser": "^1.18.3",
     "core-decorators": "^0.20.0",
+    "exp": "^57.2.1",
     "expo": "^30.0.1",
     "feathers-memory": "^2.2.0",
     "lodash": "^4.17.11",
