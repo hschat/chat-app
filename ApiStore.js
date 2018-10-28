@@ -8,7 +8,11 @@ import socketio from '@feathersjs/socketio-client'
 import authentication from '@feathersjs/authentication-client';
 import Location from './Location'
 
+<<<<<<< HEAD
 const API_URL = process.env['CHAT_ENDPOINT'] || "http://192.168.178.61:3030/";
+=======
+const API_URL = process.env['CHAT_ENDPOINT'] || "https://hsc-backend.herokuapp.com";
+>>>>>>> staging
 
 @autobind
 export default class ApiStore {
@@ -18,6 +22,7 @@ export default class ApiStore {
     @observable user = null;
     @observable skip = 0;
     @observable alert = {};
+    @observable locationEnabled = true;
 
     constructor() {
         console.info('API:', API_URL);
@@ -136,6 +141,11 @@ export default class ApiStore {
     }
 
     updateUserStatus = () =>{
+        if(!this.locationEnabled){
+            this.updateAccount(this.user,{location_check_time: null, location_in_hs: false, meter_to_hs: 123}).then(user=>{
+                return Promise.resolve(user);
+            })
+        }
         return this.location.getOnHS().then((loc) =>{
             return this.updateAccount(this.user, {location_check_time: Date.now(), location_in_hs: loc.on_hs, meter_to_hs: loc.distance}).then(user=>{
                 return Promise.resolve(user);
@@ -208,7 +218,7 @@ export default class ApiStore {
     }
 
     /**
-     * Creats a new chat for for the Person
+     * Creates a new chat for for the Person
      * createChat({
      *  owner: this.state.user.id,
      *  recievers: [this.state.res.id]
