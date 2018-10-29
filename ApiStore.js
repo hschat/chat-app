@@ -2,13 +2,13 @@ import {Alert, AsyncStorage} from 'react-native';
 import {observable, action, computed} from 'mobx';
 import {autobind} from 'core-decorators';
 import io from 'socket.io-client';
-import feathers from 'feathers/client'
-import hooks from 'feathers-hooks';
-import socketio from 'feathers-socketio/client'
-import authentication from 'feathers-authentication-client';
+import feathers from '@feathersjs/feathers'
+import hooks from '@feathersjs/feathers';
+import socketio from '@feathersjs/socketio-client'
+import authentication from '@feathersjs/authentication-client';
 import Location from './Location'
 
-const API_URL = process.env['CHAT_ENDPOINT'] || "https://hsc-backend.herokuapp.com";
+const API_URL = process.env['CHAT_ENDPOINT'] || "https://hsc-backend-staging.herokuapp.com";
 
 @autobind
 export default class ApiStore {
@@ -26,7 +26,6 @@ export default class ApiStore {
         const socket = io(API_URL, options);
         this.app = feathers()
             .configure(socketio(socket))
-            .configure(hooks())
             .configure(authentication({
                 storage: AsyncStorage // To store our accessToken
             }));
