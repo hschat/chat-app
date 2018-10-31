@@ -3,7 +3,7 @@
 	"plugins": ["transform-inline-environment-variables"],
 	"env": {
 		"development": {
-			"plugins": ["transform-react-jsx-source"]
+			"plugins": ["transform-react-jsx-source", "ignite-ignore-reactotron"]
 		},
 		"production": {
 			"plugins": ["ignite-ignore-reactotron"]

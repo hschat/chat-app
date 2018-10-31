@@ -6,7 +6,7 @@
   "scripts": {
     "start": "expo start",
     "eject": "expo eject",
-    "test": "node node_modules/jest/bin/jest.js --watchAll",
+    "test": "NODE_ENV=test yarn jest --config ./__tests__/config.js --forceExit",
     "lint": "eslint components/ context/ screens/",
     "appr": "appr",
     "snyk-protect": "snyk protect",
