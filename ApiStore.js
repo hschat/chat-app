@@ -18,7 +18,7 @@ export default class ApiStore {
     @observable user = null;
     @observable skip = 0;
     @observable alert = {};
-    @observable locationEnabled = true;
+    @observable location_is_allowed = true;
 
     constructor() {
         console.info('API:', API_URL);
@@ -137,7 +137,7 @@ export default class ApiStore {
     }
 
     updateUserStatus = () =>{
-        if(!this.locationEnabled){
+        if(!this.location_is_allowed){
             this.updateAccount(this.user,{location_check_time: null, location_in_hs: false, meter_to_hs: 123}).then(user=>{
                 return Promise.resolve(user);
             })

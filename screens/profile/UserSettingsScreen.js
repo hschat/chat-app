@@ -115,7 +115,8 @@ export default class UserSettingsScreen extends Component {
 
     _checkBoxHandler() {
         this.setState({checked: !this.state.checked});
-        this.store.locationEnabled = this.state.checked;
+        this.store.location_is_allowed = this.state.checked;
+        this.app.service('users').patch(this.store.user.id, {location_is_allowed: this.state.checked});
     }
     renderSettings = () => {
         return (
