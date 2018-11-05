@@ -3,6 +3,7 @@ import { TouchableWithoutFeedback, Keyboard, Image } from 'react-native';
 import {
   Container, Text, Button, Content,
 } from 'native-base';
+import i18n from '../../translation/i18n'
 
 const baseStyles = require('../../baseStyles');
 
@@ -13,6 +14,9 @@ export default class LaunchScreen extends React.Component {
   }
 
   render() {
+    //die folgende Codezeile muss in die Einstellung übernommen werden, hier lediglich zum Test
+    //Wechsel auf Deutsch, wenn nicht angeben ist Englisch die Default-Sprache
+    //i18n.changeLanguage('de');
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>
@@ -21,10 +25,10 @@ export default class LaunchScreen extends React.Component {
 
 
             <Button style={baseStyles.redButton} block onPress={() => this.props.navigation.navigate('Signup')}>
-              <Text style={baseStyles.redButtonText}>Registrieren</Text>
+              <Text style={baseStyles.redButtonText}>{i18n.t('LaunchScreen-SignUp')}</Text>
             </Button>
             <Button style={baseStyles.redButton} block onPress={() => this.props.navigation.navigate('Login')}>
-              <Text style={baseStyles.redButtonText}>Anmelden</Text>
+              <Text style={baseStyles.redButtonText}>{i18n.t('LaunchScreen-SignIn')}</Text>
             </Button>
           </Content>
         </Container>
