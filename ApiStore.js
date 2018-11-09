@@ -7,6 +7,8 @@ import hooks from '@feathersjs/feathers';
 import socketio from '@feathersjs/socketio-client'
 import authentication from '@feathersjs/authentication-client';
 import Location from './Location'
+import React, {Component} from 'react'
+import {AppState, Text} from 'react-native'
 
 const API_URL = process.env['CHAT_ENDPOINT'] || "https://hsc-backend-staging.herokuapp.com";
 
@@ -56,6 +58,18 @@ export default class ApiStore {
         if (this.app.get('accessToken')) {
             this.isAuthenticated = this.app.get('accessToken') !== null;
         }
+
+        // To handle background / foreground / close events
+        AppState.addEventListener('change', state => {
+            if (state === 'active') {
+                this.setOnline();
+            } else if (state === 'background') {
+                this.setOffline();
+            } else if (state === 'inactive') { 
+                // inactive is only used in iOs, not Android
+                this.setOffline();
+            }
+          });
     }
 
     connect() {
@@ -84,6 +98,19 @@ export default class ApiStore {
         });
     }
 
+    setOnline() {
+        if(this.user) {
+            this.updateAccount(this.user, {last_time_online: Date.now(), isOnline: true});
+        } 
+        
+    } 
+
+    setOffline() {
+        if(this.user) {
+            this.updateAccount(this.user, {last_time_online: Date.now(), isOnline: false});
+        } 
+    } 
+
     updateAccount(user, obj) {
         return this.app.service('users').patch(user.id, obj);
     }
@@ -95,8 +122,8 @@ export default class ApiStore {
             console.info('authenticated successfully', user.id, user.email);
             this.user = user;
             this.isAuthenticated = true;
-            // Set last time Online
-            this.updateAccount(this.user, {last_time_online: Date.now()});
+            // Set last time Online and online
+            this.setOnline();
             //Update location
             return this.updateUserStatus()
             //return Promise.resolve(user);
@@ -130,6 +157,8 @@ export default class ApiStore {
     }
 
     logout() {
+        // Set last time Online and online
+        this.setOffline();
         this.app.logout();
         this.skip = 0;
         this.messages = [];
