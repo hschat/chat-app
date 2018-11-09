@@ -148,16 +148,13 @@ export default class ChatScreen extends React.Component {
         this.store.app.service('typing').on('created', typingEvent => {
             console.log('typing event recieved', typingEvent);
             if(typingEvent.chat_id === this.state.chat.id){
-                console.log('typing event for this chat', typingEvent);
                 if(typingEvent.sender_id !== this.store.user.id) {
-                    console.log("Another user is typing");
                     this.setState({isTyping: true, typingUser: typingEvent});
                     this.handleNewTyping();
-                } else {
-                    console.log("I am typing");
+                } else { // I am typing
                     // For testing: REMOVE LATER $FIXME$
-                    this.setState({isTyping: true, typingUser: typingEvent});
-                    this.handleNewTyping();
+                    //this.setState({isTyping: true, typingUser: typingEvent});
+                    //this.handleNewTyping();
                 }
             } //else ignore typing message in this chat
             
@@ -208,12 +205,12 @@ export default class ChatScreen extends React.Component {
             // Group chat
             if(this.state.isTyping){
                 var user = this.state.participants.filter( (user) => user.id === this.state.typingUser.sender_id)[0];
-                return (<Text>{user.prename} schreibt...</Text>);
+                return (<Text style={{color: '#E00034'}}>{user.prename} schreibt...</Text>);
             } 
         } else {
             // 2 people chat
             if(this.state.isTyping){
-                return (<Text>Schreibt...</Text>);
+                return (<Text style={{color: '#E00034'}}>Schreibt...</Text>);
             } else {
                 var user = this.state.participants.filter( (user) => user.id !== this.store.user.id)[0];
                 if(user.isOnline){
