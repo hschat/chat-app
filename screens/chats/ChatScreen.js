@@ -93,7 +93,6 @@ export default class ChatScreen extends React.Component {
                 // get all participants for this chat
                 this.store.getUsersForChat(chat).then((users) => {
                     this.setState({participants: users[0].participants});
-                    this.evaluateChatInformation();
                 });
 
             } else {
