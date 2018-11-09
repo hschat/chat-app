@@ -24,7 +24,6 @@ import {
 import {StyleSheet, Image, Alert, Dimensions, TouchableOpacity} from 'react-native';
 import TimeAgo from '../../components/TimeAgo';
 import BaseStyles from '../../baseStyles';
-import Location from '../../Location';
 import Distance from '../../components/Distance'
 import ModalInput from '../../components/ModalWithInput'
 import {NavigationActions, SafeAreaView} from 'react-navigation';
@@ -186,9 +185,9 @@ export default class ProfileScreen extends Component {
                 />
                 <Button transparent danger onPress={this.showModalStatus}><Text>Status ändern</Text></Button>
             </View>
+
         )
     };
-
     renderUserInformations = () => {
         return (
             <Button transparent danger onPress={this.goToChat}><Text>Nachricht senden</Text></Button>

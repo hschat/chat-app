@@ -2,13 +2,15 @@ import {Alert, AsyncStorage} from 'react-native';
 import {observable, action, computed} from 'mobx';
 import {autobind} from 'core-decorators';
 import io from 'socket.io-client';
-import feathers from 'feathers/client'
-import hooks from 'feathers-hooks';
-import socketio from 'feathers-socketio/client'
-import authentication from 'feathers-authentication-client';
+import feathers from '@feathersjs/feathers'
+import hooks from '@feathersjs/feathers';
+import socketio from '@feathersjs/socketio-client'
+import authentication from '@feathersjs/authentication-client';
 import Location from './Location'
+import React, {Component} from 'react'
+import {AppState, Text} from 'react-native'
 
-const API_URL = process.env['CHAT_ENDPOINT'] || "http://hsc-backend.herokuapp.com";
+const API_URL = process.env['CHAT_ENDPOINT'] || "https://hsc-backend-staging.herokuapp.com";
 
 @autobind
 export default class ApiStore {
@@ -26,7 +28,6 @@ export default class ApiStore {
         const socket = io(API_URL, options);
         this.app = feathers()
             .configure(socketio(socket))
-            .configure(hooks())
             .configure(authentication({
                 storage: AsyncStorage // To store our accessToken
             }));
@@ -57,6 +58,18 @@ export default class ApiStore {
         if (this.app.get('accessToken')) {
             this.isAuthenticated = this.app.get('accessToken') !== null;
         }
+
+        // To handle background / foreground / close events
+        AppState.addEventListener('change', state => {
+            if (state === 'active') {
+                this.setOnline();
+            } else if (state === 'background') {
+                this.setOffline();
+            } else if (state === 'inactive') { 
+                // inactive is only used in iOs, not Android
+                this.setOffline();
+            }
+          });
     }
 
     connect() {
@@ -76,6 +89,7 @@ export default class ApiStore {
             console.info('disconnected');
             this.isConnecting = true;
         });
+
     }
 
     createAccount(userData) {
@@ -83,6 +97,19 @@ export default class ApiStore {
             return this.authenticate({email: userData.email, password: userData.password, strategy: 'local'})
         });
     }
+
+    setOnline() {
+        if(this.user) {
+            this.updateAccount(this.user, {last_time_online: Date.now(), isOnline: true});
+        } 
+        
+    } 
+
+    setOffline() {
+        if(this.user) {
+            this.updateAccount(this.user, {last_time_online: Date.now(), isOnline: false});
+        } 
+    } 
 
     updateAccount(user, obj) {
         return this.app.service('users').patch(user.id, obj);
@@ -95,8 +122,8 @@ export default class ApiStore {
             console.info('authenticated successfully', user.id, user.email);
             this.user = user;
             this.isAuthenticated = true;
-            // Set last time Online
-            this.updateAccount(this.user, {last_time_online: Date.now()});
+            // Set last time Online and online
+            this.setOnline();
             //Update location
             return this.updateUserStatus()
             //return Promise.resolve(user);
@@ -130,6 +157,8 @@ export default class ApiStore {
     }
 
     logout() {
+        // Set last time Online and online
+        this.setOffline();
         this.app.logout();
         this.skip = 0;
         this.messages = [];
@@ -289,6 +318,18 @@ export default class ApiStore {
         return this.app.service('messages').create(data);
     }
 
+    sendTyping(message) {
+        let template = {
+            sender_id: undefined,
+            chat_id: undefined,
+            send_date: Date.now(),
+        };
+        let data = Object.assign(template, message);
+
+        console.log('Will emit typing event', data);   
+        return this.app.service('typing').create(data);
+    }
+
     getMessagesForChat(chat) {
         return this.app.service('messages').find({query: {chat_id: chat.id, $sort: {send_date: -1}}}).then((msgs) => {
             let m=msgs;
@@ -299,6 +340,21 @@ export default class ApiStore {
             return m;
         });
     }
+
+    getUsersForChat(chat) {
+        return this.app.service('chats').find({
+            query: {
+                id: chat.id,
+                $select: [ 'participants' ]
+            }
+        });
+        /*.then((participants) => {
+            return new Promise.resolve(participants);
+        }).catch(e => {
+            console.error('ApiStore/getUsersForChat', e)
+        });*/
+
+    } 
 
     getLastMessageForChat(chat) {
         return this.app.service('messages').find({
