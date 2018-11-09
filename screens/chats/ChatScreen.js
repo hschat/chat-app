@@ -63,6 +63,7 @@ export default class ChatScreen extends React.Component {
         this.state = {
             user: null,
             chat: null,
+            participants: null,
             text: '',
             ready: false,
             messages: [],
@@ -88,6 +89,13 @@ export default class ChatScreen extends React.Component {
                 this.store.getMessagesForChat(chat).then((msgs) => {
                     this.setState({messages: msgs, ready: true});
                 });
+
+                // get all participants for this chat
+                this.store.getUsersForChat(chat).then((users) => {
+                    this.setState({participants: users[0].participants});
+                    this.evaluateChatInformation();
+                });
+
             } else {
                 Alert.alert('Fehler', 'Chat nicht gefunden', [{
                     text: 'Fehler!', onPress: () => {
@@ -175,14 +183,30 @@ export default class ChatScreen extends React.Component {
         })
     };
 
-    renderFooter(props) {
-        if(this.state !== undefined && this.state.isTyping){
-            return (<Text>Schreibt...</Text>);
-        } else {
-            return null;
-        } 
-    }
+    // either returns "Schreibt..." or "PrenameXY schreibt..." or "Zuletzt online: Date" or "Online" or nothing
+    evaluateChatInformation(props){
+        if(this.state === undefined) return null;
 
+        if(this.state.participants.length > 2){
+            // Group chat
+            if(this.state.isTyping){
+                var user = this.state.participants.filter( (user) => user.id === this.state.typingUser.sender_id)[0];
+                return (<Text>{user.prename} schreibt...</Text>);
+            } 
+        } else {
+            // 2 people chat
+            if(this.state.isTyping){
+                return (<Text>Schreibt...</Text>);
+            } else {
+                var user = this.state.participants.filter( (user) => user.id !== this.store.user.id)[0];
+                if(user.isOnline){
+                    return (<Text>Online</Text>);
+                } else if(user.last_time_online){
+                    return (<Text>Zuletzt online: <TimeAgo time={user.last_time_online} name={'last_online'}/></Text>);
+                } else return null; // not online
+            } 
+        } 
+    } 
 
     render() {
         if (!this.state.ready)
@@ -195,11 +219,12 @@ export default class ChatScreen extends React.Component {
             <SafeAreaView style={{flex: 1}}>
                 <GiftedChat
                     state={this.state} 
+                    store={this.store} 
                     messages={this.state.messages}
                     onSend={(messages) => this.send(messages)}
                     onInputTextChanged={text => this.sendTyping(text)}
                     renderAvatar={this.state.chat.type === 'group' ? '':null}
-                    renderFooter={this.renderFooter}
+                    renderFooter={this.evaluateChatInformation}
                     onPressAvatar={(user) => {
                         this.props.navigation.navigate('View', {id: user._id})
                     }}

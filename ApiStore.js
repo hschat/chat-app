@@ -341,6 +341,21 @@ export default class ApiStore {
         });
     }
 
+    getUsersForChat(chat) {
+        return this.app.service('chats').find({
+            query: {
+                id: chat.id,
+                $select: [ 'participants' ]
+            }
+        });
+        /*.then((participants) => {
+            return new Promise.resolve(participants);
+        }).catch(e => {
+            console.error('ApiStore/getUsersForChat', e)
+        });*/
+
+    } 
+
     getLastMessageForChat(chat) {
         return this.app.service('messages').find({
             query: {
