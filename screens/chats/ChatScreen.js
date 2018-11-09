@@ -69,12 +69,20 @@ export default class ChatScreen extends React.Component {
             messages: [],
             isTyping: false,
             typingUser: undefined,
-            
         };
+        this.typingTimer = null;
     }
 
     getState() {
         return this.state;
+    } 
+
+    updateParticipants(chat){
+        if(! chat ) return;
+
+        this.store.getUsersForChat(chat).then((users) => {
+            this.setState({participants: users[0].participants});
+        });
     } 
 
     componentWillMount() {
@@ -91,9 +99,12 @@ export default class ChatScreen extends React.Component {
                 });
 
                 // get all participants for this chat
-                this.store.getUsersForChat(chat).then((users) => {
-                    this.setState({participants: users[0].participants});
-                });
+                this.updateParticipants(chat);
+
+                // update online / last online every 5 seconds
+                setInterval(() => {
+                    this.updateParticipants(chat);
+                }, 5000);
 
             } else {
                 Alert.alert('Fehler', 'Chat nicht gefunden', [{
@@ -140,18 +151,25 @@ export default class ChatScreen extends React.Component {
                 console.log('typing event for this chat', typingEvent);
                 if(typingEvent.sender_id !== this.store.user.id) {
                     console.log("Another user is typing");
-                    this.setState({isTyping: true});
-                    this.setState({typingUser: typingEvent});
+                    this.setState({isTyping: true, typingUser: typingEvent});
+                    this.handleNewTyping();
                 } else {
                     console.log("I am typing");
                     // For testing: REMOVE LATER $FIXME$
-                    this.setState({isTyping: true});
-                    this.setState({typingUser: typingEvent});
+                    this.setState({isTyping: true, typingUser: typingEvent});
+                    this.handleNewTyping();
                 }
             } //else ignore typing message in this chat
             
         });
     }
+
+    handleNewTyping() {
+        if(this.typingTimer) {
+            clearTimeout(this.typingTimer);
+        } 
+        this.typingTimer = setTimeout(() => this.setState({isTyping: false, typingUser: null}), 5000);
+    } 
 
     sendTyping = (text) => {
         if(text && text !== ''){
@@ -184,7 +202,7 @@ export default class ChatScreen extends React.Component {
 
     // either returns "Schreibt..." or "PrenameXY schreibt..." or "Zuletzt online: Date" or "Online" or nothing
     evaluateChatInformation(props){
-        if(this.state === undefined) return null;
+        if(this.state === undefined || ! this.state.participants) return null;
 
         if(this.state.participants.length > 2){
             // Group chat
