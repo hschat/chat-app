@@ -21,8 +21,8 @@ const profileNavigator = createStackNavigator({
         screen: UserSettingsScreen,
         navigationOptions: {
             headerTitle: 'Einstellungen',
-        }
-    }
+        },
+    },
 });
 
 const searchNavigator = createStackNavigator({

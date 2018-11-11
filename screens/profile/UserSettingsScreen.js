@@ -16,13 +16,18 @@ import {
     Body,
     Left,
     Right,
+    Picker,
     Spinner,
     Switch,
     Toast,
     Thumbnail
 } from "native-base";
 import {StyleSheet, Image, Alert, Dimensions, TouchableOpacity} from 'react-native';
+import TimeAgo from '../../components/TimeAgo';
 import BaseStyles from '../../baseStyles';
+import Location from '../../Location';
+import Distance from '../../components/Distance'
+
 
 
 const styles = StyleSheet.create({
@@ -83,6 +88,7 @@ export default class UserSettingsScreen extends Component {
             user: null,
             ready: false,
             status: '',
+            selected: undefined,
             checked: true,
             location: false,
             showStatusModal: false,
@@ -117,6 +123,13 @@ export default class UserSettingsScreen extends Component {
         this.setState({checked: !this.state.checked});
         this.store.locationEnabled = this.state.checked;
     }
+
+  onValueChange(value: string) {
+    this.setState({
+      selected: value
+    });
+  }
+
     renderSettings = () => {
         return (
             <View>
@@ -130,6 +143,24 @@ export default class UserSettingsScreen extends Component {
                             onPress={() => this._checkBoxHandler()}
                         />
                     </ListItem>
+
+                  <Form>
+                    <Label>Sprache auswählen:</Label>
+                    <Picker
+                      mode="dropdown"
+                      iosIcon={<Icon name="ios-arrow-down-outline" />}
+                      placeholder="Wähle deine Sprache aus..."
+                      placeholderStyle={{ color: "#5267ea" }}
+                      placeholderIconColor="#007aff"
+                      selectedValue={this.state.selected}
+                      onValueChange={this.onValueChange.bind(this)}
+                    >
+                      <Picker.Item label="Deutsch" value="de" />
+                      <Picker.Item label="Englisch" value="en" />
+                      <Picker.Item label="Spanisch" value="es" />
+                      <Picker.Item label="JavaScriptLul" value="js" />
+                    </Picker>
+                  </Form>
                 </Content>
 
             </View>
