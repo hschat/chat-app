@@ -8,7 +8,7 @@ import socketio from '@feathersjs/socketio-client'
 import authentication from '@feathersjs/authentication-client';
 import Location from './Location'
 
-const API_URL = process.env['CHAT_ENDPOINT'] || "https://hsc-backend-staging.herokuapp.com";
+const API_URL = process.env['CHAT_ENDPOINT'] || "http://192.168.178.61:3030";
 
 @autobind
 export default class ApiStore {

@@ -1,3 +1,4 @@
+//Auf dieser Seite ist sehr viel überflüssiger Code, der eigentlich verworfen werden kann
 import React, {Component} from 'react';
 import {
     Text,
@@ -84,7 +85,7 @@ export default class UserSettingsScreen extends Component {
             ready: false,
             status: '',
             checked: true,
-            location: false,
+            location_is_allowed: null,
             showStatusModal: false,
 
         };
@@ -115,8 +116,8 @@ export default class UserSettingsScreen extends Component {
 
     _checkBoxHandler() {
         this.setState({checked: !this.state.checked});
-        this.store.location_is_allowed = this.state.checked;
-        this.app.service('users').patch(this.store.user.id, {location_is_allowed: this.state.checked});
+        this.setState({location_is_allowed: this.state.checked});
+        console.log(this.state.checked);
     }
     renderSettings = () => {
         return (
