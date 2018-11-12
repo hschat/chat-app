@@ -86,6 +86,7 @@ export default class UserSettingsScreen extends Component {
             checked: true,
             location: false,
             showStatusModal: false,
+            location_is_allowed: false,
 
         };
         this.store = this.props.screenProps.store;
@@ -110,12 +111,16 @@ export default class UserSettingsScreen extends Component {
             }
         } else {
             this.setState({user: this.store.user, ready: true})
+            //this.setState({location_is_allowed: this.store.getUserInformation(this.store.user.id).toString()})
+            //console.log(this.store.getUserInformation(this.store.user.id));
         }
     }
 
     _checkBoxHandler() {
         this.setState({checked: !this.state.checked});
-        this.store.locationEnabled = this.state.checked;
+        this.setState({location_is_allowed: !this.state.checked});
+        this.store.app.service('users').patch(this.store.user.id, {location_is_allowed: !this.state.checked});
+        console.log(this.store.app.service('users').get(this.store.user.id));
     }
     renderSettings = () => {
         return (
@@ -126,7 +131,9 @@ export default class UserSettingsScreen extends Component {
                         <Text>Standort erlauben?</Text>
                         </Body>
                         <CheckBox
-                            checked={this.state.checked}
+                            checked={
+                                this.state.checked
+                            }
                             onPress={() => this._checkBoxHandler()}
                         />
                     </ListItem>
