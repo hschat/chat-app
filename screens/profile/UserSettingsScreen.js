@@ -86,7 +86,7 @@ export default class UserSettingsScreen extends Component {
             checked: true,
             location: false,
             showStatusModal: false,
-            location_is_allowed: false,
+            location_is_allowed: true,
 
         };
         this.store = this.props.screenProps.store;
@@ -112,15 +112,21 @@ export default class UserSettingsScreen extends Component {
         } else {
             this.setState({user: this.store.user, ready: true})
             //this.setState({location_is_allowed: this.store.getUserInformation(this.store.user.id).toString()})
-            //console.log(this.store.getUserInformation(this.store.user.id));
+            //console.log(this.store.getUserInformation(this.store.user.id).);
         }
     }
 
     _checkBoxHandler() {
-        this.setState({checked: !this.state.checked});
-        this.setState({location_is_allowed: !this.state.checked});
-        this.store.app.service('users').patch(this.store.user.id, {location_is_allowed: !this.state.checked});
-        console.log(this.store.app.service('users').get(this.store.user.id));
+        //.setState is not updating the value instantly, therefore both times it has to be negated
+        this.setState({location_is_allowed: !this.state.location_is_allowed});
+        this.store.updateAccount(this.store.user, {location_is_allowed: !this.state.location_is_allowed
+        }).catch((error) => {
+            console.error(error);
+            //this.toastIt('Fehler beim Aktualiseren der Standorteinstellung');
+        });
+        console.log(this.store.user.id);
+        console.log('state: ' + this.state.location_is_allowed);
+        console.log('store: ' + this.store.user.location_is_allowed);
     }
     renderSettings = () => {
         return (
@@ -132,7 +138,7 @@ export default class UserSettingsScreen extends Component {
                         </Body>
                         <CheckBox
                             checked={
-                                this.state.checked
+                                this.state.location_is_allowed
                             }
                             onPress={() => this._checkBoxHandler()}
                         />
