@@ -118,24 +118,26 @@ export default class UserSettingsScreen extends Component {
 
     _checkBoxHandler() {
         //.setState is not updating the value instantly, therefore both times it has to be negated
-        this.store.app.service('users').patch(this.store.user.id, {location_is_allowed: this.state.location_is_allowed}).then(
+        /*this.setState({ location_is_allowed: !this.state.location_is_allowed });
+        this.store.app.service('users').patch(this.store.user.id, {location_is_allowed: !this.state.location_is_allowed}).then(
             user => console.log(JSON.stringify(this.store.user))
         ).catch((error) => {
             console.error(error);
-        });
-        /*this.setState({ location_is_allowed: !this.state.location_is_allowed },() => {
+        });*/
+        this.setState({ location_is_allowed: !this.state.location_is_allowed },() => {
             this.store.updateAccount(this.store.user, {
-                location_is_allowed: !this.state.location_is_allowed
+                location_is_allowed: this.state.location_is_allowed
             }).then(() => {
                 this.store.getUserInformation(this.store.user.id).then(user => 
                     console.log(JSON.stringify(this.store.user)));
                 console.log('state: ' + this.state.location_is_allowed);
                 console.log('store: ' + this.store.user.location_is_allowed);
+                console.log('store:2 ' + !this.store.user.location_is_allowed);
             }).catch((error) => {
                 console.error(error);
                 //this.toastIt('Fehler beim Aktualiseren der Standorteinstellung');
             });
-        });*/
+        });
     }
 
     renderSettings = () => {
