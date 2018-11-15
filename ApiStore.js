@@ -88,6 +88,10 @@ export default class ApiStore {
         return this.app.service('users').patch(user.id, obj);
     }
 
+    updateAccountPlus(user, obj){
+        this.user = user;
+        return this.app.service('users').patch(user.id, obj);
+    }
 
     authenticate(options) {
         options = options ? options : undefined;

@@ -79,6 +79,8 @@ export default class UserSettingsScreen extends Component {
     constructor(props) {
         super(props);
 
+        this.store = this.props.screenProps.store;
+        
         this.state = {
             user: null,
             ready: false,
@@ -86,10 +88,8 @@ export default class UserSettingsScreen extends Component {
             checked: true,
             location: false,
             showStatusModal: false,
-            location_is_allowed: true,
-
+            location_is_allowed: null,
         };
-        this.store = this.props.screenProps.store;
     }
 
     componentDidMount() {
@@ -102,43 +102,40 @@ export default class UserSettingsScreen extends Component {
                 this.store.getUserInformation(id).then(user => {
                     this.setState({user: user, ready: true});
                 }).catch(error => {
-                    this.setState({user: this.store.user, ready: false});
+                    this.setState({user: this.store.user, ready: false}, () => {
+                        this.setState({location_is_allowed: this.store.user.location_is_allowed});
+                    });
                     Alert.alert('Fehler', 'Benutzer nicht gefunden');
                 });
 
             } else {
-                this.setState({user: this.store.user, ready: true})
+                this.setState({user: this.store.user, ready: true}, () => {
+                    this.setState({location_is_allowed: this.store.user.location_is_allowed});
+                });
             }
         } else {
-            this.setState({user: this.store.user, ready: true})
-            //this.setState({location_is_allowed: this.store.getUserInformation(this.store.user.id).toString()})
-            //console.log(this.store.getUserInformation(this.store.user.id).);
+            this.setState({user: this.store.user, ready: true}, () => {
+                this.setState({location_is_allowed: this.store.user.location_is_allowed});
+            });
         }
     }
 
     _checkBoxHandler() {
-        //.setState is not updating the value instantly, therefore both times it has to be negated
-        this.setState({ location_is_allowed: !this.state.location_is_allowed });
-        console.log(this.state.location_is_allowed);
-        this.store.app.service('users').patch(this.store.user.id, {location_is_allowed: !this.state.location_is_allowed}).then(
-            user => console.log(JSON.stringify(this.store.user))
-        ).catch((error) => {
-            console.error(error);
-        });
-        /*this.setState({ location_is_allowed: !this.state.location_is_allowed },() => {
-            this.store.updateAccount(this.store.user, {
+        this.setState({ location_is_allowed: !this.state.location_is_allowed },() => {
+            this.store.updateAccountPlus(this.store.user, {
                 location_is_allowed: this.state.location_is_allowed
             }).then(() => {
                 this.store.getUserInformation(this.store.user.id).then(user => 
                     console.log(JSON.stringify(this.store.user)));
+                this.store.user.location_is_allowed = this.state.location_is_allowed;
+                this.state.user.location_is_allowed;
                 console.log('state: ' + this.state.location_is_allowed);
                 console.log('store: ' + this.store.user.location_is_allowed);
-                console.log('store:2 ' + !this.store.user.location_is_allowed);
+                console.log('state.user: ' + this.state.user.location_is_allowed);
             }).catch((error) => {
                 console.error(error);
-                //this.toastIt('Fehler beim Aktualiseren der Standorteinstellung');
             });
-        });*/
+        });
     }
 
     renderSettings = () => {
