@@ -109,6 +109,7 @@ export default class UserSettingsScreen extends Component {
                 });
 
             } else {
+                //after setting user, updating location_is_allowed based on store.user values
                 this.setState({user: this.store.user, ready: true}, () => {
                     this.setState({location_is_allowed: this.store.user.location_is_allowed});
                 });
@@ -120,18 +121,15 @@ export default class UserSettingsScreen extends Component {
         }
     }
 
+
+    //set all states and stores of location_is_allowed and update them
     _checkBoxHandler() {
         this.setState({ location_is_allowed: !this.state.location_is_allowed },() => {
             this.store.updateAccountPlus(this.store.user, {
                 location_is_allowed: this.state.location_is_allowed
             }).then(() => {
-                this.store.getUserInformation(this.store.user.id).then(user => 
-                    console.log(JSON.stringify(this.store.user)));
                 this.store.user.location_is_allowed = this.state.location_is_allowed;
-                this.state.user.location_is_allowed;
-                console.log('state: ' + this.state.location_is_allowed);
-                console.log('store: ' + this.store.user.location_is_allowed);
-                console.log('state.user: ' + this.state.user.location_is_allowed);
+                this.state.user.location_is_allowed = this.state.location_is_allowed;
             }).catch((error) => {
                 console.error(error);
             });
