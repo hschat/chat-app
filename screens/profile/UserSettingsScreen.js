@@ -22,11 +22,13 @@ import {
     Toast,
     Thumbnail
 } from "native-base";
-import {StyleSheet, Image, Alert, Dimensions, TouchableOpacity} from 'react-native';
+import {StyleSheet, Image, Alert, Dimensions, TouchableOpacity, AsyncStorage} from 'react-native';
 import TimeAgo from '../../components/TimeAgo';
 import BaseStyles from '../../baseStyles';
 import Location from '../../Location';
 import Distance from '../../components/Distance'
+import i18n from '../../translation/i18n'
+
 
 
 
@@ -124,7 +126,11 @@ export default class UserSettingsScreen extends Component {
         this.store.locationEnabled = this.state.checked;
     }
 
-  onValueChange(value: string) {
+    
+
+  onValueChange(value) {
+    AsyncStorage.setItem('currLang', value);
+    i18n.changeLanguage(value);
     this.setState({
       selected: value
     });
@@ -136,7 +142,7 @@ export default class UserSettingsScreen extends Component {
                 <Content>
                     <ListItem style={{width: 200}}>
                         <Body>
-                        <Text>Standort erlauben?</Text>
+                        <Text>{i18n.t('UserSettingsScreen-LocationLabel')}</Text>
                         </Body>
                         <CheckBox
                             checked={this.state.checked}
@@ -145,7 +151,7 @@ export default class UserSettingsScreen extends Component {
                     </ListItem>
 
                   <Form>
-                    <Label>Sprache auswählen:</Label>
+                    <Label>{i18n.t('UserSettingsScreen-LanguageLabel')}</Label>
                     <Picker
                       mode="dropdown"
                       iosIcon={<Icon name="ios-arrow-down-outline" />}
@@ -158,7 +164,7 @@ export default class UserSettingsScreen extends Component {
                       <Picker.Item label="Deutsch" value="de" />
                       <Picker.Item label="Englisch" value="en" />
                       <Picker.Item label="Spanisch" value="es" />
-                      <Picker.Item label="JavaScriptLul" value="js" />
+                      <Picker.Item label="Russisch" value="ru" />
                     </Picker>
                   </Form>
                 </Content>

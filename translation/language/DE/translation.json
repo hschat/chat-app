@@ -23,5 +23,7 @@
     "SignupScreen-ErrorPasswordRepeat": "Passwörter müssen übereinstimmen!",
     "SignupScreen-Error": "Fehler",
     "SignupScreen-ErrorFillAllField": "Bitte alle Felder richtig ausfüllen!",
-    "SignupScreen-ErrorRegistration": "Die Registrierung ist fehlgeschlagen."
+    "SignupScreen-ErrorRegistration": "Die Registrierung ist fehlgeschlagen.",
+    "UserSettingsScreen-LocationLabel": "Standort erlauben?",
+    "UserSettingsScreen-LanguageLabel": "Sprache auswählen:"
 }

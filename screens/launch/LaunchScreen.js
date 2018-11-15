@@ -1,9 +1,9 @@
 import React from 'react';
-import { TouchableWithoutFeedback, Keyboard, Image } from 'react-native';
+import { TouchableWithoutFeedback, Keyboard, Image, AsyncStorage } from 'react-native';
 import {
   Container, Text, Button, Content,
 } from 'native-base';
-import i18n from '../../translation/i18n'
+import i18n from '../../translation/i18n';
 
 const baseStyles = require('../../baseStyles');
 
@@ -11,12 +11,16 @@ export default class LaunchScreen extends React.Component {
   constructor(props) {
     super(props);
     this.store = this.props.screenProps.store;
+    this.state = {
+      language : 'en',
+    };
   }
 
+  componentDidMount = () => AsyncStorage.getItem('currLang').then((value) => this.setState({ 'language': value }))
+  
   render() {
-    //die folgende Codezeile muss in die Einstellung übernommen werden, hier lediglich zum Test
-    //Wechsel auf Deutsch, wenn nicht angeben ist Englisch die Default-Sprache
-    //i18n.changeLanguage('de');
+   console.log('ComponentZeugs:',this.state.language);
+    i18n.changeLanguage(this.state.language);
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>

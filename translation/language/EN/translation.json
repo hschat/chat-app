@@ -23,5 +23,7 @@
     "SignupScreen-ErrorPasswordRepeat": "Password must be the same!",
     "SignupScreen-Error": "Error",
     "SignupScreen-ErrorFillAllField": "Please fill in all fields!",
-    "SignupScreen-ErrorRegistration": "Error while registration process"
+    "SignupScreen-ErrorRegistration": "Error while registration process",
+    "UserSettingsScreen-LocationLabel": "Enable Location?",
+    "UserSettingsScreen-LanguageLabel": "Change Language:"
 }
