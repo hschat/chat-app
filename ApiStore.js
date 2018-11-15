@@ -83,7 +83,6 @@ export default class ApiStore {
         });
     }
 
-    //breaking change or help method because this.store.user is never updated
     updateAccount(user, obj) {
         return this.app.service('users').patch(user.id, obj);
     }
