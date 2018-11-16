@@ -19,8 +19,7 @@ export default class LaunchScreen extends React.Component {
   componentDidMount = () => AsyncStorage.getItem('currLang').then((value) => this.setState({ 'language': value }))
   
   render() {
-   console.log('ComponentZeugs:',this.state.language);
-    i18n.changeLanguage(this.state.language);
+   i18n.changeLanguage(this.state.language);
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>
