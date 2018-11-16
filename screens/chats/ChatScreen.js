@@ -6,7 +6,8 @@ import {NavigationActions, SafeAreaView} from 'react-navigation';
 
 import Message from '../../components/message'
 import TimeAgo from "../../components/TimeAgo";
-import ApiStore from '../../ApiStore'
+import ApiStore from '../../ApiStore';
+import i18n from '../../translation/i18n'
 
 
 const styles = StyleSheet.create({
@@ -107,15 +108,15 @@ export default class ChatScreen extends React.Component {
                 }, 5000);
 
             } else {
-                Alert.alert('Fehler', 'Chat nicht gefunden', [{
-                    text: 'Fehler!', onPress: () => {
+                Alert.alert(i18n.t('ChatScreen-Error'), i18n.t('ChatScreen-ChatNotFound'), [{
+                    text: i18n.t('ChatScreen-Error'), onPress: () => {
                         this.props.navigation.navigate('Chats');
                     }, style: 'destroy'
                 }]);
             }
         } else {
-            Alert.alert('Fehler', 'Es trat ein kritischer, interner Fehler auf! 💥💀💥', [{
-                text: 'OhOh!', onPress: () => {
+            Alert.alert(i18n.t('ChatScreen-Error'), i18n.t('ChatScreen-FatalError'), [{
+                text: i18n.t('ChatScreen-OHOH'), onPress: () => {
                     this.props.navigation.navigate('Chats');
                 }, style: 'destroy'
             }]);
@@ -205,18 +206,18 @@ export default class ChatScreen extends React.Component {
             // Group chat
             if(this.state.isTyping){
                 var user = this.state.participants.filter( (user) => user.id === this.state.typingUser.sender_id)[0];
-                return (<Text style={{color: '#E00034'}}>{user.prename} schreibt...</Text>);
+                return (<Text style={{color: '#E00034'}}>{user.prename} {i18n.t('ChatScreen-SmallTyping')}</Text>);
             } 
         } else {
             // 2 people chat
             if(this.state.isTyping){
-                return (<Text style={{color: '#E00034'}}>Schreibt...</Text>);
+                return (<Text style={{color: '#E00034'}}>{i18n.t('ChatScreen-BigTyping')}</Text>);
             } else {
                 var user = this.state.participants.filter( (user) => user.id !== this.store.user.id)[0];
                 if(user.isOnline){
-                    return (<Text>Online</Text>);
+                    return (<Text>{i18n.t('ChatScreen-Online')}</Text>);
                 } else if(user.last_time_online){
-                    return (<Text>Zuletzt online: <TimeAgo time={user.last_time_online} name={'last_online'}/></Text>);
+                    return (<Text>{i18n.t('ChatScreen-LastOnline')}<TimeAgo time={user.last_time_online} name={'last_online'}/></Text>);
                 } else return null; // not online
             } 
         } 

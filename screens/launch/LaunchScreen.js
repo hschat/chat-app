@@ -14,13 +14,6 @@ export default class LaunchScreen extends React.Component {
   }
 
   render() {
-    //die folgende Codezeile muss in die Einstellung übernommen werden, hier lediglich zum Test
-    //Wechsel auf Deutsch, wenn nicht angeben ist Englisch die Default-Sprache
-    //i18n.changeLanguage('de');
-    //Ausgabe Array der verfügbaren Sprachen
-    //console.log(i18n.languages);
-    //Ausgabe aktuelle Sprache:
-    //console.log("Aktuelle ausgewählte Sprache:" + i18n.language);
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>
