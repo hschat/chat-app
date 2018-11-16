@@ -79,6 +79,8 @@ export default class UserSettingsScreen extends Component {
     constructor(props) {
         super(props);
 
+        this.store = this.props.screenProps.store;
+        
         this.state = {
             user: null,
             ready: false,
@@ -86,9 +88,8 @@ export default class UserSettingsScreen extends Component {
             checked: true,
             location: false,
             showStatusModal: false,
-
+            location_is_allowed: null,
         };
-        this.store = this.props.screenProps.store;
     }
 
     componentDidMount() {
@@ -101,22 +102,40 @@ export default class UserSettingsScreen extends Component {
                 this.store.getUserInformation(id).then(user => {
                     this.setState({user: user, ready: true});
                 }).catch(error => {
-                    this.setState({user: this.store.user, ready: false});
+                    this.setState({user: this.store.user, ready: false}, () => {
+                        this.setState({location_is_allowed: this.store.user.location_is_allowed});
+                    });
                     Alert.alert('Fehler', 'Benutzer nicht gefunden');
                 });
 
             } else {
-                this.setState({user: this.store.user, ready: true})
+                //after setting user, updating location_is_allowed based on store.user values
+                this.setState({user: this.store.user, ready: true}, () => {
+                    this.setState({location_is_allowed: this.store.user.location_is_allowed});
+                });
             }
         } else {
-            this.setState({user: this.store.user, ready: true})
+            this.setState({user: this.store.user, ready: true}, () => {
+                this.setState({location_is_allowed: this.store.user.location_is_allowed});
+            });
         }
     }
 
+
+    //set all states and stores of location_is_allowed and update them
     _checkBoxHandler() {
-        this.setState({checked: !this.state.checked});
-        this.store.locationEnabled = this.state.checked;
+        this.setState({ location_is_allowed: !this.state.location_is_allowed },() => {
+            this.store.updateAccountPlus(this.store.user, {
+                location_is_allowed: this.state.location_is_allowed
+            }).then(() => {
+                this.store.user.location_is_allowed = this.state.location_is_allowed;
+                this.state.user.location_is_allowed = this.state.location_is_allowed;
+            }).catch((error) => {
+                console.error(error);
+            });
+        });
     }
+
     renderSettings = () => {
         return (
             <View>
@@ -126,7 +145,9 @@ export default class UserSettingsScreen extends Component {
                         <Text>Standort erlauben?</Text>
                         </Body>
                         <CheckBox
-                            checked={this.state.checked}
+                            checked={
+                                this.state.location_is_allowed
+                            }
                             onPress={() => this._checkBoxHandler()}
                         />
                     </ListItem>
