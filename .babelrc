@@ -6,7 +6,7 @@
 			"plugins": ["transform-react-jsx-source"]
 		},
 		"production": {
-			"plugins": ["ignite-ignore-reactotron"]
+			"plugins": []
 		}
 	}
 }

@@ -4,22 +4,23 @@ import {
     Body, Button, Container, Content, Header, Icon, Input, Item, Left, List, ListItem, Spinner, Text, Thumbnail,
     View
 } from "native-base";
+import i18n from '../../translation/i18n';
 
 export default class SearchScreen extends Component {
     static navigationOptions = ({navigation, screenProps}) => {
         const params = navigation.state.params || {};
         return {
-            title: 'Einstellungen',
+            title: i18n.t('SearchScreen-Settings'),
             header: (
                 <Header searchBar rounded>
                     <Item>
                         <Icon name="ios-search"/>
-                        <Input placeholder="Suchen" onChangeText={(text) => params.updateState(text)}
-                               onSubmitEditing={params.search ? params.search : () => null} returnKeyLabel='Suchen'/>
+                        <Input placeholder={i18n.t('SearchScreen-Search')} onChangeText={(text) => params.updateState(text)}
+                               onSubmitEditing={params.search ? params.search : () => null} returnKeyLabel={i18n.t('SearchScreen-Search')}/>
                         <Icon name="ios-people"/>
                     </Item>
                     <Button transparent onPress={params.search ? params.search : () => null}>
-                        <Text>Suchen</Text>
+                        <Text>{i18n.t('SearchScreen-Search')}</Text>
                     </Button>
                 </Header>
             )
@@ -98,8 +99,8 @@ export default class SearchScreen extends Component {
                 <Content>
                     <ListItem style={{backgroundColor: 'transparent'}}>
                         <Body>
-                        <Text>Es wurde kein Benutzer gefunden</Text>
-                        <Text note>Möchtest du den Benutzer einladen?</Text>
+                        <Text>{i18n.t('SearchScreen-UserNotFound')}</Text>
+                        <Text note>{i18n.t('SearchScreen-InviteUser')}</Text>
                         </Body>
                     </ListItem>
                 </Content>

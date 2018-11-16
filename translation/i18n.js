@@ -1,8 +1,11 @@
 import i18n from "i18next";
 import { reactI18nextModule } from "react-i18next";
 
+import languageDetector from './languageDetector'
 import translationEN from './language/EN/translation.json'
 import translationDE from './language/DE/translation.json'
+import translationES from './language/ES/translation.json'
+import translationRU from './language/RU/translation.json'
 
 const resources = {
     en: {
@@ -10,14 +13,22 @@ const resources = {
     },
     de: {
         translation: translationDE
+    },
+    es: {
+        translation: translationES
+    },
+    ru: {
+        translation: translationRU
     }
 };
 
+
 i18n
-  .use(reactI18nextModule) // passes i18n down to react-i18next
-  .init({
+  .use(languageDetector)
+  .use(reactI18nextModule)
+  .init(
+    {
     resources,
-    lng: "en",
     fallbackLng: "en",
     
     keySeparator: false,

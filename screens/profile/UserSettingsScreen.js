@@ -16,13 +16,19 @@ import {
     Body,
     Left,
     Right,
+    Picker,
     Spinner,
     Switch,
     Toast,
     Thumbnail
 } from "native-base";
 import {StyleSheet, Image, Alert, Dimensions, TouchableOpacity} from 'react-native';
+import TimeAgo from '../../components/TimeAgo';
 import BaseStyles from '../../baseStyles';
+import Location from '../../Location';
+import Distance from '../../components/Distance';
+import i18n from '../../translation/i18n';
+
 
 
 const styles = StyleSheet.create({
@@ -71,7 +77,7 @@ export default class UserSettingsScreen extends Component {
                     name="ios-arrow-back-outline"/></Button>
             ),
             headerRight: (
-                <Button onPress={screenProps.store.promptForLogout} transparent><Text>Abmelden</Text></Button>
+                <Button onPress={screenProps.store.promptForLogout} transparent><Text>{i18n.t('UserSettingsScreen-SignOut')}</Text></Button>
             )
         }
     };
@@ -83,6 +89,7 @@ export default class UserSettingsScreen extends Component {
             user: null,
             ready: false,
             status: '',
+            selected: undefined,
             checked: true,
             location: false,
             showStatusModal: false,
@@ -102,7 +109,7 @@ export default class UserSettingsScreen extends Component {
                     this.setState({user: user, ready: true});
                 }).catch(error => {
                     this.setState({user: this.store.user, ready: false});
-                    Alert.alert('Fehler', 'Benutzer nicht gefunden');
+                    Alert.alert(i18n.t('UserSettingsScreen-Error'), i18n.t('UserSettingsScreen-UserNotFound'));
                 });
 
             } else {
@@ -117,19 +124,44 @@ export default class UserSettingsScreen extends Component {
         this.setState({checked: !this.state.checked});
         this.store.locationEnabled = this.state.checked;
     }
+
+  onValueChange(value: string) {
+    this.setState({
+      selected: value
+    });
+  }
+
     renderSettings = () => {
         return (
             <View>
                 <Content>
                     <ListItem style={{width: 200}}>
                         <Body>
-                        <Text>Standort erlauben?</Text>
+                        <Text>{i18n.t('UserSettingsScreen-Location')}</Text>
                         </Body>
                         <CheckBox
                             checked={this.state.checked}
                             onPress={() => this._checkBoxHandler()}
                         />
                     </ListItem>
+
+                  <Form>
+                    <Label>{i18n.t('UserSettingsScreen-ChangeLanguage')}</Label>
+                    <Picker
+                      mode="dropdown"
+                      iosIcon={<Icon name="ios-arrow-down-outline" />}
+                      placeholder={i18n.t('UserSettingsScreen-ChooseLanguage')}
+                      placeholderStyle={{ color: "#5267ea" }}
+                      placeholderIconColor="#007aff"
+                      selectedValue={this.state.selected}
+                      onValueChange={this.onValueChange.bind(this)}
+                    >
+                      <Picker.Item label={i18n.t('UserSettingsScreen-German')} value="de" />
+                      <Picker.Item label={i18n.t('UserSettingsScreen-English')} value="en" />
+                      <Picker.Item label={i18n.t('UserSettingsScreen-Spanish')} value="es" />
+                      <Picker.Item label={i18n.t('UserSettingsScreen-Russian')} value="js" />
+                    </Picker>
+                  </Form>
                 </Content>
 
             </View>
