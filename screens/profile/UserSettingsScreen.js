@@ -125,14 +125,17 @@ export default class UserSettingsScreen extends Component {
         this.store.locationEnabled = this.state.checked;
     }
 
-    
+  reloadUI(){
+    Expo.Util.reload();         //Läd App neu
+  }  
 
   onValueChange(value) {
-    AsyncStorage.setItem('currLang', value);
-    i18n.changeLanguage(value);
+    AsyncStorage.setItem('currLang', value); //Schreibt Sprache in den Cache
+    i18n.changeLanguage(value); //Ändert die Sprache mit Wert aus Picker
     this.setState({
       selected: value
-    });
+    });                         //Ändert die Lokale Variable mit Wert Picker
+    setTimeout(this.reloadUI,1000);         
   }
 
     renderSettings = () => {

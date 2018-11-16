@@ -12,17 +12,19 @@ export default class LaunchScreen extends React.Component {
     super(props);
     this.store = this.props.screenProps.store;
     this.state = {
-      language : 'en',
+      language : ' ',
     };
   }
 
-  componentDidMount = () => AsyncStorage.getItem('currLang').then((value) => this.setState({ 'language': value }))
+  componentDidMount = () => AsyncStorage.getItem('currLang')
+                              .then((value) => this.setState({ 'language': value }));
   
   render() {
-<<<<<<< HEAD
-   i18n.changeLanguage(this.state.language);
-=======
->>>>>>> a-translation
+   if(this.state.language === null || this.state.language === 'null'){
+     AsyncStorage.setItem('currLang',i18n.language);
+    }else if(this.state.language !== ' ' && this.state.language !== null && this.state.language !== 'null'){
+    i18n.changeLanguage(this.state.language);
+   }
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>
