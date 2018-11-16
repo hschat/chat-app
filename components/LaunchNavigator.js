@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { Icon } from 'native-base';
+import i18n from '../translation/i18n';
 
 import SignupScreen from '../screens/launch/SignupScreen';
 import LaunchScreen from '../screens/launch/LaunchScreen';
@@ -12,15 +13,15 @@ const Items = createStackNavigator({
   },
   Login: {
     screen: LoginScreen,
-    navigationOptions: {
-      headerTitle: 'Anmelden',
-    },
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: i18n.t('LaunchNavigator-SignIn'),
+    }),
   },
   Signup: {
     screen: SignupScreen,
-    navigationOptions: {
-      headerTitle: 'Registrieren',
-    },
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: i18n.t('LaunchNavigator-SignUp'),
+    }),
   },
 });
 

@@ -19,14 +19,15 @@ export default class LaunchScreen extends React.Component {
   componentDidMount = () => AsyncStorage.getItem('currLang').then((value) => this.setState({ 'language': value }))
   
   render() {
+<<<<<<< HEAD
    i18n.changeLanguage(this.state.language);
+=======
+>>>>>>> a-translation
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>
           <Image style={baseStyles.backgroundImage} source={require('../../assets/img/bg.png')} />
           <Content contentContainerStyle={baseStyles.middle}>
-
-
             <Button style={baseStyles.redButton} block onPress={() => this.props.navigation.navigate('Signup')}>
               <Text style={baseStyles.redButtonText}>{i18n.t('LaunchScreen-SignUp')}</Text>
             </Button>

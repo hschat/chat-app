@@ -9,41 +9,42 @@ import ChatScreen from '../screens/chats/ChatScreen';
 import CreateGroup from '../screens/chats/CreateGroupChat';
 import FeedbackScreen from '../screens/feedback/FeedbackScreen';
 import UserSettingsScreen from '../screens/profile/UserSettingsScreen';
+import i18n from '../translation/i18n';
 
 const profileNavigator = createStackNavigator({
     Home: {
         screen: ProfileScreen,
-        navigationOptions: {
-            headerTitle: 'Profil',
-        },
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: i18n.t('MainNavigator-Profil'),
+        }),
     },
     View: {
         screen: UserSettingsScreen,
-        navigationOptions: {
-            headerTitle: 'Einstellungen',
-        },
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: i18n.t('MainNavigator-Settings'),
+        }),
     },
 });
 
 const searchNavigator = createStackNavigator({
     Home: {
         screen: SearchScreen,
-        navigationOptions: {
-            headerTitle: 'Suchen',
-        },
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: i18n.t('MainNavigator-Search'),
+        }),
     },
 
     View: {
         screen: ProfileScreen,
-        navigationOptions: {
-            headerTitle: 'Suchergebnis',
-        },
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: i18n.t('MainNavigator-SearchResult'),
+        }),
     },
     Invite: {
         screen: InviteScreen,
-        navigationOptions: {
-            headerTitle: 'Einladen',
-        },
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: i18n.t('MainNavigator-Invite'),
+        }),
     },
 });
 
@@ -53,36 +54,36 @@ const searchNavigator = createStackNavigator({
 const chatsNavigator = createStackNavigator({
     Home: {
         screen: ChatsScreen,
-        navigationOptions: {
-            headerTitle: 'Chats',
-        },
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: i18n.t('MainNavigator-Chats'),
+        }),
     },
     Chat: {
         screen: ChatScreen,
-        navigationOptions: {
+        navigationOptions: ({ navigation }) => ({
             tabBarVisible: false,
-        },
+        }),
     },
     CreateGroup: {
         screen: CreateGroup,
-        navigationOptions: {
-            headerTitle: 'Gruppe erstellen',
-        },
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: i18n.t('MainNavigator-CreateGroup'),
+        }),
     },
     View: {
         screen: ProfileScreen,
-        navigationOptions: {
-            headerTitle: 'Profil',
-        },
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: i18n.t('MainNavigator-Profil'),
+        }),
     },
 });
 
 const feedbackNavigator = createStackNavigator({
     Home: {
         screen: FeedbackScreen,
-        navigationOptions: {
-            headerTitle: 'Feedback',
-        },
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: i18n.t('MainNavigator-Feedback'),
+        }),
     },
 });
 
@@ -92,32 +93,32 @@ const feedbackNavigator = createStackNavigator({
 const RootTabs = createBottomTabNavigator({
     Profile: {
         screen: profileNavigator,
-        navigationOptions: {
-            tabBarLabel: 'Profil',
+        navigationOptions: ({ navigation }) => ({
+            tabBarLabel: i18n.t('MainNavigator-BottomProfil'),
             tabBarIcon: <Icon ios="ios-person-outline" android="md-person" size={20}/>,
-        },
+        }),
     },
     Chats: {
         screen: chatsNavigator,
-        navigationOptions: {
-            tabBarLabel: 'Nachrichten',
+        navigationOptions: ({ navigation }) => ({
+            tabBarLabel: i18n.t('MainNavigator-BottomMessage'),
             tabBarIcon: <Icon ios="ios-text-outline" android="md-chatboxes" size={20}/>,
-        },
+        }),
 
     },
     Search: {
         screen: searchNavigator,
-        navigationOptions: {
-            tabBarLabel: 'Suchen',
+        navigationOptions: ({ navigation }) => ({
+            tabBarLabel: i18n.t('MainNavigator-BottomSearch'),
             tabBarIcon: <Icon ios="ios-search-outline" android="md-search" size={20}/>,
-        },
+        }),
     },
     Feedback: {
         screen: feedbackNavigator,
-        navigationOptions: {
-            tabBarLabel: 'Feedback',
+        navigationOptions: ({ navigation }) => ({
+            tabBarLabel: i18n.t('MainNavigator-BottomFeedback'),
             tabBarIcon: <Icon ios="ios-information-circle-outline" android="ios-information-circle-outline" size={20}/>,
-        },
+        }),
     },
 
 

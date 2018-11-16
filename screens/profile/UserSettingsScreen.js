@@ -26,9 +26,8 @@ import {StyleSheet, Image, Alert, Dimensions, TouchableOpacity, AsyncStorage} fr
 import TimeAgo from '../../components/TimeAgo';
 import BaseStyles from '../../baseStyles';
 import Location from '../../Location';
-import Distance from '../../components/Distance'
-import i18n from '../../translation/i18n'
-
+import Distance from '../../components/Distance';
+import i18n from '../../translation/i18n';
 
 
 
@@ -78,7 +77,7 @@ export default class UserSettingsScreen extends Component {
                     name="ios-arrow-back-outline"/></Button>
             ),
             headerRight: (
-                <Button onPress={screenProps.store.promptForLogout} transparent><Text>Abmelden</Text></Button>
+                <Button onPress={screenProps.store.promptForLogout} transparent><Text>{i18n.t('UserSettingsScreen-SignOut')}</Text></Button>
             )
         }
     };
@@ -110,7 +109,7 @@ export default class UserSettingsScreen extends Component {
                     this.setState({user: user, ready: true});
                 }).catch(error => {
                     this.setState({user: this.store.user, ready: false});
-                    Alert.alert('Fehler', 'Benutzer nicht gefunden');
+                    Alert.alert(i18n.t('UserSettingsScreen-Error'), i18n.t('UserSettingsScreen-UserNotFound'));
                 });
 
             } else {
@@ -142,7 +141,7 @@ export default class UserSettingsScreen extends Component {
                 <Content>
                     <ListItem style={{width: 200}}>
                         <Body>
-                        <Text>{i18n.t('UserSettingsScreen-LocationLabel')}</Text>
+                        <Text>{i18n.t('UserSettingsScreen-Location')}</Text>
                         </Body>
                         <CheckBox
                             checked={this.state.checked}
@@ -151,20 +150,20 @@ export default class UserSettingsScreen extends Component {
                     </ListItem>
 
                   <Form>
-                    <Label>{i18n.t('UserSettingsScreen-LanguageLabel')}</Label>
+                    <Label>{i18n.t('UserSettingsScreen-ChangeLanguage')}</Label>
                     <Picker
                       mode="dropdown"
                       iosIcon={<Icon name="ios-arrow-down-outline" />}
-                      placeholder="Wähle deine Sprache aus..."
+                      placeholder={i18n.t('UserSettingsScreen-ChooseLanguage')}
                       placeholderStyle={{ color: "#5267ea" }}
                       placeholderIconColor="#007aff"
                       selectedValue={this.state.selected}
                       onValueChange={this.onValueChange.bind(this)}
                     >
-                      <Picker.Item label="Deutsch" value="de" />
-                      <Picker.Item label="Englisch" value="en" />
-                      <Picker.Item label="Spanisch" value="es" />
-                      <Picker.Item label="Russisch" value="ru" />
+                      <Picker.Item label={i18n.t('UserSettingsScreen-German')} value="de" />
+                      <Picker.Item label={i18n.t('UserSettingsScreen-English')} value="en" />
+                      <Picker.Item label={i18n.t('UserSettingsScreen-Spanish')} value="es" />
+                      <Picker.Item label={i18n.t('UserSettingsScreen-Russian')} value="js" />
                     </Picker>
                   </Form>
                 </Content>

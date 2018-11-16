@@ -84,9 +84,6 @@
     "ProfileScreen-Mail": "E-Mail",
     "ProfileScreen-ID": "Kürzel",
 
-    "UserSettingsScreen-SignOut": "Abmelden",
-    "UserSettingsScreen-Error": "Fehler",
-    "UserSettingsScreen-UserNotFound": "Benutzer nicht gefunden",
     "UserSettingsScreen-Location": "Standort erlauben?",
     "UserSettingsScreen-ChangeLanguage": "Sprache auswählen:",
     "UserSettingsScreen-ChooseLanguage": "Wähle deine Sprache aus...",
@@ -131,11 +128,6 @@
     "ModalWithInput-NotMoreThan": "Nicht mehr als",
     "ModalWithInput-CharsPossible": "Zeichen möglich",
     "ModalWithInput-OK": "O.K.",
-    "ModalWithInput-Cancel": "Abbrechen",
-
-    "ApiStore-SignOut": "Abmelden",
-    "ApiStore-SignOutMsg": "Willst du dich wirklich abmelden?",
-    "ApiStore-Cancel": "Abbrechen",
-    "ApiStore-Yes": "Ja" 
+    "ModalWithInput-Cancel": "Abbrechen"
 
 }

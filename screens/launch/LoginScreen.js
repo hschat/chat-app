@@ -29,7 +29,7 @@ export default class LoginScreen extends React.Component {
       password: '',
       showToast: false,
     };
-  }
+  };
 
   setName = (n) => {
     this.setState({name: n})
@@ -54,7 +54,6 @@ export default class LoginScreen extends React.Component {
     });
 
   };
-
 
   render() {
     return (
