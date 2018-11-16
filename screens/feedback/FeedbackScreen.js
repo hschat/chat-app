@@ -92,7 +92,6 @@ export default class FeedbackScreen extends React.Component {
     };
 
     renderTextCounter() {
-
         let color = 'green';
         if (this.state.text.length < 15)
             color = 'orange';
@@ -109,7 +108,6 @@ export default class FeedbackScreen extends React.Component {
     }
 
     render() {
-        i18n.changeLanguage("en");
         let buttonText = <Text>{i18n.t('FeedbackScreen-Send')}</Text>
         if (this.state.loading) buttonText = <Spinner color='green'/>
         return (
