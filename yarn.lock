@@ -3942,11 +3942,6 @@ expo-core@~1.1.0:
   resolved "https://registry.yarnpkg.com/expo-core/-/expo-core-1.1.0.tgz#c6c81282cc33b7de3913e5c3e46462b8e8f733ec"
   integrity sha512-R6U7AGkIWdzFP/gf8ZtOA6A/vBIQQz/YG4wZiFw4q+UtVOzpaLAs6P9NxOSPlIoRY+lFAeCM+UY1skfwpToAHQ==
 
-expo-core@~1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/expo-core/-/expo-core-1.2.0.tgz#c8fecf18b36a5b583bcb69a0227d4a6e45b56f17"
-  integrity sha512-EbfgL/NPIROzY+Vvmuo2teUqSo8FEdFSZm3dyUcCTEV8jXioTCyJNpsH3G3cTI2U7nxn84SxoB6BvEzWdQyu4Q==
-
 expo-face-detector-interface@~1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/expo-face-detector-interface/-/expo-face-detector-interface-1.0.2.tgz#4b193c81de335f0e584ec5dff021cec1979277da"
@@ -4026,13 +4021,6 @@ expo-local-authentication@~1.0.0:
   dependencies:
     expo-core "~1.1.0"
     invariant "^2.2.4"
-
-expo-localization@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/expo-localization/-/expo-localization-1.0.0.tgz#1bd8904632ab91e6f941ddf46b568e9c6df31f56"
-  integrity sha512-P9E8UI/WZ6VxZK4xdQcoigQGwG+o6f0L+Ww7uLrAurykeLKSnSULo9ptpQi8vv5rjpMzgtfKvZKZ2PvxKxq8ig==
-  dependencies:
-    expo-core "~1.2.0"
 
 expo-location@~1.0.0:
   version "1.0.0"

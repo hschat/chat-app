@@ -246,7 +246,7 @@ export default class SignupScreen extends React.Component {
                 <Input onChangeText={this.setEmai} onBlur={() => this.check('email')} keyboardType='email-address' returnKeyType='next' autoCapitalize='none' onSubmitEditing={Keyboard.dismiss}/>
               </Item>
               <Item stackedLabel error={this.state.errorPassword}>
-                <Label>{i18n.t('SignupScreen-Prename')}</Label>
+                <Label>{i18n.t('SignupScreen-Password')}</Label>
                 <Input secureTextEntry={true} onChangeText={this.setPassword} onBlur={() => this.check('password')} returnKeyType='next' autoCapitalize='none' onSubmitEditing={Keyboard.dismiss}/>
               </Item>
               <Item stackedLabel last error={this.state.errorPasswordRepeat}>

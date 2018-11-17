@@ -30,7 +30,7 @@ import Distance from '../../components/Distance';
 import i18n from '../../translation/i18n';
 import Expo from 'expo';
 
-
+const AsyncStorage = require('react-native').AsyncStorage;
 
 const styles = StyleSheet.create({
     image: {
@@ -150,16 +150,16 @@ export default class UserSettingsScreen extends Component {
                     <Picker
                       mode="dropdown"
                       iosIcon={<Icon name="ios-arrow-down-outline" />}
-                      placeholder={i18n.t('UserSettingsScreen-ChooseLanguage')}
+                      placeholder={i18n.t(i18n.language)}
                       placeholderStyle={{ color: "#5267ea" }}
                       placeholderIconColor="#007aff"
                       selectedValue={this.state.selected}
                       onValueChange={this.onValueChange.bind(this)}
                     >
-                      <Picker.Item label={i18n.t('UserSettingsScreen-German')} value="de" />
-                      <Picker.Item label={i18n.t('UserSettingsScreen-English')} value="en" />
-                      <Picker.Item label={i18n.t('UserSettingsScreen-Spanish')} value="es" />
-                      <Picker.Item label={i18n.t('UserSettingsScreen-Russian')} value="ru" />
+                      <Picker.Item label={i18n.t('de')} value="de" />
+                      <Picker.Item label={i18n.t('en')} value="en" />
+                      <Picker.Item label={i18n.t('es')} value="es" />
+                      <Picker.Item label={i18n.t('ru')} value="ru" />
                     </Picker>
                   </Form>
                 </Content>

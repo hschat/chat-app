@@ -90,10 +90,10 @@
     "UserSettingsScreen-Location": "Standort erlauben?",
     "UserSettingsScreen-ChangeLanguage": "Sprache auswählen:",
     "UserSettingsScreen-ChooseLanguage": "Wähle deine Sprache aus...",
-    "UserSettingsScreen-German": "Deutsch",
-    "UserSettingsScreen-English": "Englisch",
-    "UserSettingsScreen-Spanish": "Spanisch",
-    "UserSettingsScreen-Russian": "Russisch",
+    "de": "Deutsch",
+    "en": "Englisch",
+    "es": "Spanisch",
+    "ru": "Russisch",
 
     "InviteScreen-Invite": "Einladung",
 

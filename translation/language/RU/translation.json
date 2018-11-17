@@ -84,13 +84,16 @@
     "ProfileScreen-Mail": "E-Mail",
     "ProfileScreen-ID": "Kürzel",
 
+    "UserSettingsScreen-SignOut": "Abmelden",
+    "UserSettingsScreen-Error": "Fehler",
+    "UserSettingsScreen-UserNotFound": "Benutzer nicht gefunden",
     "UserSettingsScreen-Location": "Standort erlauben?",
     "UserSettingsScreen-ChangeLanguage": "Sprache auswählen:",
     "UserSettingsScreen-ChooseLanguage": "Wähle deine Sprache aus...",
-    "UserSettingsScreen-German": "Deutsch",
-    "UserSettingsScreen-English": "Englisch",
-    "UserSettingsScreen-Spanish": "Spanisch",
-    "UserSettingsScreen-Russian": "Russisch",
+    "de": "Deutsch",
+    "en": "Englisch",
+    "es": "Spanisch",
+    "ru": "Russisch",
 
     "InviteScreen-Invite": "Einladung",
 
@@ -119,7 +122,7 @@
     "MainNavigator-Invite": "Einladen",
     "MainNavigator-Chats": "Chats",
     "MainNavigator-CreateGroup": "Gruppe erstellen",
-    "MainNavigator-Feedback": "Feeedback",
+    "MainNavigator-Feedback": "Feedback",
     "MainNavigator-BottomProfil": "Profil",
     "MainNavigator-BottomMessage": "Nachrichten",
     "MainNavigator-BottomSearch": "Suchen",
@@ -128,6 +131,11 @@
     "ModalWithInput-NotMoreThan": "Nicht mehr als",
     "ModalWithInput-CharsPossible": "Zeichen möglich",
     "ModalWithInput-OK": "O.K.",
-    "ModalWithInput-Cancel": "Abbrechen"
+    "ModalWithInput-Cancel": "Abbrechen",
+
+    "ApiStore-SignOut": "Abmelden",
+    "ApiStore-SignOutMsg": "Willst du dich wirklich abmelden?",
+    "ApiStore-Cancel": "Abbrechen",
+    "ApiStore-Yes": "Ja" 
 
 }
