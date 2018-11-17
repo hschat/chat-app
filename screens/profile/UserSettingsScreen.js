@@ -28,6 +28,7 @@ import BaseStyles from '../../baseStyles';
 import Location from '../../Location';
 import Distance from '../../components/Distance';
 import i18n from '../../translation/i18n';
+import Expo from 'expo';
 
 
 
@@ -125,10 +126,9 @@ export default class UserSettingsScreen extends Component {
         this.store.locationEnabled = this.state.checked;
     }
 
-  onValueChange(value: string) {
-    this.setState({
-      selected: value
-    });
+  onValueChange(value) {
+    i18n.changeLanguage(value);
+    Expo.Util.reload();
   }
 
     renderSettings = () => {
@@ -159,7 +159,7 @@ export default class UserSettingsScreen extends Component {
                       <Picker.Item label={i18n.t('UserSettingsScreen-German')} value="de" />
                       <Picker.Item label={i18n.t('UserSettingsScreen-English')} value="en" />
                       <Picker.Item label={i18n.t('UserSettingsScreen-Spanish')} value="es" />
-                      <Picker.Item label={i18n.t('UserSettingsScreen-Russian')} value="js" />
+                      <Picker.Item label={i18n.t('UserSettingsScreen-Russian')} value="ru" />
                     </Picker>
                   </Form>
                 </Content>

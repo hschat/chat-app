@@ -11,7 +11,7 @@ import React, {Component} from 'react'
 import {AppState, Text} from 'react-native'
 import i18n from './translation/i18n';
 
-const API_URL = process.env['CHAT_ENDPOINT'] || "https://hsc-backend.herokuapp.com";
+const API_URL = process.env['CHAT_ENDPOINT'] || "https://hsc-backend-staging.herokuapp.com";
 
 @autobind
 export default class ApiStore {
