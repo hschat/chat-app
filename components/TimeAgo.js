@@ -27,7 +27,7 @@ export default class TimeAgo extends React.Component {
   }
 
   async componentWillMount() {
-    let locale = await Expo.Localization.getCurrentLocaleAsync();
+    let locale = await Expo.Dangerzone.Localization.getCurrentLocaleAsync();
     moment.locale(locale.substring(0,2));
   }
 

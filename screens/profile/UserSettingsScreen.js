@@ -130,6 +130,7 @@ export default class UserSettingsScreen extends Component {
   }  
 
   onValueChange(value) {
+    console.log("ValueCHange",value);  
     AsyncStorage.setItem('currLang', value); //Schreibt Sprache in den Cache
     i18n.changeLanguage(value); //Ändert die Sprache mit Wert aus Picker
     this.setState({

@@ -20,9 +20,13 @@ export default class LaunchScreen extends React.Component {
                               .then((value) => this.setState({ 'language': value }));
   
   render() {
+   console.log("i18", i18n.language);
+   console.log("state",this.state.language); 
    if(this.state.language === null || this.state.language === 'null'){
+     console.log("if null check");
      AsyncStorage.setItem('currLang',i18n.language);
     }else if(this.state.language !== ' ' && this.state.language !== null && this.state.language !== 'null'){
+    console.log("if leer check");  
     i18n.changeLanguage(this.state.language);
    }
     return (
