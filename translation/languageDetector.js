@@ -1,4 +1,5 @@
 import Expo from 'expo';
+import { Localization } from 'expo-localization';
 
 const AsyncStorage = require('react-native').AsyncStorage;
 
@@ -12,7 +13,14 @@ const languageDetector = {
         if (language) {
           return callback(language.split('_')[0]);
         }
-        return Expo.DangerZone.Localization
+
+        if (Expo.Constants.platform.android === undefined) {
+          return Expo.DangerZone.Localization
+            .getCurrentLocaleAsync()
+            .then((lng) => { callback(lng.split('_')[0]); });
+        }
+
+        return Localization
           .getCurrentLocaleAsync()
           .then((lng) => { callback(lng.split('_')[0]); });
       });
