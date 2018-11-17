@@ -3,6 +3,7 @@ import {
   StyleSheet, Image, Alert, Dimensions, TouchableOpacity,
 } from 'react-native';
 import {Text} from 'native-base';
+import i18n from '../translation/i18n';
 
 const styles = StyleSheet.create({});
 
@@ -13,7 +14,7 @@ export default class LastChatMessage extends Component {
     super(props);
     this.store = this.props.store;
     this.state = {
-      text: 'Lädt…',
+      text: i18n.t('LastChatMessage-Loading'),
     };
   }
 
@@ -24,7 +25,7 @@ export default class LastChatMessage extends Component {
       if (msg !== undefined && !msg.system)
         this.setState({text: msg.text});
       else
-        this.setState({text: 'Noch keine Nachrichten'})
+        this.setState({text: i18n.t('LastChatMessage-noMessage')})
     });
     //Set a listener for changes
     this.store.app.service('messages').on('created', () => {

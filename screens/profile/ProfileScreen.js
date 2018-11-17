@@ -27,6 +27,7 @@ import BaseStyles from '../../baseStyles';
 import Distance from '../../components/Distance'
 import ModalInput from '../../components/ModalWithInput'
 import {NavigationActions, SafeAreaView} from 'react-navigation';
+import i18n from '../../translation/i18n';
 
 
 const styles = StyleSheet.create({
@@ -75,7 +76,7 @@ export default class ProfileScreen extends Component {
                     name="ios-settings"/></Button>
             ),
             headerRight: (
-                <Button onPress={screenProps.store.promptForLogout} transparent><Text>Abmelden</Text></Button>
+                <Button onPress={screenProps.store.promptForLogout} transparent><Text>{i18n.t('ProfileScreen-SignOut')}</Text></Button>
             )
         }
     };
@@ -106,7 +107,7 @@ export default class ProfileScreen extends Component {
                     this.setState({user: user, ready: true});
                 }).catch(error => {
                     this.setState({user: this.store.user, ready: false});
-                    Alert.alert('Fehler', 'Benutzer nicht gefunden');
+                    Alert.alert(i18n.t('ProfileScreen-Error'), i18n.t('ProfileScreen-UserNotFound'));
                 });
 
             } else {
@@ -123,7 +124,7 @@ export default class ProfileScreen extends Component {
             if (!Array.isArray(result)) this.setState({user: result});
         }).catch((error) => {
             console.error(error);
-            this.toastIt('Fehler beim Aktualisieren des Status');
+            this.toastIt(i18n.t('ProfileScreen-ErrorReload'));
         });
         this.setState({showStatusModal: false});
     };
@@ -150,15 +151,15 @@ export default class ProfileScreen extends Component {
                 this.props.navigation.navigate('Chat', {chat: chat});
             }).catch(error => {
                 console.log(error);
-                Alert.alert('Fehler', `Chat nicht gefunden`, [{
-                    text: 'Ok', onPress: () => {
+                Alert.alert(i18n.t('ProfileScreen-Error'), i18n.t('ProfileScreen-ChatNotFound'), [{
+                    text: i18n.t('ProfileScreen-OK'), onPress: () => {
                     }, style
                 }]);
             });
         }).catch((error) => {
             console.log(error);
-            Alert.alert('Fehler', `Chat mit ${this.state.user.prename} nicht gefunden`, [{
-                text: 'Ok', onPress: () => {
+            Alert.alert(i18n.t('ProfileScreen-Error'), i18n.t('ProfileScreen-ChatWith') + ` ${this.state.user.prename} ` + i18n.t('ProfileScreen-NotFound'), [{
+                text: i18n.t('ProfileScreen-OK'), onPress: () => {
                 }, style: 'destroy'
             }]);
         });
@@ -175,22 +176,22 @@ export default class ProfileScreen extends Component {
         return (
             <View>
                 <ModalInput
-                    text='Geb deinen neuen Status ein'
-                    placeholder='Status...'
+                    text={i18n.t('ProfileScreen-TypeStatus')}
+                    placeholder={i18n.t('ProfileScreen-StatusPoints')}
                     visible={this.state.showStatusModal}
                     input={this.state.status}
                     positiv={this.updateStatus}
                     negativ={this.hideModalStatus}
                     maxLength={99}
                 />
-                <Button transparent danger onPress={this.showModalStatus}><Text>Status ändern</Text></Button>
+                <Button transparent danger onPress={this.showModalStatus}><Text>{i18n.t('ProfileScreen-ChangeStatus')}</Text></Button>
             </View>
 
         )
     };
     renderUserInformations = () => {
         return (
-            <Button transparent danger onPress={this.goToChat}><Text>Nachricht senden</Text></Button>
+            <Button transparent danger onPress={this.goToChat}><Text>{i18n.t('ProfileScreen-SendMessage')}</Text></Button>
         )
     };
 
@@ -203,19 +204,19 @@ export default class ProfileScreen extends Component {
         }
         if (this.state.user.location_in_hs) {
             // Set a text for a user who were near hs
-            text = <Text>An der Hochschule</Text>;
+            text = <Text>{i18n.t('ProfileScreen-AtUniversity')}</Text>;
         } else if (!this.state.user.location_in_hs && this.state.user.meter_to_hs !== 123) {
             // Set a text for a user who is far away from the hs
-            text = <Text><Distance distance={this.state.user.meter_to_hs}/> von der HS entferent</Text>
+            text = <Text><Distance distance={this.state.user.meter_to_hs}/>{i18n.t('ProfileScreen-DistanceFromUniversity')}</Text>
         } else if (this.state.user.meter_to_hs === 123) {
-            text = (<Text>Standort deaktiviert!</Text>)
+            text = (<Text>{i18n.t('ProfileScreen-LocationNotAllowed')}</Text>)
         } else {
             // Set default text if the user has not been online yet
-            text = (<Text>Standort unbekannt!</Text>)
+            text = (<Text>{i18n.t('ProfileScreen-LocationNotFound')}</Text>)
         }
         return (
             <Item stackedLabel style={[styles.item, styles.left]}>
-                <Label>Standort</Label>
+                <Label>{i18n.t('ProfileScreen-Location')}</Label>
                 <Text>{time} {text}</Text>
             </Item>)
 
@@ -246,24 +247,24 @@ export default class ProfileScreen extends Component {
                         marginLeft: 5,
                     }]}>
                         <H3 style={styles.header}>{this.state.user.prename} {this.state.user.lastname}</H3>
-                        <Text>zuletzt online <TimeAgo time={this.state.user.last_time_online}
+                        <Text>{i18n.t('ProfileScreen-LastTimeOnline')}<TimeAgo time={this.state.user.last_time_online}
                                                       name={'last_online'}/></Text>
                     </View>
                 </View>
                 <Form>
                     {!(this.state.user.status === null || this.state.user.status === '') &&
                     <Item stackedLabel style={[styles.item, styles.left]}>
-                        <Label>Status</Label>
+                        <Label>{i18n.t('ProfileScreen-Status')}</Label>
                         <Text style={styles.left}>{this.state.user.status}</Text>
                     </Item>
                     }
                     {this.renderLocation()}
                     <Item stackedLabel style={[styles.item, styles.left]}>
-                        <Label>E-Mail</Label>
+                        <Label>{i18n.t('ProfileScreen-Mail')}</Label>
                         <Text>{this.state.user.email}</Text>
                     </Item>
                     <Item stackedLabel style={[styles.item, styles.left]}>
-                        <Label>Kürzel</Label>
+                        <Label>{i18n.t('ProfileScreen-ID')}</Label>
                         <Text>{this.state.user.hsid}</Text>
                     </Item>
                 </Form>

@@ -5,6 +5,7 @@ import {
   Text, Item, Label, Toast, Content
 } from 'native-base'
 import {observable, action, computed} from 'mobx';
+import i18n from '../../translation/i18n'
 
 const baseStyles = require('../../baseStyles');
 
@@ -88,7 +89,7 @@ export default class SignupScreen extends React.Component {
       case 'prename':
         if (!this.validate('nullOrEmpty', this.state.prename)) {
           this.setState({errorPrename: true});
-          this.toastIt("Bitte Vornamen angeben!");
+          this.toastIt(i18n.t('SignupScreen-ErrorPrename'));
         } else {
           this.setState({errorPrename: false});
         }
@@ -96,7 +97,7 @@ export default class SignupScreen extends React.Component {
       case 'lastname':
         if (!this.validate('nullOrEmpty', this.state.lastname)) {
           this.setState({errorLastname: true});
-          this.toastIt("Bitte Nachnamen angeben!");
+          this.toastIt(i18n.t('SignupScreen-ErrorLastname'));
         } else {
           this.setState({errorLastname: false});
         }
@@ -104,14 +105,14 @@ export default class SignupScreen extends React.Component {
       case 'identifier':
         if (!this.validate('identifierCheck', this.state.identifier, this.state.prename, this.state.lastname)) {
           this.setState({errorIdentifier: true});
-          this.toastIt("Bitte Kennung überprüfen!");
+          this.toastIt(i18n.t('SignupScreen-ErrorIdentifier'));
         } else {
           this.setState({errorIdentifier: false});
         }
         break;
         if (!this.validate('nullOrEmpty', this.state.identifier)) {
           this.setState({errorIdentifier: true});
-          this.toastIt("Bitte Kennung angeben!");
+          this.toastIt(i18n.t('SignupScreen-ErrorIdentifierCheck'));
         } else {
           this.setState({errorIdentifier: false});
         }
@@ -119,10 +120,10 @@ export default class SignupScreen extends React.Component {
       case 'email':
         if (!this.validate('nullOrEmpty', this.state.email)) {
           this.setState({errorEmail: true});
-          this.toastIt("Bitte Email angeben!");
+          this.toastIt(i18n.t('SignupScreen-ErrorEmailCheck'));
         } else if(!this.validate('isHSMail', this.state.email)) {
           this.setState({errorEmail: true});
-          this.toastIt("Es sind nur Hochschul-Email-Adressen erlaubt!");
+          this.toastIt(i18n.t('SignupScreen-ErrorEmail'));
         } else {
           this.setState({errorEmail: false});
         }
@@ -130,13 +131,13 @@ export default class SignupScreen extends React.Component {
       case 'password':
         if (!this.validate('nullOrEmpty', this.state.password)) {
           this.setState({errorPassword: true});
-          this.toastIt("Bitte Passwort angeben!");
+          this.toastIt(i18n.t('SignupScreen-ErrorPassword'));
         } else {
           this.setState({errorPassword: false});
         }
         if (!this.validate('password', this.state.password)) {
           this.setState({errorPassword: true});
-          this.toastIt("Passwort muss mindestens 8 Zeichen haben!");
+          this.toastIt(i18n.t('SignupScreen-ErrorPasswordLength'));
         } else {
           this.setState({errorPassword: false});
         }
@@ -144,7 +145,7 @@ export default class SignupScreen extends React.Component {
       case 'passwordRepeat':
         if (!this.validate('passwordRepeat', this.state.password, this.state.passwordRepeat)) {
           this.setState({errorPasswordRepeat: true});
-          this.toastIt("Passwörter müssen übereinstimmen!");
+          this.toastIt(i18n.t('SignupScreen-ErrorPasswordRepeat'));
         } else {
           this.setState({errorPasswordRepeat: false});
         }
@@ -202,7 +203,7 @@ export default class SignupScreen extends React.Component {
 
     if (this.state.errorPrename || this.state.errorLastname || this.state.errorIdentifier || this.state.errorEmail
       || this.state.errorPassword || this.state.errorPasswordRepeat) {
-      Alert.alert('Fehler', 'Bitte alle Felder richtig ausfüllen!');
+      Alert.alert(i18n.t('SignupScreen-Error'), i18n.t('SignupScreen-ErrorFillAllField'));
       return null;
     }
 
@@ -216,7 +217,7 @@ export default class SignupScreen extends React.Component {
       password: t.password
     }).catch(error => {
       console.error(error);
-      Alert.alert('Fehler', 'Die Registrierung ist fehlgeschlagen.');
+      Alert.alert(i18n.t('SignupScreen-Error'), i18n.t('SignupScreen-ErrorRegistration'));
       this.loading = false;
     });
   };
@@ -229,27 +230,27 @@ export default class SignupScreen extends React.Component {
           <Content>
             <Form style={[styles.form, styles.middle]}>
               <Item stackedLabel error={this.state.errorPrename}>
-                <Label>Vorname</Label>
+                <Label>{i18n.t('SignupScreen-Prename')}</Label>
                 <Input onChangeText={this.setPreName} onBlur={() => this.check('prename')} returnKeyType='next' autoCapitalize='words' onSubmitEditing={Keyboard.dismiss}/>
               </Item>
               <Item stackedLabel error={this.state.errorLastname}>
-                <Label>Nachname</Label>
+                <Label>{i18n.t('SignupScreen-Lastname')}</Label>
                 <Input onChangeText={this.setLastName} onBlur={() => this.check('lastname')} returnKeyType='next' autoCapitalize='words' onSubmitEditing={Keyboard.dismiss}/>
               </Item>
               <Item stackedLabel error={this.state.errorIdentifier}>
-                <Label>Kennung</Label>
+                <Label>{i18n.t('SignupScreen-Identifier')}</Label>
                 <Input onChangeText={this.setIdentifier} onBlur={() => this.check('identifier')} returnKeyType='next' autoCapitalize='none' onSubmitEditing={Keyboard.dismiss}/>
               </Item>
               <Item stackedLabel error={this.state.errorEmail}>
-                <Label>Email</Label>
+                <Label>{i18n.t('SignupScreen-Email')}</Label>
                 <Input onChangeText={this.setEmai} onBlur={() => this.check('email')} keyboardType='email-address' returnKeyType='next' autoCapitalize='none' onSubmitEditing={Keyboard.dismiss}/>
               </Item>
               <Item stackedLabel error={this.state.errorPassword}>
-                <Label>Passwort</Label>
+                <Label>{i18n.t('SignupScreen-Password')}</Label>
                 <Input secureTextEntry={true} onChangeText={this.setPassword} onBlur={() => this.check('password')} returnKeyType='next' autoCapitalize='none' onSubmitEditing={Keyboard.dismiss}/>
               </Item>
               <Item stackedLabel last error={this.state.errorPasswordRepeat}>
-                <Label>Passwort wiederholen</Label>
+                <Label>{i18n.t('SignupScreen-PasswordRepeat')}</Label>
                 <Input secureTextEntry={true} onChangeText={this.setPasswordRepeat}
                        onBlur={() => this.check('passwordRepeat')} returnKeyType='done' autoCapitalize='none' onSubmitEditing={Keyboard.dismiss}/>
               </Item>
@@ -258,7 +259,7 @@ export default class SignupScreen extends React.Component {
                       underlayColor='#B71234'
                       iconRight block>
 
-                <Text style={baseStyles.redButtonText}>Account erstellen</Text>
+                <Text style={baseStyles.redButtonText}>{i18n.t('SignupScreen-CreateAccount')}</Text>
                 <Icon ios='ios-person-add' android='md-person-add' size={20}/>
               </Button>
             </Form>

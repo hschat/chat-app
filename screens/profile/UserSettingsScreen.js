@@ -16,14 +16,21 @@ import {
     Body,
     Left,
     Right,
+    Picker,
     Spinner,
     Switch,
     Toast,
     Thumbnail
 } from "native-base";
 import {StyleSheet, Image, Alert, Dimensions, TouchableOpacity} from 'react-native';
+import TimeAgo from '../../components/TimeAgo';
 import BaseStyles from '../../baseStyles';
+import Location from '../../Location';
+import Distance from '../../components/Distance';
+import i18n from '../../translation/i18n';
+import Expo from 'expo';
 
+const AsyncStorage = require('react-native').AsyncStorage;
 
 const styles = StyleSheet.create({
     image: {
@@ -71,7 +78,7 @@ export default class UserSettingsScreen extends Component {
                     name="ios-arrow-back-outline"/></Button>
             ),
             headerRight: (
-                <Button onPress={screenProps.store.promptForLogout} transparent><Text>Abmelden</Text></Button>
+                <Button onPress={screenProps.store.promptForLogout} transparent><Text>{i18n.t('UserSettingsScreen-SignOut')}</Text></Button>
             )
         }
     };
@@ -85,6 +92,7 @@ export default class UserSettingsScreen extends Component {
             user: null,
             ready: false,
             status: '',
+            selected: undefined,
             checked: true,
             location: false,
             showStatusModal: false,
@@ -105,7 +113,7 @@ export default class UserSettingsScreen extends Component {
                     this.setState({user: this.store.user, ready: false}, () => {
                         this.setState({location_is_allowed: this.store.user.location_is_allowed});
                     });
-                    Alert.alert('Fehler', 'Benutzer nicht gefunden');
+                    Alert.alert(i18n.t('UserSettingsScreen-Error'), i18n.t('UserSettingsScreen-UserNotFound'));
                 });
 
             } else {
@@ -136,13 +144,20 @@ export default class UserSettingsScreen extends Component {
         });
     }
 
+  onValueChange(value) {
+    this.setState({selected: value}, () => {
+        i18n.changeLanguage(this.state.selected);
+        Expo.Util.reload();
+    });
+  }
+
     renderSettings = () => {
         return (
             <View>
                 <Content>
                     <ListItem style={{width: 200}}>
                         <Body>
-                        <Text>Standort erlauben?</Text>
+                        <Text>{i18n.t('UserSettingsScreen-Location')}</Text>
                         </Body>
                         <CheckBox
                             checked={
@@ -151,6 +166,24 @@ export default class UserSettingsScreen extends Component {
                             onPress={() => this._checkBoxHandler()}
                         />
                     </ListItem>
+
+                  <Form>
+                    <Label>{i18n.t('UserSettingsScreen-ChangeLanguage')}</Label>
+                    <Picker
+                      mode="dropdown"
+                      iosIcon={<Icon name="ios-arrow-down-outline" />}
+                      placeholder={i18n.t(i18n.language)}
+                      placeholderStyle={{ color: "#5267ea" }}
+                      placeholderIconColor="#007aff"
+                      selectedValue={i18n.language}
+                      onValueChange={this.onValueChange.bind(this)}
+                    >
+                      <Picker.Item label={i18n.t('de')} value="de" />
+                      <Picker.Item label={i18n.t('en')} value="en" />
+                      <Picker.Item label={i18n.t('es')} value="es" />
+                      <Picker.Item label={i18n.t('ru')} value="ru" />
+                    </Picker>
+                  </Form>
                 </Content>
 
             </View>

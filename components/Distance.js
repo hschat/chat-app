@@ -2,21 +2,22 @@ import React, { Component } from 'react';
 import {
   StyleSheet, Image, Alert, Dimensions, TouchableOpacity, Text,
 } from 'react-native';
+import i18n from '../translation/i18n';
 
 const styles = StyleSheet.create({});
 
 UNITS = {
   cm: {
-    short: 'cm',
-    long: 'Zentimeter',
+    short: i18n.t('Distance-cmShort'),
+    long: i18n.t('Distance-cmShort'),
   },
   m: {
-    short: 'm',
-    long: 'Meter',
+    short: i18n.t('Distance-mShort'),
+    long: i18n.t('Distance-mLong'),
   },
   km: {
-    short: 'km',
-    long: 'Kilometer',
+    short: i18n.t('Distance-kmShort'),
+    long: i18n.t('Distance-kmLong'),
   },
 };
 

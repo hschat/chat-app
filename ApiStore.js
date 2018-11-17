@@ -9,6 +9,7 @@ import authentication from '@feathersjs/authentication-client';
 import Location from './Location'
 import React, {Component} from 'react'
 import {AppState, Text} from 'react-native'
+import i18n from './translation/i18n';
 
 
 const API_URL = process.env['CHAT_ENDPOINT'] || "https://hsc-backend-staging.herokuapp.com";
@@ -150,13 +151,13 @@ export default class ApiStore {
     }
 
     promptForLogout() {
-        Alert.alert('Abmelden', 'Willst du dich wirklich abmelden?',
+        Alert.alert(i18n.t('ApiStore-SignOut'), i18n.t('ApiStore-SignOutMsg'),
             [
                 {
-                    text: 'Abbrechen', onPress: () => {
+                    text: i18n.t('ApiStore-Cancel'), onPress: () => {
                 }, style: 'cancel'
                 },
-                {text: 'Ja', onPress: this.logout, style: 'destructive'},
+                {text: i18n.t('ApiStore-Yes'), onPress: this.logout, style: 'destructive'},
             ]
         );
     }
