@@ -12,15 +12,12 @@ const languageDetector = {
         if (language) {
           return callback(language.split('_')[0]);
         }
-        if (Expo.Constants.platform.android === undefined) {
-          return Expo.DangerZone.Localization
-            .getCurrentLocaleAsync()
-            .then((lng) => { callback(lng.split('_')[0]); });
-        }
-        return callback('en');
+        return Expo.DangerZone.Localization
+          .getCurrentLocaleAsync()
+          .then((lng) => { callback(lng.split('_')[0]); });
       });
   },
-  init: () => {},
+  init: () => { },
   cacheUserLanguage(language) {
     AsyncStorage.setItem('@i18next-async-storage/user-language', language);
   },

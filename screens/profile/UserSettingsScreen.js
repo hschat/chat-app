@@ -145,8 +145,10 @@ export default class UserSettingsScreen extends Component {
     }
 
   onValueChange(value) {
-    i18n.changeLanguage(value);
-    Expo.Util.reload();
+    this.setState({selected: value}, () => {
+        i18n.changeLanguage(this.state.selected);
+        Expo.Util.reload();
+    });
   }
 
     renderSettings = () => {
@@ -173,7 +175,7 @@ export default class UserSettingsScreen extends Component {
                       placeholder={i18n.t(i18n.language)}
                       placeholderStyle={{ color: "#5267ea" }}
                       placeholderIconColor="#007aff"
-                      selectedValue={this.state.selected}
+                      selectedValue={i18n.language}
                       onValueChange={this.onValueChange.bind(this)}
                     >
                       <Picker.Item label={i18n.t('de')} value="de" />
