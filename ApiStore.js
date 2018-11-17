@@ -11,6 +11,7 @@ import React, {Component} from 'react'
 import {AppState, Text} from 'react-native'
 import i18n from './translation/i18n';
 
+
 const API_URL = process.env['CHAT_ENDPOINT'] || "https://hsc-backend-staging.herokuapp.com";
 
 @autobind
@@ -21,7 +22,7 @@ export default class ApiStore {
     @observable user = null;
     @observable skip = 0;
     @observable alert = {};
-    @observable locationEnabled = true;
+    @observable location_is_allowed = true;
 
     constructor() {
         console.info('API:', API_URL);
@@ -116,6 +117,10 @@ export default class ApiStore {
         return this.app.service('users').patch(user.id, obj);
     }
 
+    updateAccountPlus(user, obj){
+        this.user = user;
+        return this.app.service('users').patch(user.id, obj);
+    }
 
     authenticate(options) {
         options = options ? options : undefined;
@@ -168,7 +173,7 @@ export default class ApiStore {
     }
 
     updateUserStatus = () =>{
-        if(!this.locationEnabled){
+        if(!this.location_is_allowed){
             this.updateAccount(this.user,{location_check_time: null, location_in_hs: false, meter_to_hs: 123}).then(user=>{
                 return Promise.resolve(user);
             })
