@@ -72,11 +72,10 @@ export default class UserSettingsScreen extends Component {
 
     static navigationOptions = ({navigation, screenProps}) => {
         // No logout button for other profiles
-        //if (navigation.state.hasOwnProperty("params") && navigation.state.params !== undefined) return {};
         return {
             headerLeft: (
                 <Button onPress={() => {
-                    navigation.state.params.ProfileScreen.forceUpdate();
+                    navigation.state.params.ProfileScreen.updateLocationIsAllowed();
                     navigation.navigate('Home');
             }} transparent><Icon
                     name="ios-arrow-back-outline"/></Button>
@@ -113,7 +112,7 @@ export default class UserSettingsScreen extends Component {
                 // Try to find the user else print an error
                 this.store.getUserInformation(id).then(user => {
                     this.setState({user: user, ready: true}, () => {
-                        this.setState({location_is_allowed: this.store.user.location_is_allowed});
+                        this.setState({location_is_allowed: user.location_is_allowed});
                     });
                 }).catch(error => {
                     this.setState({user: this.store.user, ready: false}, () => {
@@ -135,22 +134,19 @@ export default class UserSettingsScreen extends Component {
         }
     }
 
-                    /*if(!this.state.location_is_allowed){
-                    this.store.updateAccountPlus(this.store.user, {
-                        meter_to_hs: null, location_in_hs: null
-                    });
-                }*/
-
-
     //set all states and stores of location_is_allowed and update them
     _checkBoxHandler() {
-        this.forceUpdate();
         this.setState({ location_is_allowed: !this.state.location_is_allowed },() => {
             this.store.updateAccountPlus(this.store.user, {
                 location_is_allowed: this.state.location_is_allowed
             }).then(() => {
-                //this.store.user.location_is_allowed = this.state.location_is_allowed;
-                //this.state.user.location_is_allowed = this.state.location_is_allowed;
+                if(!this.state.location_is_allowed){
+                    this.store.updateAccountPlus(this.store.user, {
+                        meter_to_hs: null, location_in_hs: null
+                    });
+                }
+                this.store.user.location_is_allowed = this.state.location_is_allowed;
+                this.state.user.location_is_allowed = this.state.location_is_allowed;
             }).catch((error) => {
                 console.error(error);
             });

@@ -73,7 +73,7 @@ export default class ProfileScreen extends Component {
         return {
             headerLeft: (
                 <Button onPress={() => {
-                    navigation.navigate('View', {ProfileScreen: this});
+                    navigation.navigate('View', {ProfileScreen: screenProps.ProfileScreen});
                 }} transparent><Icon
                     name="ios-settings"/></Button>
             ),
@@ -96,6 +96,7 @@ export default class ProfileScreen extends Component {
             location_is_allowed: null,
         };
         this.store = this.props.screenProps.store;
+        this.props.screenProps.ProfileScreen = this;
     }
 
     componentDidMount() {
@@ -107,7 +108,7 @@ export default class ProfileScreen extends Component {
                 // Try to find the user else print an error
                 this.store.getUserInformation(id).then(user => {
                     this.setState({user: user, ready: true}, () => {
-                        this.setState({location_is_allowed: this.store.user.location_is_allowed});
+                        this.setState({location_is_allowed: user.location_is_allowed});
                     });
                 }).catch(error => {
                     this.setState({user: this.store.user, ready: false}, () => {
@@ -126,7 +127,15 @@ export default class ProfileScreen extends Component {
                 this.setState({location_is_allowed: this.store.user.location_is_allowed});
             });
         }
-    }
+    };
+
+    updateLocationIsAllowed(){
+        this.store.getUserInformation(this.store.user.id).then(user => {
+            this.setState({
+                location_is_allowed: user.location_is_allowed
+            });
+        });
+    };
 
     updateStatus = (status) => {
         console.log('neuer status', status);
