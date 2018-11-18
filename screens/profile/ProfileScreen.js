@@ -222,19 +222,15 @@ export default class ProfileScreen extends Component {
         }
         if (this.state.location_is_allowed === false) {
             text = (<Text>{i18n.t('ProfileScreen-LocationNotAllowed')}</Text>);
-            console.log('1' + this.state.location_is_allowed);
         } else if (this.state.user.location_in_hs && this.state.location_is_allowed === true) {
             // Set a text for a user who were near hs
             text = (<Text>{i18n.t('ProfileScreen-AtUniversity')}</Text>);
-            console.log('2' + this.state.location_is_allowed);
         } else if (!this.state.user.location_in_hs && this.state.location_is_allowed === true) {
             // Set a text for a user who is far away from the hs
             text = (<Text><Distance distance={this.state.user.meter_to_hs}/>{i18n.t('ProfileScreen-DistanceFromUniversity')}</Text>);
-            console.log('3' + this.state.location_is_allowed);
         } else {
             // Set default text if the user has not been online yet
             text = (<Text>{i18n.t('ProfileScreen-LocationNotFound')}</Text>);
-            console.log('4' + this.state.location_is_allowed);
         }
         return (
             <Item stackedLabel style={[styles.item, styles.left]}>
