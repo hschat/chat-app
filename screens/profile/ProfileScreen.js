@@ -72,7 +72,9 @@ export default class ProfileScreen extends Component {
         if (navigation.state.hasOwnProperty("params") && navigation.state.params !== undefined) return {};
         return {
             headerLeft: (
-                <Button onPress={() => navigation.navigate('View')} transparent><Icon
+                <Button onPress={() => {
+                    navigation.navigate('View', {ProfileScreen: this});
+                }} transparent><Icon
                     name="ios-settings"/></Button>
             ),
             headerRight: (
@@ -91,7 +93,7 @@ export default class ProfileScreen extends Component {
             checked: true,
             location: false,
             showStatusModal: false,
-
+            location_is_allowed: null,
         };
         this.store = this.props.screenProps.store;
     }
@@ -104,17 +106,25 @@ export default class ProfileScreen extends Component {
             if (id !== undefined) {
                 // Try to find the user else print an error
                 this.store.getUserInformation(id).then(user => {
-                    this.setState({user: user, ready: true});
+                    this.setState({user: user, ready: true}, () => {
+                        this.setState({location_is_allowed: this.store.user.location_is_allowed});
+                    });
                 }).catch(error => {
-                    this.setState({user: this.store.user, ready: false});
+                    this.setState({user: this.store.user, ready: false}, () => {
+                        this.setState({location_is_allowed: this.store.user.location_is_allowed});
+                    });
                     Alert.alert(i18n.t('ProfileScreen-Error'), i18n.t('ProfileScreen-UserNotFound'));
                 });
 
             } else {
-                this.setState({user: this.store.user, ready: true})
+                this.setState({user: this.store.user, ready: true}, () => {
+                    this.setState({location_is_allowed: this.store.user.location_is_allowed});
+                });
             }
         } else {
-            this.setState({user: this.store.user, ready: true})
+            this.setState({user: this.store.user, ready: true}, () => {
+                this.setState({location_is_allowed: this.store.user.location_is_allowed});
+            });
         }
     }
 
@@ -196,23 +206,26 @@ export default class ProfileScreen extends Component {
     };
 
     renderLocation = () => {
-
         let time = <Text></Text>;
         let text = <Text></Text>;
         if (this.state.user.location_check_time) {
             time = <TimeAgo time={this.state.user.location_check_time} name={'last_location_time'}/>
         }
-        if (this.state.user.location_in_hs) {
+        if (this.state.location_is_allowed === false) {
+            text = (<Text>{i18n.t('ProfileScreen-LocationNotAllowed')}</Text>);
+            console.log('1' + this.state.location_is_allowed);
+        } else if (this.state.user.location_in_hs && this.state.location_is_allowed === true) {
             // Set a text for a user who were near hs
-            text = <Text>{i18n.t('ProfileScreen-AtUniversity')}</Text>;
-        } else if (!this.state.user.location_in_hs && this.state.user.meter_to_hs !== 123) {
+            text = (<Text>{i18n.t('ProfileScreen-AtUniversity')}</Text>);
+            console.log('2' + this.state.location_is_allowed);
+        } else if (!this.state.user.location_in_hs && this.state.location_is_allowed === true) {
             // Set a text for a user who is far away from the hs
-            text = <Text><Distance distance={this.state.user.meter_to_hs}/>{i18n.t('ProfileScreen-DistanceFromUniversity')}</Text>
-        } else if (this.state.user.meter_to_hs === 123) {
-            text = (<Text>{i18n.t('ProfileScreen-LocationNotAllowed')}</Text>)
+            text = (<Text><Distance distance={this.state.user.meter_to_hs}/>{i18n.t('ProfileScreen-DistanceFromUniversity')}</Text>);
+            console.log('3' + this.state.location_is_allowed);
         } else {
             // Set default text if the user has not been online yet
-            text = (<Text>{i18n.t('ProfileScreen-LocationNotFound')}</Text>)
+            text = (<Text>{i18n.t('ProfileScreen-LocationNotFound')}</Text>);
+            console.log('4' + this.state.location_is_allowed);
         }
         return (
             <Item stackedLabel style={[styles.item, styles.left]}>
