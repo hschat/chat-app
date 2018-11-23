@@ -188,6 +188,7 @@ export default class ApiStore {
         partial = `${partial}%`;
         const query = {
             query: {
+                is_activated: true,
                 $or: [
                     {
                         email: {
