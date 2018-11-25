@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {Content, Icon, Spinner, H1, Form, Textarea, Button, Toast} from 'native-base'
 import baseStyles from '../../baseStyles';
+import i18n from '../../translation/i18n';
 
 const styles = StyleSheet.create({
     middle: {
@@ -65,7 +66,7 @@ export default class FeedbackScreen extends React.Component {
     send = () => {
         // Check if this is to short
         if (this.state.text.length < 15) {
-            this.toastIt('Bitte gib etwas mehr Text ein', 'warning');
+            this.toastIt(i18n.t('FeedbackScreen-MoreText'), 'warning');
             return;
         } else if (this.state.loading) {
             return;
@@ -80,18 +81,17 @@ export default class FeedbackScreen extends React.Component {
         this.store.app.service('feedback').create(data).then(() => {
             //After
             this.setState({loading: false, text: ''});
-            this.toastIt('Danke für dein Feedback', 'success');
+            this.toastIt(i18n.t('FeedbackScreen-ThankYou'), 'success');
 
         }).catch(error => {
             this.setState({loading: false});
-            this.toastIt('Bei senden ist ein Fehler aufgetretten 😩', 'error');
+            this.toastIt(i18n.t('FeedbackScreen-ErrorSending'), 'error');
         });
 
 
     };
 
     renderTextCounter() {
-
         let color = 'green';
         if (this.state.text.length < 15)
             color = 'orange';
@@ -108,7 +108,7 @@ export default class FeedbackScreen extends React.Component {
     }
 
     render() {
-        let buttonText = <Text>Absenden!</Text>
+        let buttonText = <Text>{i18n.t('FeedbackScreen-Send')}</Text>
         if (this.state.loading) buttonText = <Spinner color='green'/>
         return (
             <Content>
@@ -123,12 +123,10 @@ export default class FeedbackScreen extends React.Component {
                             <View style={{marginRight: 50}}>
                                 <View>
                                     <H1>
-                                        Wir brauchen dich❗
+                                    {i18n.t('FeedbackScreen-WeNeedHelp')}
                                     </H1>
-                                    <Text>Dir fehlt etwas oder ist ein Fehler aufgefallen?
-                                        Dann sende uns jetzt anonym deine
-                                        Verbesserungsvorschläge!</Text>
-                                    <Text>Wir <Text style={{fontWeight: 'bold'}}>danken</Text> dir 😍</Text>
+                                    <Text>{i18n.t('FeedbackScreen-WeNeedHelpMsg')}</Text>
+                                    <Text>{i18n.t('FeedbackScreen-HelpThankYou1')}<Text style={{fontWeight: 'bold'}}>{i18n.t('FeedbackScreen-HelpThankYou2')}</Text>{i18n.t('FeedbackScreen-HelpThankYou3')}</Text>
                                 </View>
                             </View>
                         </View>
@@ -137,7 +135,7 @@ export default class FeedbackScreen extends React.Component {
                             <View style={{marginBottom: 20}}>
                             <Textarea onChangeText={(text) => this.setState({text: text})} value={this.state.text}
                                       style={{backgroundColor: 'white', marginBottom: 5}} rowSpan={11} bordered
-                                      placeholder="Dein Feedback!"/>
+                                      placeholder={i18n.t('FeedbackScreen-YourFeedback')}/>
                                 {this.renderTextCounter()}
                             </View>
                             <Button block success onPress={this.send}>

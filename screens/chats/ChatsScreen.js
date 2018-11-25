@@ -10,6 +10,7 @@ import TimeAgo from "../../components/TimeAgo";
 import {autobind} from "core-decorators";
 import {observer} from "mobx-react";
 import {observe} from "mobx";
+import i18n from '../../translation/i18n';
 
 const styles = StyleSheet.create({
     list: {
@@ -127,7 +128,7 @@ export default class ChatsScreen extends Component {
         if (this.state.chats.length === 0) {
             return (
                 <View>
-                    <Text>Keine chats vorhanden</Text>
+                    <Text>{i18n.t('ChatsScreen-NoChats')}</Text>
                 </View>
             )
         }

@@ -3,7 +3,8 @@ import {View, StyleSheet, Image, TouchableWithoutFeedback, Keyboard, Alert} from
 import {
   FormInput, Button, Spinner, Container, Title, Icon, Input, Form,
   Text, Item, Label, Toast, Content
-} from 'native-base'
+} from 'native-base';
+import i18n from '../../translation/i18n'
 
 const baseStyles = require('../../baseStyles');
 
@@ -28,7 +29,7 @@ export default class LoginScreen extends React.Component {
       password: '',
       showToast: false,
     };
-  }
+  };
 
   setName = (n) => {
     this.setState({name: n})
@@ -43,19 +44,16 @@ export default class LoginScreen extends React.Component {
       password: this.state.password,
       strategy: 'local'
     }).catch(error => {
-      //console.error('Email nicht gefunden, versuche Kennung: ', error);
       this.store.authenticate({
         hsid: this.state.name,
         password: this.state.password,
         strategy: 'localhsid'
       }).catch(error => {
-        //console.error('Login error:', error);
-        Alert.alert('Fehler', error.message);
+        Alert.alert(i18n.t('LoginScreen-Error'), error.message);
       });
     });
 
   };
-
 
   render() {
     return (
@@ -64,7 +62,7 @@ export default class LoginScreen extends React.Component {
           <Image style={baseStyles.backgroundImage} source={require('../../assets/img/bg.png')}/>
             <Form style={baseStyles.middle}>
               <Item last style={baseStyles.backgroundButtonInput}>
-                <Label>E-mail oder Kennung</Label>
+                <Label>{i18n.t('LoginScreen-Username')}</Label>
                 <Input onChangeText={this.setName}
                        bordered
                        keyboardType='email-address'
@@ -73,7 +71,7 @@ export default class LoginScreen extends React.Component {
                 />
               </Item>
               <Item last style={baseStyles.backgroundButtonInput}>
-                <Label>Passwort</Label>
+                <Label>{i18n.t('LoginScreen-Password')}</Label>
                 <Input onChangeText={this.setPassword}
                        bordered
                        secureTextEntry={true}
@@ -86,7 +84,7 @@ export default class LoginScreen extends React.Component {
                       underlayColor='#B71234'
                       iconRight
                       block>
-                <Text style={baseStyles.redButtonText}>Beitreten</Text>
+                <Text style={baseStyles.redButtonText}>{i18n.t('LoginScreen-Join')}</Text>
                 <Icon ios='ios-log-in' android='md-log-in' size={20}/>
               </Button>
             </Form>
