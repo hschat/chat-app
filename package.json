@@ -62,6 +62,8 @@
   },
   "devDependencies": {
     "appr": "^2.0.0",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.7.0",
     "eslint": "^5.8.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
@@ -71,7 +73,8 @@
     "expo-cli": "^2.2.4",
     "flow-bin": "^0.83.0",
     "jest-expo": "^30.0.0",
-    "react-test-renderer": "^16.6.0"
+    "react-test-renderer": "^16.6.0",
+    "redux-mock-store": "^1.5.3"
   },
   "snyk": true
 }
