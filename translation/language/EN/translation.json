@@ -1,4 +1,8 @@
 {  
+    "ChatGroupInfo-Header": "Groupinfo",
+    "ChatGroupInfo-Describtion": "Description",
+    "ChatGroupInfo-UserCount": "Member count",
+
     "ChatScreen-Error": "Error",
     "ChatScreen-ChatNotFound": "Chat not found",
     "ChatScreen-FatalError": "Fatal Error! 💥💀💥",
