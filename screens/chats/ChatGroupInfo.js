@@ -47,7 +47,7 @@ export default class ChatGroupInfo extends React.Component {
         };
 
         this.store.getAdminsForChat(this.props.navigation.state.params.chat).then((admins) => {
-            const res = admins[0].admins.filter(a => a.id !== this.store.user.id);
+            const res = admins[0].admins.filter(adminID => adminID === this.store.user.id);
             this.setState({isAdmin: res !== undefined && res.length === 1});
         });
         
