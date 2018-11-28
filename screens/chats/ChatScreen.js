@@ -48,24 +48,31 @@ const styles = StyleSheet.create({
 export default class ChatScreen extends React.Component {
     static navigationOptions = ({navigation, screenProps}) => {
         const params = navigation.state.params || {};
+        let title = params.chat.type === 'group' ? params.chat.name : params.chat.participants.filter(u => u.id !== screenProps.store.user.id).map(u => u.prename + ' ' + u.lastname)[0];
         if (params.chat.type === 'group') {
             return {
                 headerTitle: (
-                    <Button onPress={() => navigation.navigate('InfoGroup', {chat: params.chat})} transparent><Text style={{fontWeight: '600', fontSize: '17', lineHeight: '19'}}>{params.chat.name}</Text></Button>
+                    <Button onPress={() => navigation.navigate('InfoGroup', {chat: params.chat})} transparent>
+                        <Text style={{fontWeight: '600', fontSize: 17, lineHeight: 19}}>{params.chat.name}</Text>
+                    </Button>
                 ),
                 headerLeft: (
-                    <Button onPress={() => navigation.navigate('Home')} transparent><Icon
-                        name="ios-arrow-back-outline"/></Button>
+                    <Button onPress={() => navigation.navigate('Home')} transparent>
+                        <Icon name="ios-arrow-back-outline"/>
+                    </Button>
                 )
             };
         } else {
             return {
                 headerTitle: (
-                    <Button onPress={() => navigation.navigate('Info', {chat: params.chat})} transparent><Text style={{fontWeight: '600', fontSize: '17', lineHeight: '19'}}>{params.chat.participants.filter(u => u.id !== screenProps.store.user.id).map(u => u.prename + ' ' + u.lastname)[0]}</Text></Button>
+                    <Button onPress={() => navigation.navigate('Info', {chat: params.chat})} transparent>
+                        <Text style={{fontWeight: '600', fontSize: 17, lineHeight: 19}}>{params.chat.participants.filter(u => u.id !== screenProps.store.user.id).map(u => u.prename + ' ' + u.lastname)[0]}</Text>
+                    </Button>
                 ),
                 headerLeft: (
-                    <Button onPress={() => navigation.navigate('Home')} transparent><Icon
-                        name="ios-arrow-back-outline"/></Button>
+                    <Button onPress={() => navigation.navigate('Home')} transparent>
+                        <Icon name="ios-arrow-back-outline"/>
+                    </Button>
                 )
             };
         }
