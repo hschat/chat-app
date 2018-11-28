@@ -11,7 +11,8 @@ import React, {Component} from 'react'
 import {AppState, Text} from 'react-native'
 import i18n from './translation/i18n';
 
-const API_URL = process.env['CHAT_ENDPOINT'] || "https://hsc-backend-staging.herokuapp.com";
+//const API_URL = process.env['CHAT_ENDPOINT'] || "https://hsc-backend-staging.herokuapp.com";
+const API_URL = 'http://192.168.178.29:3030';
 
 @autobind
 export default class ApiStore {
@@ -379,5 +380,18 @@ export default class ApiStore {
     updateMessage(msg, obj) {
         return this.app.service('messages').patch(msg.id, obj);
     }
+
+    updateGroup(id, obj) {
+        return this.app.service('chats').patch(id, obj);
+    } 
+
+    getAdminsForChat(chat) {
+        return this.app.service('chats').find({
+            query: {
+                id: chat.id,
+                $select: [ 'admins' ]
+            }
+        });
+    } 
 
 }

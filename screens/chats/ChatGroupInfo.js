@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+    Text,
     View,
     Button,
     Icon,
@@ -12,6 +13,7 @@ import {
 import {StyleSheet, Image, TextInput} from 'react-native';
 import BaseStyles from '../../baseStyles';
 import i18n from '../../translation/i18n';
+import ModalInput from '../../components/ModalWithInput'
 
 const styles = StyleSheet.create({
     image: {
@@ -40,6 +42,8 @@ export default class ChatGroupInfo extends React.Component {
             description: this.props.navigation.state.params.chat.description,
             userCount: this.props.navigation.state.params.chat.participants.length,
             isAdmin: false,
+            showGroupNameModalInput: false,
+            showGroupDescriptionModalInput: false,
         };
 
         this.store.getAdminsForChat(this.props.navigation.state.params.chat).then((admins) => {
@@ -65,7 +69,7 @@ export default class ChatGroupInfo extends React.Component {
 
         this.store.updateGroup(this.state.id, update    
         ).then(() => {
-            // console.log('Group updated:', update);
+            console.log('Group updated:', update);
         }).catch((error) => {
             console.error('ChatGroupInfo, error send update', error);
         })
@@ -73,70 +77,77 @@ export default class ChatGroupInfo extends React.Component {
 
     editableDescription = () => {
         return (
-            <TextInput 
-                style={{backgroundColor: 'transparent',
-                        borderWidth: 1,
-                        borderRadius: 10,
-                        borderColor: '#000000',
-                        flexDirection: 'row',
-                        alignSelf: 'stretch',
-                        margin: 5}}
-                value={this.state.description}
-                onChangeText={(text) => this.updateGroup({description: text})}
-                multiline={true}
-                underlineColorAndroid='rgba(0,0,0,0)'    
-            />
+            <View>
+                <ModalInput
+                    text='Geb deine neue Beschreibung für die Gruppe ein'
+                    placeholder='Beschreibung...'
+                    visible={this.state.showGroupDescriptionModalInput}
+                    input={JSON.parse(JSON.stringify(this.state.description))}  // deep copy of this.state.description
+                    positiv={(description) => {
+                        this.updateGroup({description: description});
+                        this.setState({showGroupDescriptionModalInput: false});
+                    }}
+                    negativ={() => this.setState({showGroupDescriptionModalInput: false})}
+                    maxLength={340}
+                    multiline={true} 
+                />
+                <Button transparent onPress={() => this.setState({showGroupDescriptionModalInput: true})}>
+                    <Text style={{backgroundColor: 'transparent',
+                                  fontWeight: 'bold',
+                                  fontSize: 12,
+                                  color: 'black'}}>{this.state.description}</Text>
+                </Button>
+            </View>
         )
     };
     
     staticDescription = () => {
         return (
-            <TextInput 
-                style={{backgroundColor: 'transparent',
-                        borderWidth: 1,
-                        borderRadius: 10,
-                        borderColor: '#000000',
-                        flexDirection: 'row',
-                        alignSelf: 'stretch',
-                        margin: 5}}
-                value={this.state.description}
-                multiline={true}
-                underlineColorAndroid='rgba(0,0,0,0)'    
-                editable={false}
-                selectTextOnFocus={false}
-            />
+            <Label style={{ backgroundColor: 'transparent',
+                            fontWeight: 'bold',
+                            fontSize: 23,
+                            flex: 1}}>
+                {this.state.description}
+            </Label>
         )
     };
 
     editableTitle = () => {
         return (
-            <TextInput 
-                style={{backgroundColor: 'transparent',
-                        fontWeight: 'bold',
-                        fontSize: 23,
-                        flex: 10}}
-                value={this.state.name}
-                onChangeText={(text) => this.updateGroup({name: text})}
-                multiline={false}
-                underlineColorAndroid='rgba(0,0,0,0)'
-            />
+            <View>
+                <ModalInput
+                    text='Geb deinen neuen Namen für die Gruppe ein'
+                    placeholder='Name...'
+                    visible={this.state.showGroupNameModalInput}
+                    input={JSON.parse(JSON.stringify(this.state.name))}  // deep copy of this.state.name
+                    positiv={(name) => {
+                        if(name) {
+                            // not empty
+                            this.updateGroup({name: name});
+                        } 
+                        this.setState({showGroupNameModalInput: false});
+                    }}
+                    negativ={() => this.setState({showGroupNameModalInput: false})}
+                    maxLength={50}
+                />
+                <Button transparent onPress={() => this.setState({showGroupNameModalInput: true})}>
+                    <Text style={{backgroundColor: 'transparent',
+                                  fontWeight: 'bold',
+                                  fontSize: 20,
+                                  color: 'black'}}>{this.state.name}</Text>
+                </Button>
+            </View>
         )
     };
     
     staticTitle = () => {
         return (
-            <TextInput 
-                style={{backgroundColor: 'transparent',
-                        fontWeight: 'bold',
-                        fontSize: 23,
-                        flex: 10}}
-                value={this.state.name}
-                onChangeText={(text) => this.updateGroup({name: text})}
-                multiline={false}
-                underlineColorAndroid='rgba(0,0,0,0)'
-                editable={false}
-                selectTextOnFocus={false}
-            />
+            <Label style={{ backgroundColor: 'transparent',
+                            fontWeight: 'bold',
+                            fontSize: 23,
+                            flex: 1}}>
+                {this.state.name}
+            </Label>
         )
     };
 
@@ -167,7 +178,6 @@ export default class ChatGroupInfo extends React.Component {
                         </Label>
                         <Form style={{marginTop: 20}}>
                            {this.state.isAdmin ? this.editableDescription() : this.staticDescription()} 
-                            
                         </Form>
                     </Item>
                     <Item stackedLabel style={[styles.item, styles.left]}>
