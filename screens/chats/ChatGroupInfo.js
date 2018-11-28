@@ -104,11 +104,11 @@ export default class ChatGroupInfo extends React.Component {
                     multiline={true} 
                 />
                 <Button style={{flexDirection: 'row',}} transparent onPress={() => this.setState({showGroupDescriptionModalInput: true})}>
-                    <Text style={{backgroundColor: 'white',
-                                  fontSize: 12,}}>
+                    <Text style={{backgroundColor: 'transparent',
+                                  fontSize: 12, color: 'black'}}>
                         {this.state.description}
                     </Text>
-                    <Icon name="ios-create"/>
+                    <Icon style={{color: 'black'}} name="ios-create"/>
                 </Button>
             </View>
         )
@@ -142,11 +142,11 @@ export default class ChatGroupInfo extends React.Component {
                     maxLength={50}
                 />
                 <Button style={{flexDirection: 'row',}} transparent onPress={() => this.setState({showGroupNameModalInput: true})}>
-                    <Text style={{backgroundColor: 'white',
+                    <Text style={{backgroundColor: 'transparent',
                                   fontWeight: 'bold',
                                   fontSize: 20,
                                   color: 'black'}}>{this.state.name}</Text>
-                    <Icon name="ios-create"/>
+                    <Icon style={{color: 'black'}} name="ios-create"/>
                 </Button>
                 
             </View>
@@ -189,7 +189,7 @@ export default class ChatGroupInfo extends React.Component {
                         <Label>
                             {i18n.t('ChatGroupInfo-Describtion')}
                         </Label>
-                        <Form style={{marginTop: 20}}>
+                        <Form style={{marginTop: 0}}>
                            {this.state.isAdmin ? this.editableDescription() : this.staticDescription()} 
                         </Form>
                     </Item>
