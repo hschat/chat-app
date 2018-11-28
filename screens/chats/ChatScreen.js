@@ -180,6 +180,15 @@ export default class ChatScreen extends React.Component {
             } //else ignore typing message in this chat
             
         });
+
+        // Update the chat if it gets patched
+        this.store.app.service('chats').on('patched', updatedChat => {
+            if(updatedChat.id === this.state.chat.id) {
+                this.setState({chat: updatedChat});
+                this.updateParticipants(this.state.chat);
+                this.props.navigation.setParams({chat: updatedChat});
+            } 
+        });
     }
 
     handleNewTyping() {

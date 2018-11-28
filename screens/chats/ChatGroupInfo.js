@@ -9,7 +9,7 @@ import {
     Label,
     Textarea
 } from "native-base";
-import {StyleSheet, Image} from 'react-native';
+import {StyleSheet, Image, TextInput} from 'react-native';
 import BaseStyles from '../../baseStyles';
 import i18n from '../../translation/i18n';
 
@@ -34,6 +34,12 @@ export default class ChatGroupInfo extends React.Component {
     constructor(props) {
         super(props);
         this.store = this.props.screenProps.store;
+        this.state = {
+            id: this.props.navigation.state.params.chat.id,
+            name: this.props.navigation.state.params.chat.name,
+            description: this.props.navigation.state.params.chat.description,
+            userCount: this.props.navigation.state.params.chat.participants.length,
+        };
     }
 
     static navigationOptions = ({navigation, screenProps}) => {
@@ -44,6 +50,18 @@ export default class ChatGroupInfo extends React.Component {
                     name="ios-arrow-back-outline"/></Button>
             )
         }
+    };
+
+    updateGroup = (update) => {
+
+        this.setState(update);
+
+        this.store.updateGroup(this.state.id, update    
+        ).then(() => {
+            console.log('Group updated:', update);
+        }).catch((error) => {
+            console.error('ChatGroupInfo, error send update', error);
+        })
     };
 
     render() {
@@ -63,8 +81,16 @@ export default class ChatGroupInfo extends React.Component {
                         alignItems: 'flex-start',
                         marginLeft: 5,
                     }]}>
-                      <Textarea style={{backgroundColor: 'transparent', fontWeight: 'bold', fontSize: 23}}
-                                      placeholder={this.props.navigation.state.params.chat.name}/>
+                    <TextInput 
+                        style={{backgroundColor: 'transparent',
+                                fontWeight: 'bold',
+                                fontSize: 23,
+                                flex: 10}}
+                        value={this.state.name}
+                        onChangeText={(text) => this.updateGroup({name: text})}
+                        multiline={false}
+                        underlineColorAndroid='rgba(0,0,0,0)'
+                    />
                     </View>
                 </View>
                 <Form>
@@ -73,12 +99,24 @@ export default class ChatGroupInfo extends React.Component {
                             {i18n.t('ChatGroupInfo-Describtion')}
                         </Label>
                         <Form style={{marginTop: 20}}>
-                            <Textarea style={{backgroundColor: 'transparent'}} rowSpan={2}
-                                      placeholder="Hier steht die Beschreibung"/>
+                            <TextInput 
+                                style={{backgroundColor: 'transparent',
+                                        borderWidth: 1,
+                                        borderRadius: 10,
+                                        borderColor: '#000000',
+                                        flexDirection: 'row',
+                                        alignSelf: 'stretch',
+                                        margin: 5}}
+                                value={this.state.description}
+                                onChangeText={(text) => this.updateGroup({description: text})}
+                                multiline={true}
+                                underlineColorAndroid='rgba(0,0,0,0)'
+                                
+                            />
                         </Form>
                     </Item>
                     <Item stackedLabel style={[styles.item, styles.left]}>
-                        <Label>{i18n.t('ChatGroupInfo-UserCount')}: {this.props.navigation.state.params.chat.participants.length} </Label>
+                        <Label>{i18n.t('ChatGroupInfo-UserCount')}: {this.state.userCount} </Label>
                     </Item>
                 </Form>
             </View>
