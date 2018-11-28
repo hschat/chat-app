@@ -75,6 +75,18 @@ export default class ChatGroupInfo extends React.Component {
         })
     };
 
+    /*
+    FIXME:  Editable Description 
+                ...color is blue
+                ...multiple lines of text do not resize properly
+            Editable Name and Description
+                ...gets always toUppercase?!
+            Design
+                ...better way than white background to indicate editability?
+            Translation
+                ...add to this class
+    */
+
     editableDescription = () => {
         return (
             <View>
@@ -91,11 +103,12 @@ export default class ChatGroupInfo extends React.Component {
                     maxLength={340}
                     multiline={true} 
                 />
-                <Button transparent onPress={() => this.setState({showGroupDescriptionModalInput: true})}>
-                    <Text style={{backgroundColor: 'transparent',
-                                  fontWeight: 'bold',
-                                  fontSize: 12,
-                                  color: 'black'}}>{this.state.description}</Text>
+                <Button style={{flexDirection: 'row',}} transparent onPress={() => this.setState({showGroupDescriptionModalInput: true})}>
+                    <Text style={{backgroundColor: 'white',
+                                  fontSize: 12,}}>
+                        {this.state.description}
+                    </Text>
+                    <Icon name="ios-create"/>
                 </Button>
             </View>
         )
@@ -104,9 +117,7 @@ export default class ChatGroupInfo extends React.Component {
     staticDescription = () => {
         return (
             <Label style={{ backgroundColor: 'transparent',
-                            fontWeight: 'bold',
-                            fontSize: 23,
-                            flex: 1}}>
+                            fontSize: 12,}}>
                 {this.state.description}
             </Label>
         )
@@ -130,12 +141,14 @@ export default class ChatGroupInfo extends React.Component {
                     negativ={() => this.setState({showGroupNameModalInput: false})}
                     maxLength={50}
                 />
-                <Button transparent onPress={() => this.setState({showGroupNameModalInput: true})}>
-                    <Text style={{backgroundColor: 'transparent',
+                <Button style={{flexDirection: 'row',}} transparent onPress={() => this.setState({showGroupNameModalInput: true})}>
+                    <Text style={{backgroundColor: 'white',
                                   fontWeight: 'bold',
                                   fontSize: 20,
                                   color: 'black'}}>{this.state.name}</Text>
+                    <Icon name="ios-create"/>
                 </Button>
+                
             </View>
         )
     };
@@ -144,7 +157,7 @@ export default class ChatGroupInfo extends React.Component {
         return (
             <Label style={{ backgroundColor: 'transparent',
                             fontWeight: 'bold',
-                            fontSize: 23,
+                            fontSize: 20,
                             flex: 1}}>
                 {this.state.name}
             </Label>
