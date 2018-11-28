@@ -39,7 +39,14 @@ export default class ChatGroupInfo extends React.Component {
             name: this.props.navigation.state.params.chat.name,
             description: this.props.navigation.state.params.chat.description,
             userCount: this.props.navigation.state.params.chat.participants.length,
+            isAdmin: false,
         };
+
+        this.store.getAdminsForChat(this.props.navigation.state.params.chat).then((admins) => {
+            const res = admins[0].admins.filter(a => a.id !== this.store.user.id);
+            this.setState({isAdmin: res !== undefined && res.length === 1});
+        });
+        
     }
 
     static navigationOptions = ({navigation, screenProps}) => {
@@ -58,10 +65,79 @@ export default class ChatGroupInfo extends React.Component {
 
         this.store.updateGroup(this.state.id, update    
         ).then(() => {
-            console.log('Group updated:', update);
+            // console.log('Group updated:', update);
         }).catch((error) => {
             console.error('ChatGroupInfo, error send update', error);
         })
+    };
+
+    editableDescription = () => {
+        return (
+            <TextInput 
+                style={{backgroundColor: 'transparent',
+                        borderWidth: 1,
+                        borderRadius: 10,
+                        borderColor: '#000000',
+                        flexDirection: 'row',
+                        alignSelf: 'stretch',
+                        margin: 5}}
+                value={this.state.description}
+                onChangeText={(text) => this.updateGroup({description: text})}
+                multiline={true}
+                underlineColorAndroid='rgba(0,0,0,0)'    
+            />
+        )
+    };
+    
+    staticDescription = () => {
+        return (
+            <TextInput 
+                style={{backgroundColor: 'transparent',
+                        borderWidth: 1,
+                        borderRadius: 10,
+                        borderColor: '#000000',
+                        flexDirection: 'row',
+                        alignSelf: 'stretch',
+                        margin: 5}}
+                value={this.state.description}
+                multiline={true}
+                underlineColorAndroid='rgba(0,0,0,0)'    
+                editable={false}
+                selectTextOnFocus={false}
+            />
+        )
+    };
+
+    editableTitle = () => {
+        return (
+            <TextInput 
+                style={{backgroundColor: 'transparent',
+                        fontWeight: 'bold',
+                        fontSize: 23,
+                        flex: 10}}
+                value={this.state.name}
+                onChangeText={(text) => this.updateGroup({name: text})}
+                multiline={false}
+                underlineColorAndroid='rgba(0,0,0,0)'
+            />
+        )
+    };
+    
+    staticTitle = () => {
+        return (
+            <TextInput 
+                style={{backgroundColor: 'transparent',
+                        fontWeight: 'bold',
+                        fontSize: 23,
+                        flex: 10}}
+                value={this.state.name}
+                onChangeText={(text) => this.updateGroup({name: text})}
+                multiline={false}
+                underlineColorAndroid='rgba(0,0,0,0)'
+                editable={false}
+                selectTextOnFocus={false}
+            />
+        )
     };
 
     render() {
@@ -81,16 +157,7 @@ export default class ChatGroupInfo extends React.Component {
                         alignItems: 'flex-start',
                         marginLeft: 5,
                     }]}>
-                    <TextInput 
-                        style={{backgroundColor: 'transparent',
-                                fontWeight: 'bold',
-                                fontSize: 23,
-                                flex: 10}}
-                        value={this.state.name}
-                        onChangeText={(text) => this.updateGroup({name: text})}
-                        multiline={false}
-                        underlineColorAndroid='rgba(0,0,0,0)'
-                    />
+                    {this.state.isAdmin ? this.editableTitle() : this.staticTitle()} 
                     </View>
                 </View>
                 <Form>
@@ -99,20 +166,8 @@ export default class ChatGroupInfo extends React.Component {
                             {i18n.t('ChatGroupInfo-Describtion')}
                         </Label>
                         <Form style={{marginTop: 20}}>
-                            <TextInput 
-                                style={{backgroundColor: 'transparent',
-                                        borderWidth: 1,
-                                        borderRadius: 10,
-                                        borderColor: '#000000',
-                                        flexDirection: 'row',
-                                        alignSelf: 'stretch',
-                                        margin: 5}}
-                                value={this.state.description}
-                                onChangeText={(text) => this.updateGroup({description: text})}
-                                multiline={true}
-                                underlineColorAndroid='rgba(0,0,0,0)'
-                                
-                            />
+                           {this.state.isAdmin ? this.editableDescription() : this.staticDescription()} 
+                            
                         </Form>
                     </Item>
                     <Item stackedLabel style={[styles.item, styles.left]}>

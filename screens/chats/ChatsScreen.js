@@ -51,7 +51,6 @@ export default class ChatsScreen extends Component {
         });
 
         this.store.app.service('chats').on('created', createdChat => {
-            console.log('new chat will mount');
             let chats = this.state.chats;
             chats.push(createdChat);
             this.setState({chats: chats});
