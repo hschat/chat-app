@@ -185,8 +185,8 @@ export default class ChatGroupInfo extends React.Component {
     // Password and Link options
     renderSelfmanagedOptions = () => {
         return (
-            <View style={{width: '100%'}}>
-                <ListItem>
+            <View>
+                <ListItem style={{width: 200}}>
                     <Body>
                         <Text>{i18n.t('ChatGroupInfo-Password')}</Text>
                     </Body>
@@ -211,7 +211,7 @@ export default class ChatGroupInfo extends React.Component {
                         <Icon style={{color: 'black'}} name="ios-create"/>
                     </Button>
                 </ListItem>
-                <ListItem>
+                <ListItem style={{width: 500}}>
                     <Body>
                         <Text>{i18n.t('ChatGroupInfo-Link')}</Text>
                     </Body>
@@ -225,7 +225,7 @@ export default class ChatGroupInfo extends React.Component {
     renderSelfmanagedArea = () => {
         return (
             <View>
-                <ListItem style={{width: '100%'}}>
+                <ListItem style={{width: 200}}>
                     <Body>
                         <Text style={{fontSize: 18}}>{i18n.t('ChatGroupInfo-Selfmanaged')}</Text>
                     </Body>
