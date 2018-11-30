@@ -8,7 +8,11 @@ import {
     Form,
     Item,
     Label,
-    H3
+    H3,
+    ListItem,
+    Body,
+    CheckBox,
+    Input,
 } from "native-base";
 import {StyleSheet, Image, TextInput} from 'react-native';
 import BaseStyles from '../../baseStyles';
@@ -47,6 +51,10 @@ export default class ChatGroupInfo extends React.Component {
             isAdmin: false,
             showGroupNameModalInput: false,
             showGroupDescriptionModalInput: false,
+
+            // selfmanaged_options
+            selfmanaged_password: this.props.navigation.state.params.chat.password,
+            is_selfmanaged: this.props.navigation.state.params.chat.is_selfmanaged,
         };
 
         this.store.getAdminsForChat(this.props.navigation.state.params.chat).then((admins) => {
@@ -174,6 +182,49 @@ export default class ChatGroupInfo extends React.Component {
         )
     };
 
+    // Password and Link options
+    renderSelfmanagedOptions = () => {
+        return (
+            <View>
+                <ListItem style={{width: 200}}>
+                    <Body>
+                    <Text>Passwort</Text>
+                    </Body>
+                    <Input secureTextEntry={false}
+                            onChangeText={(pw) => this.updateGroup({selfmanaged_password: pw})}
+                            returnKeyType='done'
+                            placeholder={this.state.selfmanaged_password}
+                            autoCapitalize='none'/>
+                </ListItem>
+                <ListItem style={{width: 200}}>
+                    <Body>
+                    <Text>Link</Text>
+                    </Body>
+                    <Text>Link-Dummy</Text>
+                </ListItem>
+            </View>
+        )
+    };
+
+    // Whole selfmanaged options
+    renderSelfmanagedArea = () => {
+        return (
+            <View>
+                <ListItem style={{width: 200}}>
+                    <Body>
+                        <Text>Selbstverwaltend</Text>
+                    </Body>
+                    <CheckBox
+                        style={{color: 'black'}} 
+                        checked={this.state.is_selfmanaged}
+                        onPress={() => this.updateGroup({is_selfmanaged: !this.state.is_selfmanaged})}
+                    />
+                </ListItem>
+                {this.state.is_selfmanaged ? this.renderSelfmanagedOptions() : <ListItem/>}
+            </View>
+        )
+    };
+
     render() {
         return (
             <View
@@ -207,6 +258,7 @@ export default class ChatGroupInfo extends React.Component {
                         <Label style={{fontSize: 18}}>{i18n.t('ChatGroupInfo-UserCount')}: {this.state.userCount} </Label>
                     </Item>
                 </Form>
+                {this.state.isAdmin ? this.renderSelfmanagedArea() : <View/>}
             </View>
         );
     }
