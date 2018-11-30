@@ -51,6 +51,7 @@ export default class ChatGroupInfo extends React.Component {
             isAdmin: false,
             showGroupNameModalInput: false,
             showGroupDescriptionModalInput: false,
+            showSelfmanagedPasswordModalInput: false,
 
             // selfmanaged_options
             selfmanaged_password: this.props.navigation.state.params.chat.password,
@@ -103,7 +104,7 @@ export default class ChatGroupInfo extends React.Component {
             <View>
                 <ModalInput
                     text={i18n.t('ChatGroupInfo-DescriptionText')}
-                    placeholder={i18n.t('ChatGroupInfo-Description')}
+                    placeholder={i18n.t('ChatGroupInfo-Description-Placeholder')}
                     visible={this.state.showGroupDescriptionModalInput}
                     input={JSON.parse(JSON.stringify(this.state.description))}  // deep copy of this.state.description
                     positiv={(description) => {
@@ -143,7 +144,7 @@ export default class ChatGroupInfo extends React.Component {
             <View>
                 <ModalInput
                     text={i18n.t('ChatGroupInfo-TitleText')}
-                    placeholder={i18n.t('ChatGroupInfo-Title')}
+                    placeholder={i18n.t('ChatGroupInfo-Title-Placeholder')}
                     visible={this.state.showGroupNameModalInput}
                     input={JSON.parse(JSON.stringify(this.state.name))}  // deep copy of this.state.name
                     positiv={(name) => {
@@ -163,7 +164,6 @@ export default class ChatGroupInfo extends React.Component {
                                   color: 'black'}}>{this.state.name}</Text>
                     <Icon style={{color: 'black'}} name="ios-create"/>
                 </Button>
-                
             </View>
         )
     };
@@ -188,8 +188,29 @@ export default class ChatGroupInfo extends React.Component {
             <View>
                 <ListItem style={{width: 200}}>
                     <Body>
-                    <Text>Passwort</Text>
+                    <Text>{i18n.t('ChatGroupInfo-Password')}</Text>
                     </Body>
+                    <ModalInput
+                        text={i18n.t('ChatGroupInfo-PasswordText')}
+                        placeholder={i18n.t('ChatGroupInfo-Password-Placeholder')}
+                        visible={this.state.showSelfmanagedPasswordModalInput}
+                        input={JSON.parse(JSON.stringify(this.state.selfmanaged_password))}  // deep copy of this.state.selfmanaged_password
+                        positiv={(selfmanaged_password) => {
+                            if(selfmanaged_password) {
+                                // not empty
+                                this.updateGroup({selfmanaged_password: selfmanaged_password});
+                            } 
+                            this.setState({showSelfmanagedPasswordModalInput: false});
+                        }}
+                        negativ={() => this.setState({showSelfmanagedPasswordModalInput: false})}
+                    />
+                    <Button style={{flexDirection: 'row',}} transparent onPress={() => this.setState({showSelfmanagedPasswordModalInput: true})}>
+                        <Text style={{backgroundColor: 'transparent',
+                                    fontWeight: 'bold',
+                                    fontSize: 20,
+                                    color: 'black'}}>{this.state.selfmanaged_password}</Text>
+                        <Icon style={{color: 'black'}} name="ios-create"/>
+                    </Button>
                     <Input secureTextEntry={false}
                             onChangeText={(pw) => this.updateGroup({selfmanaged_password: pw})}
                             returnKeyType='done'
@@ -198,7 +219,7 @@ export default class ChatGroupInfo extends React.Component {
                 </ListItem>
                 <ListItem style={{width: 200}}>
                     <Body>
-                    <Text>Link</Text>
+                    <Text>{i18n.t('ChatGroupInfo-Link')}</Text>
                     </Body>
                     <Text>Link-Dummy</Text>
                 </ListItem>
