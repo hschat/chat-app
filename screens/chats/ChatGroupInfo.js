@@ -121,7 +121,6 @@ export default class ChatGroupInfo extends React.Component {
         return (
             <View style={[BaseStyles.transparent, {
                 flexDirection: 'row',
-                justifyContent: 'left',
                 alignItems: 'flex-start',
                 marginLeft: 0,
                 width: '100%',
