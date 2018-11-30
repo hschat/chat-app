@@ -116,8 +116,9 @@ export default class ChatGroupInfo extends React.Component {
                     multiline={true} 
                 />
                 <Button style={{flexDirection: 'row',}} transparent onPress={() => this.setState({showGroupDescriptionModalInput: true})}>
-                    <Text style={{backgroundColor: 'transparent',
-                                  fontSize: 12, color: 'black'}}>
+                    <Text   style={{backgroundColor: 'transparent',
+                                    fontSize: 12, color: 'black'}} 
+                            uppercase={false}>
                         {this.state.description}
                     </Text>
                     <Icon style={{color: 'black'}} name="ios-create"/>
@@ -158,10 +159,13 @@ export default class ChatGroupInfo extends React.Component {
                     maxLength={50}
                 />
                 <Button style={{flexDirection: 'row',}} transparent onPress={() => this.setState({showGroupNameModalInput: true})}>
-                    <Text style={{backgroundColor: 'transparent',
-                                  fontWeight: 'bold',
-                                  fontSize: 20,
-                                  color: 'black'}}>{this.state.name}</Text>
+                    <Text 
+                        style={{backgroundColor: 'transparent',
+                                fontWeight: 'bold',
+                                fontSize: 20,
+                                color: 'black',
+                                }}
+                        uppercase={false}>{this.state.name}</Text>
                     <Icon style={{color: 'black'}} name="ios-create"/>
                 </Button>
             </View>
@@ -204,14 +208,15 @@ export default class ChatGroupInfo extends React.Component {
                         }}
                         negativ={() => this.setState({showSelfmanagedPasswordModalInput: false})}
                     />
-                    <Button style={{flexDirection: 'row',}} transparent onPress={() => this.setState({showSelfmanagedPasswordModalInput: true})}>
-                        <Text style={{backgroundColor: 'transparent',
-                                    fontSize: 12,
-                                    color: 'black'}}>{this.state.selfmanaged_password}</Text>
+                    <Button transparent onPress={() => this.setState({showSelfmanagedPasswordModalInput: true})}>
+                        <Text   style={{backgroundColor: 'transparent',
+                                        fontSize: 12,
+                                        color: 'black'}} 
+                                uppercase={false}>{this.state.selfmanaged_password}</Text>
                         <Icon style={{color: 'black'}} name="ios-create"/>
                     </Button>
                 </ListItem>
-                <ListItem style={{width: 500}}>
+                <ListItem style={{width: 200}}>
                     <Body>
                         <Text>{i18n.t('ChatGroupInfo-Link')}</Text>
                     </Body>
