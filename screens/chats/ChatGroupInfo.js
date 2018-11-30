@@ -8,7 +8,7 @@ import {
     Form,
     Item,
     Label,
-    Textarea
+    H3
 } from "native-base";
 import {StyleSheet, Image, TextInput} from 'react-native';
 import BaseStyles from '../../baseStyles';
@@ -20,6 +20,9 @@ const styles = StyleSheet.create({
         height: 100,
         borderRadius: 50,
         width: 100,
+    },
+    header: {
+        fontWeight: 'bold'
     },
     left: {
         flexDirection: 'column',
@@ -91,8 +94,8 @@ export default class ChatGroupInfo extends React.Component {
         return (
             <View>
                 <ModalInput
-                    text='Geb deine neue Beschreibung für die Gruppe ein'
-                    placeholder='Beschreibung...'
+                    text={i18n.t('ChatGroupInfo-DescriptionText')}
+                    placeholder={i18n.t('ChatGroupInfo-Description')}
                     visible={this.state.showGroupDescriptionModalInput}
                     input={JSON.parse(JSON.stringify(this.state.description))}  // deep copy of this.state.description
                     positiv={(description) => {
@@ -116,10 +119,15 @@ export default class ChatGroupInfo extends React.Component {
     
     staticDescription = () => {
         return (
-            <Label style={{ backgroundColor: 'transparent',
-                            fontSize: 12,}}>
-                {this.state.description}
-            </Label>
+            <View style={[BaseStyles.transparent, {
+                flexDirection: 'row',
+                justifyContent: 'left',
+                alignItems: 'flex-start',
+                marginLeft: 0,
+                width: '100%',
+            }]}>
+                <Label>{this.state.description}</Label>
+            </View>
         )
     };
 
@@ -127,8 +135,8 @@ export default class ChatGroupInfo extends React.Component {
         return (
             <View>
                 <ModalInput
-                    text='Geb deinen neuen Namen für die Gruppe ein'
-                    placeholder='Name...'
+                    text={i18n.t('ChatGroupInfo-TitleText')}
+                    placeholder={i18n.t('ChatGroupInfo-Title')}
                     visible={this.state.showGroupNameModalInput}
                     input={JSON.parse(JSON.stringify(this.state.name))}  // deep copy of this.state.name
                     positiv={(name) => {
@@ -155,12 +163,15 @@ export default class ChatGroupInfo extends React.Component {
     
     staticTitle = () => {
         return (
-            <Label style={{ backgroundColor: 'transparent',
-                            fontWeight: 'bold',
-                            fontSize: 20,
-                            flex: 1}}>
-                {this.state.name}
-            </Label>
+            <View style={[BaseStyles.transparent, {
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+                marginLeft: 5,
+                width: '85%',
+            }]}>
+                <H3 style={styles.header}>{this.state.name}</H3>
+            </View>
         )
     };
 
@@ -186,15 +197,15 @@ export default class ChatGroupInfo extends React.Component {
                 </View>
                 <Form>
                     <Item stackedLabel style={[styles.item, styles.left]}>
-                        <Label>
+                        <Label style={{fontSize: 18}}  >
                             {i18n.t('ChatGroupInfo-Describtion')}
                         </Label>
-                        <Form style={{marginTop: 0}}>
+                        <Form style={{marginTop: 10}}>
                            {this.state.isAdmin ? this.editableDescription() : this.staticDescription()} 
                         </Form>
                     </Item>
                     <Item stackedLabel style={[styles.item, styles.left]}>
-                        <Label>{i18n.t('ChatGroupInfo-UserCount')}: {this.state.userCount} </Label>
+                        <Label style={{fontSize: 18}}>{i18n.t('ChatGroupInfo-UserCount')}: {this.state.userCount} </Label>
                     </Item>
                 </Form>
             </View>

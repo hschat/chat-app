@@ -2,6 +2,10 @@
     "ChatGroupInfo-Header": "Gruppeninfo",
     "ChatGroupInfo-Describtion": "Beschreibung",
     "ChatGroupInfo-UserCount": "Mitgliederanzahl",
+    "ChatGroupInfo-DescriptionText": "Geb deine neue Beschreibung für die Gruppe ein",
+    "ChatGroupInfo-Description": "Beschreibung...",
+    "ChatGroupInfo-TitleText": "Geb deinen neuen Namen für die Gruppe ein",
+    "ChatGroupInfo-Title": "Name...",
 
     "ChatScreen-Error": "Fehler",
     "ChatScreen-ChatNotFound": "Chat nicht gefunden",

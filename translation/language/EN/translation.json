@@ -2,6 +2,10 @@
     "ChatGroupInfo-Header": "Groupinfo",
     "ChatGroupInfo-Describtion": "Description",
     "ChatGroupInfo-UserCount": "Member count",
+    "ChatGroupInfo-DescriptionText": "Type in a new description for the group",
+    "ChatGroupInfo-Description": "Description...",
+    "ChatGroupInfo-TitleText": "Type in a new title for the group",
+    "ChatGroupInfo-Title": "Title...",
 
     "ChatScreen-Error": "Error",
     "ChatScreen-ChatNotFound": "Chat not found",
