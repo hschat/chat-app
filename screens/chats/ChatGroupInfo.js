@@ -54,7 +54,7 @@ export default class ChatGroupInfo extends React.Component {
             showSelfmanagedPasswordModalInput: false,
 
             // selfmanaged_options
-            selfmanaged_password: this.props.navigation.state.params.chat.password,
+            selfmanaged_password: this.props.navigation.state.params.chat.selfmanaged_password || '', // must not be undefined
             is_selfmanaged: this.props.navigation.state.params.chat.is_selfmanaged,
         };
 
@@ -185,10 +185,10 @@ export default class ChatGroupInfo extends React.Component {
     // Password and Link options
     renderSelfmanagedOptions = () => {
         return (
-            <View>
-                <ListItem style={{width: 200}}>
+            <View style={{width: '100%'}}>
+                <ListItem>
                     <Body>
-                    <Text>{i18n.t('ChatGroupInfo-Password')}</Text>
+                        <Text>{i18n.t('ChatGroupInfo-Password')}</Text>
                     </Body>
                     <ModalInput
                         text={i18n.t('ChatGroupInfo-PasswordText')}
@@ -206,20 +206,14 @@ export default class ChatGroupInfo extends React.Component {
                     />
                     <Button style={{flexDirection: 'row',}} transparent onPress={() => this.setState({showSelfmanagedPasswordModalInput: true})}>
                         <Text style={{backgroundColor: 'transparent',
-                                    fontWeight: 'bold',
-                                    fontSize: 20,
+                                    fontSize: 12,
                                     color: 'black'}}>{this.state.selfmanaged_password}</Text>
                         <Icon style={{color: 'black'}} name="ios-create"/>
                     </Button>
-                    <Input secureTextEntry={false}
-                            onChangeText={(pw) => this.updateGroup({selfmanaged_password: pw})}
-                            returnKeyType='done'
-                            placeholder={this.state.selfmanaged_password}
-                            autoCapitalize='none'/>
                 </ListItem>
-                <ListItem style={{width: 200}}>
+                <ListItem>
                     <Body>
-                    <Text>{i18n.t('ChatGroupInfo-Link')}</Text>
+                        <Text>{i18n.t('ChatGroupInfo-Link')}</Text>
                     </Body>
                     <Text>Link-Dummy</Text>
                 </ListItem>
@@ -231,12 +225,12 @@ export default class ChatGroupInfo extends React.Component {
     renderSelfmanagedArea = () => {
         return (
             <View>
-                <ListItem style={{width: 200}}>
+                <ListItem style={{width: '100%'}}>
                     <Body>
-                        <Text>{i18n.t('ChatGroupInfo-Selfmanaged')}</Text>
+                        <Text style={{fontSize: 18}}>{i18n.t('ChatGroupInfo-Selfmanaged')}</Text>
                     </Body>
                     <CheckBox
-                        style={{color: 'black'}} 
+                        style={{checkedColor: 'black'}} 
                         checked={this.state.is_selfmanaged}
                         onPress={() => this.updateGroup({is_selfmanaged: !this.state.is_selfmanaged})}
                     />
