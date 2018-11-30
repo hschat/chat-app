@@ -2,6 +2,44 @@
   "name": "hschat",
   "version": "0.1.0",
   "private": true,
+  "contributors": [
+    {
+      "name": "Timo Purzner",
+      "email": "Timo@purzner.de"
+    },
+    {
+      "name": "David Schwarzmann",
+      "email": "dev@dschwarz.codes"
+    },
+    {
+      "name": "Christian Ziegler",
+      "email": "christian@cziegler.de"
+    },
+    {
+      "name": "Ingo Scheler",
+      "email": "ingo.scheler@online.de"
+    },
+    {
+      "name": "Lukas Höllein",
+      "email": "lukashoellein@gmail.com"
+    },
+    {
+      "name": "Oliver Korn",
+      "email": "oliverkorn93@gmx.de"
+    },
+    {
+      "name": "Alexander Wollheim",
+      "email": "Alexander.Wollheim@stud.hs-coburg.de"
+    },
+    {
+      "name": "Louisa Schirmer",
+      "email": "Louisa.Schirmer@stud.hs-coburg.de"
+    },
+    {
+      "name": "Christian Minuth",
+      "email": "Christian.Minuth@stud.hs-coburg.de"
+    }
+  ],
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
     "start": "expo start",
