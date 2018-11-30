@@ -233,7 +233,7 @@ export default class ChatGroupInfo extends React.Component {
             <View>
                 <ListItem style={{width: 200}}>
                     <Body>
-                        <Text>Selbstverwaltend</Text>
+                        <Text>{i18n.t('ChatGroupInfo-Selfmanaged')}</Text>
                     </Body>
                     <CheckBox
                         style={{color: 'black'}} 
