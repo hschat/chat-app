@@ -12,9 +12,8 @@ import {
     ListItem,
     Body,
     CheckBox,
-    Input,
 } from "native-base";
-import {StyleSheet, Image, TextInput} from 'react-native';
+import {StyleSheet, Image, TouchableOpacity, ScrollView} from 'react-native';
 import BaseStyles from '../../baseStyles';
 import i18n from '../../translation/i18n';
 import ModalInput from '../../components/ModalWithInput'
@@ -115,14 +114,14 @@ export default class ChatGroupInfo extends React.Component {
                     maxLength={340}
                     multiline={true} 
                 />
-                <Button style={{flexDirection: 'row',}} transparent onPress={() => this.setState({showGroupDescriptionModalInput: true})}>
+                <TouchableOpacity style={{alignItems: 'flex-start', flexDirection: 'row'}} onPress={() => this.setState({showGroupDescriptionModalInput: true})}>
                     <Text   style={{backgroundColor: 'transparent',
                                     fontSize: 12, color: 'black'}} 
                             uppercase={false}>
                         {this.state.description}
                     </Text>
                     <Icon style={{color: 'black'}} name="ios-create"/>
-                </Button>
+                </TouchableOpacity>
             </View>
         )
     };
@@ -158,7 +157,7 @@ export default class ChatGroupInfo extends React.Component {
                     negativ={() => this.setState({showGroupNameModalInput: false})}
                     maxLength={50}
                 />
-                <Button style={{flexDirection: 'row',}} transparent onPress={() => this.setState({showGroupNameModalInput: true})}>
+                <TouchableOpacity style={{alignItems: 'flex-start', flexDirection: 'row'}} onPress={() => this.setState({showGroupNameModalInput: true})}>
                     <Text 
                         style={{backgroundColor: 'transparent',
                                 fontWeight: 'bold',
@@ -167,7 +166,7 @@ export default class ChatGroupInfo extends React.Component {
                                 }}
                         uppercase={false}>{this.state.name}</Text>
                     <Icon style={{color: 'black'}} name="ios-create"/>
-                </Button>
+                </TouchableOpacity>
             </View>
         )
     };
@@ -208,13 +207,13 @@ export default class ChatGroupInfo extends React.Component {
                         }}
                         negativ={() => this.setState({showSelfmanagedPasswordModalInput: false})}
                     />
-                    <Button transparent onPress={() => this.setState({showSelfmanagedPasswordModalInput: true})}>
+                    <TouchableOpacity style={{alignItems: 'flex-start', flexDirection: 'row'}} onPress={() => this.setState({showSelfmanagedPasswordModalInput: true})}>
                         <Text   style={{backgroundColor: 'transparent',
                                         fontSize: 12,
                                         color: 'black'}} 
                                 uppercase={false}>{this.state.selfmanaged_password}</Text>
                         <Icon style={{color: 'black'}} name="ios-create"/>
-                    </Button>
+                    </TouchableOpacity>
                 </ListItem>
                 <ListItem style={{width: 200}}>
                     <Body>
@@ -265,20 +264,24 @@ export default class ChatGroupInfo extends React.Component {
                     {this.state.isAdmin ? this.editableTitle() : this.staticTitle()} 
                     </View>
                 </View>
-                <Form>
-                    <Item stackedLabel style={[styles.item, styles.left]}>
-                        <Label style={{fontSize: 18}}  >
-                            {i18n.t('ChatGroupInfo-Describtion')}
-                        </Label>
-                        <Form style={{marginTop: 10}}>
-                           {this.state.isAdmin ? this.editableDescription() : this.staticDescription()} 
+                <ScrollView>
+                    <View>
+                        <Form>
+                            <Item stackedLabel style={[styles.item, styles.left]}>
+                                <Label style={{fontSize: 18}}  >
+                                    {i18n.t('ChatGroupInfo-Describtion')}
+                                </Label>
+                                <Form style={{marginTop: 10}}>
+                                {this.state.isAdmin ? this.editableDescription() : this.staticDescription()} 
+                                </Form>
+                            </Item>
+                            <Item stackedLabel style={[styles.item, styles.left]}>
+                                <Label style={{fontSize: 18}}>{i18n.t('ChatGroupInfo-UserCount')}: {this.state.userCount} </Label>
+                            </Item>
                         </Form>
-                    </Item>
-                    <Item stackedLabel style={[styles.item, styles.left]}>
-                        <Label style={{fontSize: 18}}>{i18n.t('ChatGroupInfo-UserCount')}: {this.state.userCount} </Label>
-                    </Item>
-                </Form>
-                {this.state.isAdmin ? this.renderSelfmanagedArea() : <View/>}
+                        {this.state.isAdmin ? this.renderSelfmanagedArea() : <View/>}
+                    </View>
+                </ScrollView>
             </View>
         );
     }
