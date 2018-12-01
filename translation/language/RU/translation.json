@@ -11,6 +11,7 @@
     "ChatGroupInfo-Password": "Passwort",
     "ChatGroupInfo-Link": "Link",
     "ChatGroupInfo-Selfmanaged": "Selbstverwaltend",
+    "ChatGroupInfo-Groupname": "Gruppenname",
 
     "ChatScreen-Error": "Fehler",
     "ChatScreen-ChatNotFound": "Chat nicht gefunden",

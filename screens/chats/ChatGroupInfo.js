@@ -86,18 +86,6 @@ export default class ChatGroupInfo extends React.Component {
         })
     };
 
-    /*
-    FIXME:  Editable Description 
-                ...color is blue
-                ...multiple lines of text do not resize properly
-            Editable Name and Description
-                ...gets always toUppercase?!
-            Design
-                ...better way than white background to indicate editability?
-            Translation
-                ...add to this class
-    */
-
     editableDescription = () => {
         return (
             <View>
@@ -133,6 +121,7 @@ export default class ChatGroupInfo extends React.Component {
                 flexDirection: 'row',
                 alignItems: 'flex-start',
                 marginLeft: 0,
+                color: 'black',
                 width: '100%',
             }]}>
                 <Label>{this.state.description}</Label>
@@ -164,14 +153,11 @@ export default class ChatGroupInfo extends React.Component {
                                 fontWeight: 'bold',
                                 fontSize: 20,
                                 color: 'black',
-                                marginRight: 10,
-                                flexGrow: 1,
-                                
-                                flexShrink: 1,
-                                flexWrap: 'wrap',
+                                width: '85%'
                                 }}
-                        uppercase={false}>{this.state.name}</Text>
-                    <Icon style={{color: 'black'}} name="ios-create"/>
+                        uppercase={false}>
+                        <H3 style={styles.header}>{this.state.name}</H3>
+                    </Text>
                 </TouchableOpacity>
             </View>
         )
@@ -181,9 +167,7 @@ export default class ChatGroupInfo extends React.Component {
         return (
             <View style={[BaseStyles.transparent, {
                 flexDirection: 'row',
-                justifyContent: 'center',
                 alignItems: 'flex-start',
-                marginLeft: 5,
                 width: '85%',
             }]}>
                 <H3 style={styles.header}>{this.state.name}</H3>
@@ -191,44 +175,52 @@ export default class ChatGroupInfo extends React.Component {
         )
     };
 
-    // Password and Link options
-    renderSelfmanagedOptions = () => {
+    // Password option
+    renderSelfmanagedOptionPassword = () => {
         return (
             <View>
-                <ListItem style={{width: 200}}>
-                    <Body>
-                        <Text>{i18n.t('ChatGroupInfo-Password')}</Text>
-                    </Body>
-                    <ModalInput
-                        text={i18n.t('ChatGroupInfo-PasswordText')}
-                        placeholder={i18n.t('ChatGroupInfo-Password-Placeholder')}
-                        visible={this.state.showSelfmanagedPasswordModalInput}
-                        input={JSON.parse(JSON.stringify(this.state.selfmanaged_password))}  // deep copy of this.state.selfmanaged_password
-                        positiv={(selfmanaged_password) => {
-                            if(selfmanaged_password) {
-                                // not empty
-                                this.updateGroup({selfmanaged_password: selfmanaged_password});
-                            } 
-                            this.setState({showSelfmanagedPasswordModalInput: false});
-                        }}
-                        negativ={() => this.setState({showSelfmanagedPasswordModalInput: false})}
-                    />
-                    <TouchableOpacity style={{alignItems: 'flex-start', flexDirection: 'row'}} onPress={() => this.setState({showSelfmanagedPasswordModalInput: true})}>
-                        <Text   style={{backgroundColor: 'transparent',
-                                        fontSize: 12,
-                                        color: 'black',
-                                        marginRight: 10,}} 
-                                uppercase={false}>{this.state.selfmanaged_password}</Text>
-                        <Icon style={{color: 'black'}} name="ios-create"/>
-                    </TouchableOpacity>
-                </ListItem>
-                <ListItem style={{width: 200}}>
-                    <Body>
-                        <Text>{i18n.t('ChatGroupInfo-Link')}</Text>
-                    </Body>
-                    <Text>Link-Dummy</Text>
-                </ListItem>
+                <ModalInput
+                    text={i18n.t('ChatGroupInfo-PasswordText')}
+                    placeholder={i18n.t('ChatGroupInfo-Password-Placeholder')}
+                    visible={this.state.showSelfmanagedPasswordModalInput}
+                    input={JSON.parse(JSON.stringify(this.state.selfmanaged_password))}  // deep copy of this.state.selfmanaged_password
+                    positiv={(selfmanaged_password) => {
+                        if(selfmanaged_password) {
+                            // not empty
+                            this.updateGroup({selfmanaged_password: selfmanaged_password});
+                        } 
+                        this.setState({showSelfmanagedPasswordModalInput: false});
+                    }}
+                    negativ={() => this.setState({showSelfmanagedPasswordModalInput: false})}
+                />
+                <TouchableOpacity style={{alignItems: 'flex-start', flexDirection: 'row'}} onPress={() => this.setState({showSelfmanagedPasswordModalInput: true})}>
+                    <Text   style={{backgroundColor: 'transparent',
+                                    fontSize: 12,
+                                    color: 'black',
+                                    width: '100%'}} 
+                            uppercase={false}>
+                            {this.state.selfmanaged_password}
+                </Text>
+                </TouchableOpacity>
             </View>
+        )
+    };
+
+    //Link option
+    renderSelfmanagedOptionLink = () => {
+        return (
+            <Item stackedLabel style={[styles.item, styles.left]}>
+                <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
+                    <Label style={{fontSize: 18, marginRight: 10, marginTop: 5}}  >
+                        {i18n.t('ChatGroupInfo-Link')}
+                    </Label>
+                </View>
+                <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
+                    <Label style={{fontSize: 15, marginRight: 10, marginTop: 5}}  >
+                        www.hschat.de/group.html?fitzlibutzli=123
+                    </Label>
+                </View>
+            </Item>
         )
     };
 
@@ -236,7 +228,7 @@ export default class ChatGroupInfo extends React.Component {
     renderSelfmanagedArea = () => {
         return (
             <Item stackedLabel style={[styles.item, styles.left]}>
-                <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
+                <View style={{alignItems: 'flex-start', flexDirection: 'row', top: 20, bottom: 20}}>
                     <Label style={{fontSize: 18, marginRight: 10,}}>
                         {i18n.t('ChatGroupInfo-Selfmanaged')}
                     </Label>
@@ -246,9 +238,6 @@ export default class ChatGroupInfo extends React.Component {
                         onPress={() => this.updateGroup({is_selfmanaged: !this.state.is_selfmanaged})}
                     />
                 </View>
-                <Form style={{marginTop: 10}}>
-                    {this.state.is_selfmanaged ? this.renderSelfmanagedOptions() : <View/>}
-                </Form>
             </Item>
         )
     };
@@ -264,38 +253,59 @@ export default class ChatGroupInfo extends React.Component {
                         <Thumbnail large
                                    source={require('../../assets/img/group.png')}/>
                     </View>
-                    <View style={[BaseStyles.transparent, {
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'flex-start',
-                        marginLeft: 5,
-                    }]}>
-                    {this.state.isAdmin ? this.editableTitle() : this.staticTitle()} 
-                    </View>
+                    <Form>
+                        <Item stackedLabel style={[styles.item, styles.left]}>
+                            <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
+                                <Label style={{fontSize: 18, marginRight: 10, marginTop: 5}}  >
+                                    {i18n.t('ChatGroupInfo-Groupname')}
+                                </Label>
+                                {this.state.isAdmin ? <Icon style={{color: 'black'}} name="ios-create"
+                                                onPress={() => this.setState({showGroupNameModalInput: true})}/> : <View/>}
+                            </View>
+                            <Form style={{marginTop: 0}}>
+                                {this.state.isAdmin ? this.editableTitle() : this.staticTitle()} 
+                            </Form>
+                        </Item>
+                    </Form>
                 </View>
                 <ScrollView style={{width: '100%'}}>
                     <View>
                         <Form>
                             <Item stackedLabel style={[styles.item, styles.left]}>
                                 <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
-                                    <Label style={{fontSize: 18, marginRight: 10,}}  >
+                                    <Label style={{fontSize: 18, marginRight: 10, marginTop: 5}}  >
                                         {i18n.t('ChatGroupInfo-Describtion')}
                                     </Label>
-                                    {this.state.isAdmin 
-                                        ? 
-                                            (<Icon style={{color: 'black'}} name="ios-create"
-                                                   onPress={() => this.setState({showGroupDescriptionModalInput: true})}/>) 
-                                        : 
-                                            null}
+                                    {this.state.isAdmin ? <Icon style={{color: 'black'}} name="ios-create"
+                                            onPress={() => this.setState({showGroupDescriptionModalInput: true})}/> : <View/>}
                                 </View>
                                 <Form style={{marginTop: 10}}>
                                     {this.state.isAdmin ? this.editableDescription() : this.staticDescription()}
                                 </Form>
                             </Item>
                             <Item stackedLabel style={[styles.item, styles.left]}>
-                                <Label style={{fontSize: 18}}>{i18n.t('ChatGroupInfo-UserCount')}: {this.state.userCount} </Label>
+                                <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
+                                    <Label style={{fontSize: 18, marginRight: 10, marginTop: 5}}  >
+                                        {i18n.t('ChatGroupInfo-UserCount')}: {this.state.userCount}
+                                    </Label>
+                                </View>
                             </Item>
-                            {this.state.isAdmin ? this.renderSelfmanagedArea() : <Item/>}
+                            {this.state.isAdmin ? this.renderSelfmanagedArea(): <Item/>}
+                            {this.state.is_selfmanaged && this.state.isAdmin ? 
+                                <Item stackedLabel style={[styles.item, styles.left]}>
+                                    <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
+                                        <Label style={{fontSize: 18, marginRight: 10, marginTop: 5}}  >
+                                            {i18n.t('ChatGroupInfo-Password')}
+                                        </Label>
+                                        <Icon style={{color: 'black'}} name="ios-create"
+                                                onPress={() => this.setState({showSelfmanagedPasswordModalInput: true})}/>
+                                    </View>
+                                    <Form style={{marginTop: 10}}>
+                                        {this.renderSelfmanagedOptionPassword()}
+                                    </Form>
+                                </Item>
+                            : <Item/>}
+                            {this.state.is_selfmanaged && this.state.isAdmin ? this.renderSelfmanagedOptionLink() : <Item/>}
                         </Form>
                     </View>
                 </ScrollView>
