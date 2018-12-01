@@ -120,7 +120,6 @@ export default class ChatGroupInfo extends React.Component {
                             uppercase={false}>
                         {this.state.description}
                     </Text>
-                    <Icon style={{color: 'black'}} name="ios-create"/>
                 </TouchableOpacity>
             </View>
         )
@@ -163,6 +162,7 @@ export default class ChatGroupInfo extends React.Component {
                                 fontWeight: 'bold',
                                 fontSize: 20,
                                 color: 'black',
+                                marginRight: 10,
                                 }}
                         uppercase={false}>{this.state.name}</Text>
                     <Icon style={{color: 'black'}} name="ios-create"/>
@@ -210,7 +210,8 @@ export default class ChatGroupInfo extends React.Component {
                     <TouchableOpacity style={{alignItems: 'flex-start', flexDirection: 'row'}} onPress={() => this.setState({showSelfmanagedPasswordModalInput: true})}>
                         <Text   style={{backgroundColor: 'transparent',
                                         fontSize: 12,
-                                        color: 'black'}} 
+                                        color: 'black',
+                                        marginRight: 10,}} 
                                 uppercase={false}>{this.state.selfmanaged_password}</Text>
                         <Icon style={{color: 'black'}} name="ios-create"/>
                     </TouchableOpacity>
@@ -228,19 +229,21 @@ export default class ChatGroupInfo extends React.Component {
     // Whole selfmanaged options
     renderSelfmanagedArea = () => {
         return (
-            <View>
-                <ListItem style={{width: 200}}>
-                    <Body>
-                        <Text style={{fontSize: 18}}>{i18n.t('ChatGroupInfo-Selfmanaged')}</Text>
-                    </Body>
+            <Item stackedLabel style={[styles.item, styles.left]}>
+                <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
+                    <Label style={{fontSize: 18, marginRight: 10,}}>
+                        {i18n.t('ChatGroupInfo-Selfmanaged')}
+                    </Label>
                     <CheckBox
                         style={{checkedColor: 'black'}} 
                         checked={this.state.is_selfmanaged}
                         onPress={() => this.updateGroup({is_selfmanaged: !this.state.is_selfmanaged})}
                     />
-                </ListItem>
-                {this.state.is_selfmanaged ? this.renderSelfmanagedOptions() : <ListItem/>}
-            </View>
+                </View>
+                <Form style={{marginTop: 10}}>
+                    {this.state.is_selfmanaged ? this.renderSelfmanagedOptions() : <View/>}
+                </Form>
+            </Item>
         )
     };
 
@@ -264,22 +267,25 @@ export default class ChatGroupInfo extends React.Component {
                     {this.state.isAdmin ? this.editableTitle() : this.staticTitle()} 
                     </View>
                 </View>
-                <ScrollView>
+                <ScrollView style={{width: '100%'}}>
                     <View>
                         <Form>
                             <Item stackedLabel style={[styles.item, styles.left]}>
-                                <Label style={{fontSize: 18}}  >
-                                    {i18n.t('ChatGroupInfo-Describtion')}
-                                </Label>
+                                <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
+                                    <Label style={{fontSize: 18, marginRight: 10,}}  >
+                                        {i18n.t('ChatGroupInfo-Describtion')}
+                                    </Label>
+                                    <Icon style={{color: 'black'}} name="ios-create"/>
+                                </View>
                                 <Form style={{marginTop: 10}}>
-                                {this.state.isAdmin ? this.editableDescription() : this.staticDescription()} 
+                                    {this.state.isAdmin ? this.editableDescription() : this.staticDescription()}
                                 </Form>
                             </Item>
                             <Item stackedLabel style={[styles.item, styles.left]}>
                                 <Label style={{fontSize: 18}}>{i18n.t('ChatGroupInfo-UserCount')}: {this.state.userCount} </Label>
                             </Item>
+                            {this.state.isAdmin ? this.renderSelfmanagedArea() : <Item/>}
                         </Form>
-                        {this.state.isAdmin ? this.renderSelfmanagedArea() : <View/>}
                     </View>
                 </ScrollView>
             </View>
