@@ -116,7 +116,9 @@ export default class ChatGroupInfo extends React.Component {
                 />
                 <TouchableOpacity style={{alignItems: 'flex-start', flexDirection: 'row'}} onPress={() => this.setState({showGroupDescriptionModalInput: true})}>
                     <Text   style={{backgroundColor: 'transparent',
-                                    fontSize: 12, color: 'black'}} 
+                                    fontSize: 12, 
+                                    color: 'black',
+                                    width: '100%'}} 
                             uppercase={false}>
                         {this.state.description}
                     </Text>
@@ -163,6 +165,10 @@ export default class ChatGroupInfo extends React.Component {
                                 fontSize: 20,
                                 color: 'black',
                                 marginRight: 10,
+                                flexGrow: 1,
+                                
+                                flexShrink: 1,
+                                flexWrap: 'wrap',
                                 }}
                         uppercase={false}>{this.state.name}</Text>
                     <Icon style={{color: 'black'}} name="ios-create"/>
@@ -275,7 +281,8 @@ export default class ChatGroupInfo extends React.Component {
                                     <Label style={{fontSize: 18, marginRight: 10,}}  >
                                         {i18n.t('ChatGroupInfo-Describtion')}
                                     </Label>
-                                    <Icon style={{color: 'black'}} name="ios-create"/>
+                                    <Icon style={{color: 'black'}} name="ios-create"
+                                            onPress={() => this.setState({showGroupDescriptionModalInput: true})}/>
                                 </View>
                                 <Form style={{marginTop: 10}}>
                                     {this.state.isAdmin ? this.editableDescription() : this.staticDescription()}
