@@ -281,8 +281,12 @@ export default class ChatGroupInfo extends React.Component {
                                     <Label style={{fontSize: 18, marginRight: 10,}}  >
                                         {i18n.t('ChatGroupInfo-Describtion')}
                                     </Label>
-                                    <Icon style={{color: 'black'}} name="ios-create"
-                                            onPress={() => this.setState({showGroupDescriptionModalInput: true})}/>
+                                    {this.state.isAdmin 
+                                        ? 
+                                            (<Icon style={{color: 'black'}} name="ios-create"
+                                                   onPress={() => this.setState({showGroupDescriptionModalInput: true})}/>) 
+                                        : 
+                                            null}
                                 </View>
                                 <Form style={{marginTop: 10}}>
                                     {this.state.isAdmin ? this.editableDescription() : this.staticDescription()}
