@@ -6,6 +6,7 @@ import {
 } from "native-base";
 
 import DropdownAlert from 'react-native-dropdownalert';
+import i18n from '../../translation/i18n';
 
 import ModalInput from '../../components/ModalWithInput';
 
@@ -32,7 +33,7 @@ export default class CreateGroupChat extends Component {
     static navigationOptions = ({navigation, screenProps}) => {
         const params = navigation.state.params || {};
         return {
-            headerTitle: 'Gruppe erstellen',
+            headerTitle: i18n.t('CreateGroupChat-CreateGroup'),
             headerRight: (
                 <Button onPress={params.enterGroupName} transparent><Icon name="ios-add-circle-outline"/></Button>
             )
@@ -92,8 +93,8 @@ export default class CreateGroupChat extends Component {
             console.error('Search error:', error);
             this.store.alert = {
                 type: 'error',
-                title: 'Bei Suchen ist etwas schief gelaufen',
-                msg: 'Bei der suche nach Nutzern ist etwas schief gegangen (Server Error)'
+                title: i18n.t('CreateGroupChat-ErrorSearching'),
+                msg: i18n.t('CreateGroupChat-ErrorSearchingMsg')
             };
         });
     };
@@ -105,8 +106,8 @@ export default class CreateGroupChat extends Component {
         if(this.state.usersToAdd.length < 1){
             this.store.alert = {
                 type: 'warn',
-                title: 'Fehlende Nutzer',
-                msg: 'Bitte geben Sie Mindestens einen Nutzer an um eine Gruppe zu erstellen'
+                title: i18n.t('CreateGroupChat-MissingUser'),
+                msg: i18n.t('CreateGroupChat-MissingUserMsg')
             };
         }else{
             this.setState({showModal: true});
@@ -128,11 +129,16 @@ export default class CreateGroupChat extends Component {
            part.push(user.id);
         });
 
+        let admins = []; 
+        // add myself to admin list
+        admins.push(this.store.user.id);
+
         // Creat group Object
         let group = {
             participants: part,
             type: 'group',
             name: name,
+            admins: admins,
         };
 
         this.store.createChat(group).then((chat)=>{
@@ -141,8 +147,8 @@ export default class CreateGroupChat extends Component {
         }).catch((error) =>{
             this.store.alert = {
                 type: 'error',
-                title: 'Interner Fehler',
-                msg: 'Bei der Anfrage ist ein Interner Fehler aufgetreten, versuchen Sie es später nochmal'
+                title: i18n.t('CreateGroupChat-InternalError'),
+                msg: i18n.t('CreateGroupChat-InternalErrorMsg')
             };
         });
 
@@ -247,7 +253,7 @@ export default class CreateGroupChat extends Component {
                 }}>
                     <Icon name="ios-search"/>
                     <Input style={{height: 20}} onChangeText={(text) => this._updateSearch(text)}
-                           placeholder="Person suchen…"/>
+                           placeholder={i18n.t('CreateGroupChat-SearchUser')}/>
                 </InputGroup>
             </View>
         )
@@ -258,8 +264,8 @@ export default class CreateGroupChat extends Component {
             <List>
                 <ListItem style={{backgroundColor: 'transparent'}}>
                     <Body>
-                    <Text>Es wurde kein Benutzer gefunden</Text>
-                    <Text note>Möchtest du den Benutzer einladen?</Text>
+                    <Text>{i18n.t('CreateGroupChat-UserNotFound')}</Text>
+                    <Text note>{i18n.t('CreateGroupChat-InviteUser')}</Text>
                     </Body>
                 </ListItem>
             </List>
@@ -280,8 +286,8 @@ export default class CreateGroupChat extends Component {
                     zIndex={10}
                 />
                 <ModalInput
-                    text='Bitte geben Sie einen Gruppennamen ein'
-                    placeholder='Gruppenname'
+                    text={i18n.t('CreateGroupChat-SetGroupname')}
+                    placeholder={i18n.t('CreateGroupChat-Groupname')}
                     visible={this.state.showModal}
                     input={this.state.groupName}
                     positiv={this.createGroup}

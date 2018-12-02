@@ -2,11 +2,49 @@
   "name": "hschat",
   "version": "0.1.0",
   "private": true,
+  "contributors": [
+    {
+      "name": "Timo Purzner",
+      "email": "Timo@purzner.de"
+    },
+    {
+      "name": "David Schwarzmann",
+      "email": "dev@dschwarz.codes"
+    },
+    {
+      "name": "Christian Ziegler",
+      "email": "christian@cziegler.de"
+    },
+    {
+      "name": "Ingo Scheler",
+      "email": "ingo.scheler@online.de"
+    },
+    {
+      "name": "Lukas Höllein",
+      "email": "lukashoellein@gmail.com"
+    },
+    {
+      "name": "Oliver Korn",
+      "email": "oliverkorn93@gmx.de"
+    },
+    {
+      "name": "Alexander Wollheim",
+      "email": "Alexander.Wollheim@stud.hs-coburg.de"
+    },
+    {
+      "name": "Louisa Schirmer",
+      "email": "Louisa.Schirmer@stud.hs-coburg.de"
+    },
+    {
+      "name": "Christian Minuth",
+      "email": "Christian.Minuth@stud.hs-coburg.de"
+    }
+  ],
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
     "start": "expo start",
     "eject": "expo eject",
-    "test": "node node_modules/jest/bin/jest.js --watchAll",
+    "test": "NODE_ENV=test yarn jest --config ./__tests__/config.js --coverage --bail --forceExit",
     "lint": "eslint components/ context/ screens/",
     "appr": "appr",
     "snyk-protect": "snyk protect",
@@ -16,56 +54,62 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@feathersjs/authentication": "^2.1.11",
+    "@feathersjs/authentication-client": "^1.0.6",
+    "@feathersjs/authentication-jwt": "^2.0.5",
+    "@feathersjs/authentication-local": "^1.2.5",
+    "@feathersjs/errors": "^3.3.4",
+    "@feathersjs/express": "^1.2.7",
+    "@feathersjs/feathers": "^3.2.3",
+    "@feathersjs/socketio": "^3.2.6",
+    "@feathersjs/socketio-client": "^1.1.4",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
-    "body-parser": "^1.18.2",
+    "babel-preset-flow": "^6.23.0",
+    "body-parser": "^1.18.3",
     "core-decorators": "^0.20.0",
-    "expo": "^30.0.0",
-    "feathers": "^2.2.3",
-    "feathers-authentication": "^1.3.1",
-    "feathers-authentication-jwt": "^0.3.2",
-    "feathers-authentication-local": "^0.4.4",
-    "feathers-errors": "^2.9.2",
-    "feathers-hooks": "^2.1.2",
-    "feathers-memory": "^1.3.1",
-    "feathers-rest": "^1.8.1",
-    "feathers-socketio": "^2.0.1",
-    "lodash": "^4.17.4",
-    "mobx": "^3.3.1",
-    "mobx-react": "^4.3.4",
-    "moment": "^2.20.0",
-    "native-base": "^2.3.5",
-    "prop-types": "^15.6.0",
-    "react": "16.3.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
-    "react-native-dropdownalert": "^3.1.2",
-    "react-native-easy-grid": "^0.1.15",
-    "react-native-gifted-chat": "^0.3.0",
-    "react-native-modal": "^4.1.1",
+    "exp": "^57.2.1",
+    "expo": "^30.0.1",
+    "feathers-memory": "^2.2.0",
+    "i18next": "^12.0.0",
+    "lodash": "^4.17.11",
+    "mobx": "^4.5.0",
+    "mobx-react": "^5.3.4",
+    "moment": "^2.22.2",
+    "native-base": "^2.8.1",
+    "node": "^11.0.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.6.0",
+    "react-i18next": "^8.3.8",
+    "react-native": "~0.55.4",
+    "react-native-dropdownalert": "^3.7.0",
+    "react-native-easy-grid": "^0.2.0",
+    "react-native-gifted-chat": "^0.4.3",
+    "react-native-modal": "^7.0.0",
     "react-native-scripts": "^2.0.1",
-    "react-native-sentry": "^0.39.0",
-    "react-native-timer": "^1.3.1",
-    "react-navigation": "^2.9.3",
-    "react-navigation-fluid-transitions": "^0.2.2",
-    "react-redux": "^5.0.6",
-    "sentry-expo": "^1.7.0",
-    "socket.io-client": "^2.0.4",
-    "snyk": "^1.104.1"
+    "react-native-sentry": "^0.39.1",
+    "react-native-timer": "^1.3.4",
+    "react-navigation": "^2.18.2",
+    "react-navigation-fluid-transitions": "^0.2.72",
+    "react-redux": "^5.1.0",
+    "sentry-expo": "^1.10.0",
+    "snyk": "^1.104.1",
+    "socket.io-client": "^2.1.1"
   },
   "devDependencies": {
     "appr": "^2.0.0",
-    "babel-cli": "^6.26.0",
-    "babel-preset-flow": "^6.23.0",
-    "eslint": "^5.3.0",
-    "eslint-config-airbnb": "^17.0.0",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-react": "^7.10.0",
-    "eslint-plugin-react-native": "^3.2.1",
-    "exp": "^57.2.1",
-    "expo-cli": "^2.2.0",
-    "flow-bin": "^0.77.0",
-    "jest-expo": "29.0.0",
-    "react-test-renderer": "^16.0.0"
+    "eslint": "^5.8.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-react-native": "^3.5.0",
+    "expo-cli": "^2.2.4",
+    "flow-bin": "^0.83.0",
+    "jest-expo": "^30.0.0",
+    "react-test-renderer": "^16.6.0"
   },
   "snyk": true
 }

@@ -8,7 +8,7 @@ import {Col, Row, Grid} from 'react-native-easy-grid';
 
 import Modal from 'react-native-modal'
 import {colors} from '../baseStyles'
-
+import i18n from '../translation/i18n';
 
 const styles = StyleSheet.create({
 
@@ -62,7 +62,7 @@ export default class ModalWithInput extends Component {
     }
     _updateInput = (input) => {
         if(this.props.maxLength !== undefined && this.props.maxLength < input.length){
-            this.toastIt(`Nicht mehr als ${this.props.maxLength} Zeichen möglich`);
+            this.toastIt( i18n.t('ModalWithInput-NotMoreThan') +  ` ${this.props.maxLength} ` + i18n.t('ModalWithInput-CharsPossible'));
         }else {
             this.setState({input: input});
         }
@@ -97,18 +97,19 @@ export default class ModalWithInput extends Component {
                                 <Input placeholder={this.props.placeholder}
                                        onChangeText={(text) => this._updateInput(text)}
                                        value={this.state.input}
+                                       multiline={this.props.multiline} 
                                 />
                             </Col>
                         </Row>
                         <Row>
                             <Col style={[styles.middle, styles.spacer]}>
                                 <TouchableOpacity style={[styles.middle,{flex:1}]} onPress={this.props.negativ}>
-                                    <Text style={styles.button}>Abbrechen</Text>
+                                    <Text style={styles.button}>{i18n.t('ModalWithInput-Cancel')}</Text>
                                 </TouchableOpacity>
                             </Col>
                             <Col style={[styles.middle]}>
                                 <TouchableOpacity style={[styles.middle,{flex:1}]} onPress={() => {this.props.positiv(this.state.input)}}>
-                                    <Text style={styles.button}>O.K.</Text>
+                                    <Text style={styles.button}>{i18n.t('ModalWithInput-OK')}</Text>
                                 </TouchableOpacity>
                             </Col>
 
