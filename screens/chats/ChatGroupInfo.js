@@ -121,7 +121,6 @@ export default class ChatGroupInfo extends React.Component {
                 flexDirection: 'row',
                 alignItems: 'flex-start',
                 marginLeft: 0,
-                color: 'black',
                 width: '100%',
             }]}>
                 <Label>{this.state.description}</Label>
@@ -147,13 +146,12 @@ export default class ChatGroupInfo extends React.Component {
                     negativ={() => this.setState({showGroupNameModalInput: false})}
                     maxLength={50}
                 />
-                <TouchableOpacity style={{alignItems: 'flex-start', flexDirection: 'row'}} onPress={() => this.setState({showGroupNameModalInput: true})}>
+                <TouchableOpacity style={{width: '93%'}} onPress={() => this.setState({showGroupNameModalInput: true})}>
                     <Text 
                         style={{backgroundColor: 'transparent',
                                 fontWeight: 'bold',
                                 fontSize: 20,
                                 color: 'black',
-                                width: '85%'
                                 }}
                         uppercase={false}>
                         <H3 style={styles.header}>{this.state.name}</H3>
@@ -233,7 +231,6 @@ export default class ChatGroupInfo extends React.Component {
                         {i18n.t('ChatGroupInfo-Selfmanaged')}
                     </Label>
                     <CheckBox
-                        style={{checkedColor: 'black'}} 
                         checked={this.state.is_selfmanaged}
                         onPress={() => this.updateGroup({is_selfmanaged: !this.state.is_selfmanaged})}
                     />
