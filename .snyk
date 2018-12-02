@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.12.0
+version: v1.13.1
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -8,3 +8,6 @@ patch:
         patched: '2018-10-18T19:35:56.673Z'
     - feathers-authentication-jwt > passport-jwt > jsonwebtoken > joi > topo > hoek:
         patched: '2018-10-18T19:35:56.673Z'
+  'npm:lodash:20180130':
+    - react-native > plist > xmlbuilder > lodash:
+        patched: '2018-12-02T13:26:27.888Z'
