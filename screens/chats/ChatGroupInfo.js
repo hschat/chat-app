@@ -146,7 +146,7 @@ export default class ChatGroupInfo extends React.Component {
                     negativ={() => this.setState({showGroupNameModalInput: false})}
                     maxLength={50}
                 />
-                <TouchableOpacity style={{width: '93%'}} onPress={() => this.setState({showGroupNameModalInput: true})}>
+                <TouchableOpacity style={{width: '85%', alignItems: 'flex-start'}} onPress={() => this.setState({showGroupNameModalInput: true})}>
                     <Text 
                         style={{backgroundColor: 'transparent',
                                 fontWeight: 'bold',
@@ -154,7 +154,7 @@ export default class ChatGroupInfo extends React.Component {
                                 color: 'black',
                                 }}
                         uppercase={false}>
-                        <H3 style={styles.header}>{this.state.name}</H3>
+                        <H3 style={styles.header}>{this.state.name}    </H3>
                     </Text>
                 </TouchableOpacity>
             </View>
