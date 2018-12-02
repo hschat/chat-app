@@ -57,14 +57,16 @@ export default class ChatsScreen extends Component {
         });
 
         this.store.app.service('chats').on('patched', updatedChat => {
-            let chats = this.state.chats;
-            chats.forEach((chat, index) => {
-                if (chat.id === updatedChat.id) {
-                    chats[index] = updatedChat;
-                }
+            this.store.completeParticipantUserInfo(updatedChat).then((chatWithParticipants) => {
+                let chats = this.state.chats;
+                chats.forEach((chat, index) => {
+                    if (chat.id === chatWithParticipants.id) {
+                        chats[index] = chatWithParticipants;
+                    }
+                });
+                chats.sort(this.compare);
+                this.setState({chats: chats});
             });
-            chats.sort(this.compare);
-            this.setState({chats: chats});
         });
     }
 

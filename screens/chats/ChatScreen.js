@@ -184,9 +184,13 @@ export default class ChatScreen extends React.Component {
         // Update the chat if it gets patched
         this.store.app.service('chats').on('patched', updatedChat => {
             if(updatedChat.id === this.state.chat.id) {
-                this.setState({chat: updatedChat});
-                this.updateParticipants(this.state.chat);
-                this.props.navigation.setParams({chat: updatedChat});
+                this.store.completeParticipantUserInfo(updatedChat).then((chatWithParticipants) => {
+                    this.setState({chat: chatWithParticipants});
+                    this.updateParticipants(this.state.chat);
+                    if(chatWithParticipants.type === 'group'){ // the name of a personal chat cannot change, so this does not need to change, as well.
+                        this.props.navigation.setParams({chat: chatWithParticipants});
+                    }
+                });
             } 
         });
     }
