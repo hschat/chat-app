@@ -97,6 +97,7 @@ export default class ModalWithInput extends Component {
                                 <Input placeholder={this.props.placeholder}
                                        onChangeText={(text) => this._updateInput(text)}
                                        value={this.state.input}
+                                       multiline={this.props.multiline} 
                                 />
                             </Col>
                         </Row>

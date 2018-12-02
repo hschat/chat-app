@@ -129,11 +129,16 @@ export default class CreateGroupChat extends Component {
            part.push(user.id);
         });
 
+        let admins = []; 
+        // add myself to admin list
+        admins.push(this.store.user.id);
+
         // Creat group Object
         let group = {
             participants: part,
             type: 'group',
             name: name,
+            admins: admins,
         };
 
         this.store.createChat(group).then((chat)=>{
