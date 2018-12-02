@@ -391,6 +391,20 @@ export default class ApiStore {
                 $select: [ 'admins' ]
             }
         });
-    } 
+    }
+
+    // expects a chat that has a participants JSON-Array with just the userIDs in it. it will be updated to contain all user infos.
+    async completeParticipantUserInfo(chat) {
+        const userPromises = chat.participants.map(async (userId, index) => {
+            const user = await this.getUserInformation(userId);
+            chat.participants[index] = user;
+        });
+
+        await Promise.all(userPromises);
+
+        return chat;
+    }
+
+    
 
 }
