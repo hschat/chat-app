@@ -1,4 +1,18 @@
 {  
+    "ChatGroupInfo-Header": "Groupinfo",
+    "ChatGroupInfo-Describtion": "Description",
+    "ChatGroupInfo-UserCount": "Member count",
+    "ChatGroupInfo-DescriptionText": "Type in a new description for the group",
+    "ChatGroupInfo-Description-Placeholder": "Description...",
+    "ChatGroupInfo-TitleText": "Type in a new title for the group",
+    "ChatGroupInfo-Title-Placeholder": "Title...",
+    "ChatGroupInfo-PasswordText": "Type in a new password for the group",
+    "ChatGroupInfo-Password-Placeholder": "Password...",
+    "ChatGroupInfo-Password": "Password",
+    "ChatGroupInfo-Link": "Link",
+    "ChatGroupInfo-Selfmanaged": "Selfmanaged",
+    "ChatGroupInfo-Groupname": "Groupname",
+
     "ChatScreen-Error": "Error",
     "ChatScreen-ChatNotFound": "Chat not found",
     "ChatScreen-FatalError": "Fatal Error! 💥💀💥",

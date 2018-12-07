@@ -380,4 +380,31 @@ export default class ApiStore {
         return this.app.service('messages').patch(msg.id, obj);
     }
 
+    updateGroup(id, obj) {
+        return this.app.service('chats').patch(id, obj);
+    } 
+
+    getAdminsForChat(chat) {
+        return this.app.service('chats').find({
+            query: {
+                id: chat.id,
+                $select: [ 'admins' ]
+            }
+        });
+    }
+
+    // expects a chat that has a participants JSON-Array with just the userIDs in it. it will be updated to contain all user infos.
+    async completeParticipantUserInfo(chat) {
+        if(chat.participants !== undefined && chat.participants.length > 0 && chat.participants[0].id === undefined){
+            const userPromises = chat.participants.map(async (userId, index) => {
+                const user = await this.getUserInformation(userId);
+                chat.participants[index] = user;
+            });
+    
+            await Promise.all(userPromises);
+        }
+
+        return chat;
+    }    
+
 }

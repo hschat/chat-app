@@ -46,32 +46,33 @@ export default class ChatsScreen extends Component {
     componentWillMount() {
         //Load all chats from the server
         this.store.getChats(this.store.user).then((chats) => {
-            console.log('LADEN DER ALTEN CHATS');
             chats.sort(this.compare);
             this.setState({chats: chats});
         });
 
         this.store.app.service('chats').on('created', createdChat => {
-            console.log('NEUER CHAT',this.store.user.email, createdChat);
             let chats = this.state.chats;
             chats.push(createdChat);
             this.setState({chats: chats});
+        });
+
+        this.store.app.service('chats').on('patched', updatedChat => {
+            this.store.completeParticipantUserInfo(updatedChat).then((chatWithParticipants) => {
+                let chats = this.state.chats;
+                chats.forEach((chat, index) => {
+                    if (chat.id === chatWithParticipants.id) {
+                        chats[index] = chatWithParticipants;
+                    }
+                });
+                chats.sort(this.compare);
+                this.setState({chats: chats});
+            });
         });
     }
 
     componentDidMount() {
 
-        this.store.app.service('chats').on('patched', updatedChat => {
-            let chats = this.state.chats;
-            chats.forEach((chat, index) => {
-                if (chat.id === updatedChat) {
-                    chats[index] = updatedChat;
-                }
-            });
-            chats.sort(this.compare);
-            this.setState({chats: chats});
-
-        });
+        
     }
 
 
@@ -134,7 +135,7 @@ export default class ChatsScreen extends Component {
         }
         return (
             <Content>
-                <FlatList data={this.state.chats} renderItem={this.renderChats} keyExtractor={this._keyExtractor}/>
+                <FlatList data={this.state.chats} extraData={this.state} renderItem={this.renderChats} keyExtractor={this._keyExtractor}/>
             </Content>
         );
     }

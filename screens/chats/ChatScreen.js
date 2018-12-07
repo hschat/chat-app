@@ -49,13 +49,33 @@ export default class ChatScreen extends React.Component {
     static navigationOptions = ({navigation, screenProps}) => {
         const params = navigation.state.params || {};
         let title = params.chat.type === 'group' ? params.chat.name : params.chat.participants.filter(u => u.id !== screenProps.store.user.id).map(u => u.prename + ' ' + u.lastname)[0];
-        return {
-            headerTitle: title,
-            headerLeft: (
-                <Button onPress={() => navigation.navigate('Home')} transparent><Icon
-                    name="ios-arrow-back-outline"/></Button>
-            )
-        };
+        if (params.chat.type === 'group') {
+            return {
+                headerTitle: (
+                    <Button onPress={() => navigation.navigate('InfoGroup', {chat: params.chat})} transparent>
+                        <Text style={{fontWeight: '600', fontSize: 17, lineHeight: 19}}>{params.chat.name}</Text>
+                    </Button>
+                ),
+                headerLeft: (
+                    <Button onPress={() => navigation.navigate('Home')} transparent>
+                        <Icon name="ios-arrow-back-outline"/>
+                    </Button>
+                )
+            };
+        } else {
+            return {
+                headerTitle: (
+                    <Button onPress={() => navigation.navigate('Info', {chat: params.chat})} transparent>
+                        <Text style={{fontWeight: '600', fontSize: 17, lineHeight: 19}}>{params.chat.participants.filter(u => u.id !== screenProps.store.user.id).map(u => u.prename + ' ' + u.lastname)[0]}</Text>
+                    </Button>
+                ),
+                headerLeft: (
+                    <Button onPress={() => navigation.navigate('Home')} transparent>
+                        <Icon name="ios-arrow-back-outline"/>
+                    </Button>
+                )
+            };
+        }
     };
 
     constructor(props) {
@@ -159,6 +179,19 @@ export default class ChatScreen extends React.Component {
                 }
             } //else ignore typing message in this chat
             
+        });
+
+        // Update the chat if it gets patched
+        this.store.app.service('chats').on('patched', updatedChat => {
+            if(updatedChat.id === this.state.chat.id) {
+                this.store.completeParticipantUserInfo(updatedChat).then((chatWithParticipants) => {
+                    this.setState({chat: chatWithParticipants});
+                    this.updateParticipants(this.state.chat);
+                    if(chatWithParticipants.type === 'group'){ // the name of a personal chat cannot change, so this does not need to change, as well.
+                        this.props.navigation.setParams({chat: chatWithParticipants});
+                    }
+                });
+            } 
         });
     }
 
