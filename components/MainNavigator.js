@@ -7,6 +7,7 @@ import SearchScreen from '../screens/search/SearchScreen';
 import InviteScreen from '../screens/search/InviteScreen';
 import ChatInfo from '../screens/chats/ChatInfo';
 import ChatGroupInfo from '../screens/chats/ChatGroupInfo';
+import ChatGroupProfile from '../screens/chats/ChatGroupProfile';
 import ChatScreen from '../screens/chats/ChatScreen';
 import CreateGroup from '../screens/chats/CreateGroupChat';
 import FeedbackScreen from '../screens/feedback/FeedbackScreen';
@@ -47,6 +48,9 @@ const searchNavigator = createStackNavigator({
         navigationOptions: ({ navigation }) => ({
             headerTitle: i18n.t('MainNavigator-Invite'),
         }),
+    },
+    Profile: {
+        screen: ChatGroupProfile,
     },
 });
 

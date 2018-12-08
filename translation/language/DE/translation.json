@@ -1,17 +1,24 @@
 {
     "ChatGroupInfo-Header": "Gruppeninfo",
-    "ChatGroupInfo-Describtion": "Beschreibung",
-    "ChatGroupInfo-UserCount": "Mitgliederanzahl",
-    "ChatGroupInfo-DescriptionText": "Geb deine neue Beschreibung für die Gruppe ein",
-    "ChatGroupInfo-Description-Placeholder": "Beschreibung...",
-    "ChatGroupInfo-TitleText": "Geb deinen neuen Namen für die Gruppe ein",
-    "ChatGroupInfo-Title-Placeholder": "Name...",
-    "ChatGroupInfo-PasswordText": "Geb dein neues Passwort für die Gruppe ein",
-    "ChatGroupInfo-Password-Placeholder": "Passwort...",
-    "ChatGroupInfo-Password": "Passwort",
-    "ChatGroupInfo-Link": "Link",
-    "ChatGroupInfo-Selfmanaged": "Selbstverwaltend",
-    "ChatGroupInfo-Groupname": "Gruppenname",
+    
+    "ChatGroupInformation-Describtion": "Beschreibung",
+    "ChatGroupInformation-UserCount": "Mitgliederanzahl",
+    "ChatGroupInformation-DescriptionText": "Geb deine neue Beschreibung für die Gruppe ein",
+    "ChatGroupInformation-Description-Placeholder": "Beschreibung...",
+
+    "ChatGroupHead-TitleText": "Geb deinen neuen Namen für die Gruppe ein",
+    "ChatGroupHead-Title-Placeholder": "Name...",
+    "ChatGroupHead-Groupname": "Gruppenname",
+
+    "ChatGroupSelfManaged-PasswordText": "Geb dein neues Passwort für die Gruppe ein",
+    "ChatGroupSelfManaged-Password-Placeholder": "Passwort...",
+    "ChatGroupSelfManaged-Password": "Passwort",
+    "ChatGroupSelfManaged-Link": "Link",
+    "ChatGroupSelfManaged-Selfmanaged": "Selbstverwaltend",
+
+    "ChatGroupProfile-Header": "Gruppenprofil",
+    "ChatGroupProfile-JoinGroup": "Gruppe beitreten",
+    "ChatGroupProfile-AlreadyMember": "Du bist schon ein Mitglied dieser Gruppe.",
 
     "ChatScreen-Error": "Fehler",
     "ChatScreen-ChatNotFound": "Chat nicht gefunden",
