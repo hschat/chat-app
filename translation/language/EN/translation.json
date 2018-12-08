@@ -1,17 +1,24 @@
 {  
     "ChatGroupInfo-Header": "Groupinfo",
-    "ChatGroupInfo-Describtion": "Description",
-    "ChatGroupInfo-UserCount": "Member count",
-    "ChatGroupInfo-DescriptionText": "Type in a new description for the group",
-    "ChatGroupInfo-Description-Placeholder": "Description...",
-    "ChatGroupInfo-TitleText": "Type in a new title for the group",
-    "ChatGroupInfo-Title-Placeholder": "Title...",
-    "ChatGroupInfo-PasswordText": "Type in a new password for the group",
-    "ChatGroupInfo-Password-Placeholder": "Password...",
-    "ChatGroupInfo-Password": "Password",
-    "ChatGroupInfo-Link": "Link",
-    "ChatGroupInfo-Selfmanaged": "Selfmanaged",
-    "ChatGroupInfo-Groupname": "Groupname",
+    
+    "ChatGroupInformation-Describtion": "Description",
+    "ChatGroupInformation-UserCount": "Member count",
+    "ChatGroupInformation-DescriptionText": "Type in a new description for the group",
+    "ChatGroupInformation-Description-Placeholder": "Description...",
+
+    "ChatGroupHead-TitleText": "Type in a new title for the group",
+    "ChatGroupHead-Title-Placeholder": "Title...",
+    "ChatGroupHead-Groupname": "Groupname",
+
+    "ChatGroupSelfManaged-PasswordText": "Type in a new password for the group",
+    "ChatGroupSelfManaged-Password-Placeholder": "Password...",
+    "ChatGroupSelfManaged-Password": "Password",
+    "ChatGroupSelfManaged-Link": "Link",
+    "ChatGroupSelfManaged-Selfmanaged": "Selfmanaged",
+
+    "ChatGroupProfile-Header": "Groupprofile",
+    "ChatGroupProfile-JoinGroup": "Join group",
+    "ChatGroupProfile-AlreadyMember": "You are already a member of this group.",
 
     "ChatScreen-Error": "Error",
     "ChatScreen-ChatNotFound": "Chat not found",
