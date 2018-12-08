@@ -14,6 +14,7 @@ import i18n from '../../translation/i18n';
 import ChatGroupHead from '../../components/ChatGroupHead';
 import ChatGroupInformation from '../../components/ChatGroupInformation';
 import ChatGroupSelfManaged from '../../components/ChatGroupSelfManaged';
+import ChatGroupMemberList from '../../components/ChatGroupMemberList';
 
 const styles = StyleSheet.create({
     image: {
@@ -76,7 +77,11 @@ export default class ChatGroupInfo extends React.Component {
                                 store={this.props.screenProps.store}
                                 editable={this.state.editable}
                             />
-                            {/* Insert the ChatGroupMemberlist here!!! */}
+                            <ChatGroupMemberList
+                                chat={this.props.navigation.state.params.chat}
+                                store={this.props.screenProps.store}
+                                editable={this.state.editable}
+                            />
                         </Form>
                     </View>
                 </ScrollView>
