@@ -99,6 +99,12 @@ export default class ApiStore {
         });
     }
 
+    createMessage(messageData){
+        return this.app.service('messages').create(messageData).then((result) => {
+            return result !== undefined;
+        })
+    }
+
     setOnline() {
         if(this.user) {
             this.updateAccount(this.user, {last_time_online: Date.now(), isOnline: true});
@@ -391,6 +397,25 @@ export default class ApiStore {
                 $select: [ 'admins' ]
             }
         });
+    }
+
+    async enterWithUserGroupPassword(password,chatId,userId){
+        let chat = await this.findChat(chatId);
+        let user = await this.findUser(userId);
+        let messageText = ''+user.prename+' '+user.lastname+' wurde dem Chat hinzugefügt!';
+        let template = {
+            chat_id: id,
+            createdAt: Date.now(),
+            send_date: Date.now(),
+            system: true,
+            text: messageText,
+        }
+        if(chat[0].selfmanaged_password === password){
+            this.createMessage(template);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     // expects a chat that has a participants JSON-Array with just the userIDs in it. it will be updated to contain all user infos.

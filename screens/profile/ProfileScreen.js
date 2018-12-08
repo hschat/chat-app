@@ -191,6 +191,10 @@ export default class ProfileScreen extends Component {
         this.setState({showStatusModal: false})
     };
 
+    goToGroupChatProfile = () => {
+        this.props.navigation.navigate('Test');
+    }
+
     renderSettings = () => {
         return (
             <View>
@@ -204,6 +208,7 @@ export default class ProfileScreen extends Component {
                     maxLength={99}
                 />
                 <Button transparent danger onPress={this.showModalStatus}><Text>{i18n.t('ProfileScreen-ChangeStatus')}</Text></Button>
+                <Button transparent danger onPress={this.goToGroupChatProfile}><Text>GruppenProfilDebug</Text></Button>
             </View>
 
         )
