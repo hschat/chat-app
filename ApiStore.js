@@ -400,7 +400,7 @@ export default class ApiStore {
     }
 
     enterWithUserGroupPassword(chat,user){
-        let messageText = ''+user.prename+' '+user.lastname+' wurde dem Chat hinzugefügt!';
+        let messageText = ''+user.prename+' '+user.lastname+' '+i18n.t('ApiStore-EnterMessage');
         let template = {
             chat_id: chat.id,
             createdAt: Date.now(),

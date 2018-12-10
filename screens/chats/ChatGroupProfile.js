@@ -77,13 +77,16 @@ export default class ChatGroupProfile extends React.Component {
     checkPassword = (password) =>{
         let currentChat = this.props.navigation.state.params.chat;
         let currentUser = this.store.user;
+        let toastMessage;
         if(currentChat.selfmanaged_password === password){
             this.store.enterWithUserGroupPassword(currentChat,currentUser);
-            this.toastIt('Gruppe beigetreten','success');
+            toastMessage = i18n.t('ChatGroupProfile-EnterSuccessMessage');
+            this.toastIt(toastMessage,'success');
             this.hidePasswordModal();
             return;
         }
-        this.toastIt('Passwort inkorrekt','warning');
+        toastMessage = i18n.t('ChatGroupProfile-EnterFailMessage');
+        this.toastIt(toastMessage,'warning');
         this.hidePasswordModal();
         return;
         
