@@ -49,6 +49,8 @@ export default class ChatGroupProfile extends React.Component {
         this.state = {
             editable : false,
             isMember: isMember,
+            showPasswordModal: false,
+            password: '',
         }
     }
 
@@ -62,11 +64,38 @@ export default class ChatGroupProfile extends React.Component {
         }
     };
 
-    // Join the Group
-    join(){
-        //to be implemented by Oli
-        console.log("Der Gruppe beigetreten");
-    }
+    toastIt = (text, type) => {
+        Toast.show({
+            text: text,
+            position: 'top',
+            textStyle: {flex: 1, textAlign: 'center'},
+            type: type,
+            duration: 2000
+        })
+    };
+
+    checkPassword = (password) =>{
+        let currentChat = this.props.navigation.state.params.chat;
+        let currentUser = this.store.user;
+        if(currentChat.selfmanaged_password === password){
+            this.store.enterWithUserGroupPassword(currentChat,currentUser);
+            this.toastIt('Gruppe beigetreten','success');
+            this.hidePasswordModal();
+            return;
+        }
+        this.toastIt('Passwort inkorrekt','warning');
+        this.hidePasswordModal();
+        return;
+        
+    };
+
+    showPasswordModal = () =>{
+        this.setState({showPasswordModal: true})
+    };
+
+    hidePasswordModal = () =>{
+        this.setState({showPasswordModal: false})
+    };
 
     render() {
         return (
@@ -88,8 +117,17 @@ export default class ChatGroupProfile extends React.Component {
                             <View>
                                 <Item stackedLabel style={[styles.item, styles.left]}>
                                     <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
+                                    <ModalInput
+                                        text='Bitte gib das Passwort ein'
+                                        laceholder='Passwort...'
+                                        visible={this.state.showPasswordModal}
+                                        input={this.state.password}
+                                        positiv={this.checkPassword}
+                                        negativ={this.hidePasswordModal}
+                                        maxLength={99}
+                                    />
                                         {!this.state.isMember ? 
-                                            <Button block style={BaseStyles.redButton} onPress={this.join}>
+                                            <Button block style={BaseStyles.redButton} onPress={this.showPasswordModal}>
                                                 <Text>{i18n.t('ChatGroupProfile-JoinGroup')}</Text>
                                             </Button>
                                         :
