@@ -12,7 +12,6 @@ import ChatScreen from '../screens/chats/ChatScreen';
 import CreateGroup from '../screens/chats/CreateGroupChat';
 import FeedbackScreen from '../screens/feedback/FeedbackScreen';
 import UserSettingsScreen from '../screens/profile/UserSettingsScreen';
-import DummyGroupProfile from '../screens/chats/DummyGroupProfile';
 import i18n from '../translation/i18n';
 
 const profileNavigator = createStackNavigator({
@@ -28,12 +27,6 @@ const profileNavigator = createStackNavigator({
             headerTitle: i18n.t('MainNavigator-Settings'),
         }),
     },
-    Test: {
-        screen: DummyGroupProfile,
-        navigationOptions: ({ navigation }) => ({
-            headerTitle: 'Gruppenprofil',
-        }),
-    }
 });
 
 const searchNavigator = createStackNavigator({
