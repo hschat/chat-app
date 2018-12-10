@@ -20,7 +20,26 @@ const styles = StyleSheet.create({
     },
     item: {
         borderBottomWidth: 0,
-    }
+    },
+    list: {
+        borderBottomWidth: 2,
+        borderColor: '#333333',
+        paddingBottom: 5,
+        paddingTop: 5,
+    },
+    avatar: {
+        marginTop: 5,
+        marginBottom: 5,
+        marginLeft: 5,
+    },
+    username: {
+        textAlign: 'auto', // <-- the magic
+        marginTop: 20,
+    },
+    deleteIcon: {
+        alignItems: 'center',
+        marginTop: 15,
+    } 
 });
 
 export default class ChatGroupMemberList extends React.Component {
@@ -35,19 +54,31 @@ export default class ChatGroupMemberList extends React.Component {
             chat: this.props.chat,
             members: [], 
         };
+    };
 
+    componentWillMount() {
         this.store.getAdminsForChat(this.state.chat).then((admins) => {
             const res = admins[0].admins.filter(adminID => adminID === this.store.user.id);
             this.setState({isAdmin: res !== undefined && res.length === 1});
         });
 
         this.store.completeParticipantUserInfo(this.state.chat).then((chatWithParticipants) => {
+            chatWithParticipants.participants.sort(this.compare);
             this.setState({chat: chatWithParticipants, members: chatWithParticipants.participants});
-            console.log(this.state.members);
-            this.state.members.sort(this.compare);
         });
+
+        this.store.app.service('chats').on('patched', updatedChat => {
+            this.store.completeParticipantUserInfo(updatedChat).then((chatWithParticipants) => {
+                chatWithParticipants.participants.sort(this.compare);
+                this.setState({chat: chatWithParticipants, members: chatWithParticipants.participants});
+            });
+        });
+    } 
+
+    componentDidMount() {
+
         
-    };
+    }
 
     updateGroup = (update) => {
 
@@ -75,37 +106,37 @@ export default class ChatGroupMemberList extends React.Component {
 
     renderDeleteButton = (user) => {
         return (
-            <TouchableOpacity onPress={() => this.removeUserFromChat(user)}>
-                <Col size={1}>
-                    <Icon style={{color: 'black'}} name="ios-trash"/>
-                </Col>
-            </TouchableOpacity>
+            <Col size={15} onPress={() => this.removeUserFromChat(user)}>
+                <Icon style={styles.deleteIcon} name="ios-trash"/>
+            </Col>
         )
     }
 
     removeUserFromChat(user) {
         console.warn('remove this user: ', user);
-        // TODO IMPL - consider using the generic updateGroup method above (used in every group-component so far)
+        /* TODO IMPL - consider using 
+                a) the generic updateGroup method above (used in every group-component so far)
+                b) ModalInput for "are you sure" popup (used in every popup-box so far)
+        */
     } 
 
-    _keyExtractor = (item, index) => index;
+    _keyExtractor = (item, index) => item.id; // user.id
     renderMember = (item) => {
-        console.log(item);
         let member = item.item;
 
         return (
             <TouchableOpacity onPress={() => {
-                this.props.navigation.navigate('View', {id: member.id});
+                //this.props.navigation.navigate('View', {id: member.id});
             }}>
                 <Grid style={styles.list}>
                     <Col>
                         <Row>
-                            <Col size={1}>
+                            <Col size={25} style={styles.avatar}>
                                 <Thumbnail
                                     source={{uri: `https://api.adorable.io/avatars/200/${member.email}.png`}}/>
                             </Col>
-                            <Col size={1}>
-                                <Text>{member.prename} {member.lastname}</Text>
+                            <Col size={60}>
+                                <Text style={styles.username}>{member.prename} {member.lastname}</Text>
                             </Col>
                             {this.state.isAdmin ? this.renderDeleteButton(member) : null} 
                         </Row>
@@ -119,14 +150,14 @@ export default class ChatGroupMemberList extends React.Component {
         if (this.state.members.length === 0) {
             return (
                 <View>
-                    
+                    <Text>Keine Mitglieder</Text>
                 </View>
             )
         }
         return (
             <View>
-                <Item>
-                    <Label style={{fontSize: 18, marginRight: 10, marginTop: 5}}>
+                <Item stackedLabel style={{borderBottomWidth: 2, borderColor: '#333333',}}>
+                    <Label style={{fontSize: 18, marginTop: 5,}}>
                                 Mitglieder
                     </Label>
                 </Item>
