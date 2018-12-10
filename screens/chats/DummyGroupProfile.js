@@ -90,12 +90,29 @@ export default class DummyGroupProfile extends Component {
         this.store = this.props.screenProps.store;
     }
 
+    toastIt = (text, type) => {
+        Toast.show({
+            text: text,
+            position: 'top',
+            textStyle: {flex: 1, textAlign: 'center'},
+            type: type,
+            duration: 2000
+        })
+    };
+
     checkPassword = (password) =>{
-        console.log('LUUUUUUUUUL');
         let currentChat = this.props.navigation.state.params.chat;
         let currentUser = this.store.user;
-        let passwordCorrect = this.store.enterWithUserGroupPassword(password,currentChat,currentUser);
+        if(currentChat.selfmanaged_password === password){
+            this.store.enterWithUserGroupPassword(currentChat,currentUser);
+            this.toastIt('Gruppe beigetreten','success');
+            this.hidePasswordModal();
+            return;
+        }
+        this.toastIt('Passwort inkorrekt','warning');
         this.hidePasswordModal();
+        return;
+        
     };
 
     showPasswordModal = () =>{

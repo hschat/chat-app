@@ -399,21 +399,16 @@ export default class ApiStore {
         });
     }
 
-    async enterWithUserGroupPassword(password,chat,user){
+    enterWithUserGroupPassword(chat,user){
         let messageText = ''+user.prename+' '+user.lastname+' wurde dem Chat hinzugefügt!';
         let template = {
-            chat_id: id,
+            chat_id: chat.id,
             createdAt: Date.now(),
             send_date: Date.now(),
             system: true,
             text: messageText,
         }
-        if(chat.selfmanaged_password === password){
-            await this.createMessage(template);
-            return true;
-        }else{
-            return false;
-        }
+        return this.createMessage(template);
     }
 
     // expects a chat that has a participants JSON-Array with just the userIDs in it. it will be updated to contain all user infos.
