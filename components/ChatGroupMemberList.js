@@ -162,7 +162,7 @@ export default class ChatGroupMemberList extends React.Component {
                     </Label>
                 </Item>
                 <Content>
-                    <FlatList data={this.state.members} extraData={this.state} renderItem={this.renderMember} keyExtractor={this._keyExtractor}/>
+                    <FlatList data={this.state.members} extraData={this.state.members} renderItem={this.renderMember} keyExtractor={this._keyExtractor}/>
                 </Content>
             </View>
         );
