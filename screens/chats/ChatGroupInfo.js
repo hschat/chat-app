@@ -77,6 +77,11 @@ export default class ChatGroupInfo extends React.Component {
                                 store={this.props.screenProps.store}
                                 editable={this.state.editable}
                             />
+                            <ChatGroupMemberList
+                                chat={this.props.navigation.state.params.chat}
+                                store={this.props.screenProps.store}
+                                editable={this.state.editable}
+                            />
                         </Form>
                     </View>
                 </ScrollView>
