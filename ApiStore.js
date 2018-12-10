@@ -399,9 +399,7 @@ export default class ApiStore {
         });
     }
 
-    async enterWithUserGroupPassword(password,chatId,userId){
-        let chat = await this.findChat(chatId);
-        let user = await this.findUser(userId);
+    async enterWithUserGroupPassword(password,chat,user){
         let messageText = ''+user.prename+' '+user.lastname+' wurde dem Chat hinzugefügt!';
         let template = {
             chat_id: id,
@@ -410,8 +408,8 @@ export default class ApiStore {
             system: true,
             text: messageText,
         }
-        if(chat[0].selfmanaged_password === password){
-            this.createMessage(template);
+        if(chat.selfmanaged_password === password){
+            await this.createMessage(template);
             return true;
         }else{
             return false;

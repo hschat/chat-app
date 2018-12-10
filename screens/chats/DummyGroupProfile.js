@@ -92,6 +92,9 @@ export default class DummyGroupProfile extends Component {
 
     checkPassword = (password) =>{
         console.log('LUUUUUUUUUL');
+        let currentChat = this.props.navigation.state.params.chat;
+        let currentUser = this.store.user;
+        let passwordCorrect = this.store.enterWithUserGroupPassword(password,currentChat,currentUser);
         this.hidePasswordModal();
     };
 
