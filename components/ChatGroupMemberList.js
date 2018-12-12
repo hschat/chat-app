@@ -156,14 +156,16 @@ export default class ChatGroupMemberList extends React.Component {
         }
         return (
             <View>
-                <Item stackedLabel style={{borderBottomWidth: 2, borderColor: '#333333',}}>
+                <Item stackedLabel style={{borderBottomWidth: 2, borderColor: '#333333', alignItems: 'flex-start', flexDirection: 'row'}}>
                     <Label style={{fontSize: 18, marginTop: 5,}}>
                                 Mitglieder
                     </Label>
                 </Item>
-                <Content>
-                    <FlatList data={this.state.members} extraData={this.state.members} renderItem={this.renderMember} keyExtractor={this._keyExtractor}/>
-                </Content>
+                <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
+                    <Content>
+                        <FlatList data={this.state.members} extraData={this.state} renderItem={this.renderMember} keyExtractor={this._keyExtractor}/>
+                    </Content>
+                </View>
             </View>
         );
     }
