@@ -46,7 +46,8 @@ export default class ChatGroupMemberList extends React.Component {
 
     constructor(props) {
         super(props);
-        this.store = this.props.store
+        this.store = this.props.store;
+        this.navigation = this.props.navigation;
         this.state = {
             id: this.props.chat.id,
             editable: this.props.editable,
@@ -126,7 +127,7 @@ export default class ChatGroupMemberList extends React.Component {
 
         return (
             <TouchableOpacity onPress={() => {
-                //this.props.navigation.navigate('View', {id: member.id});
+                this.navigation.navigate('View', {id: member.id});
             }}>
                 <Grid style={styles.list}>
                     <Col>
