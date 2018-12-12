@@ -121,8 +121,8 @@ export default class ChatGroupProfile extends React.Component {
                                 <Item stackedLabel style={[styles.item, styles.left]}>
                                     <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
                                     <ModalInput
-                                        text='Bitte gib das Passwort ein'
-                                        laceholder='Passwort...'
+                                        text={i18n.t('ChatGroupProfile-ModalText')}
+                                        placeholder={i18n.t('ChatGroupProfile-ModalPlaceholder')}
                                         visible={this.state.showPasswordModal}
                                         input={this.state.password}
                                         positiv={this.checkPassword}

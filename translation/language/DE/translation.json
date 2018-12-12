@@ -21,6 +21,8 @@
     "ChatGroupProfile-AlreadyMember": "Du bist schon ein Mitglied dieser Gruppe.",
     "ChatGroupProfile-EnterSuccessMessage" : "Gruppe erfolgreich beigetreten",
     "ChatGroupProfile-EnterFailMessage" : "Passwort inkorrekt",
+    "ChatGroupProfile-ModalText" : "Bitte gib das Passwort ein",
+    "ChatGroupProfile-ModalPlaceholder": "Passwort...",
 
     "ChatScreen-Error": "Fehler",
     "ChatScreen-ChatNotFound": "Chat nicht gefunden",

@@ -399,7 +399,7 @@ export default class ApiStore {
         });
     }
 
-    enterWithUserGroupPassword(chat,user){
+    async enterWithUserGroupPassword(chat,user){
         let messageText = ''+user.prename+' '+user.lastname+' '+i18n.t('ApiStore-EnterMessage');
         let template = {
             chat_id: chat.id,
@@ -408,6 +408,9 @@ export default class ApiStore {
             system: true,
             text: messageText,
         }
+        let chatParticipants = chat.participants;
+        chatParticipants.push(user.id);
+        let newChat = await this.updateGroup(chat.id,{ participants: chatParticipants });
         return this.createMessage(template);
     }
 
