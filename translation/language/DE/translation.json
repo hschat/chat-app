@@ -2,7 +2,6 @@
     "ChatGroupInfo-Header": "Gruppeninfo",
     
     "ChatGroupInformation-Describtion": "Beschreibung",
-    "ChatGroupInformation-UserCount": "Mitgliederanzahl",
     "ChatGroupInformation-DescriptionText": "Geb deine neue Beschreibung für die Gruppe ein",
     "ChatGroupInformation-Description-Placeholder": "Beschreibung...",
 
@@ -10,6 +9,7 @@
     "ChatGroupMemberList-Collapse": "Einklappen",
     "ChatGroupMemberList-NoMember": "Kein Mitglieder vorhanden",
     "ChatGroupMemberList-Member": "Mitglieder",
+    "ChatGroupMemberList-UserCount": "Anzahl",
 
     "ChatGroupHead-TitleText": "Geb deinen neuen Namen für die Gruppe ein",
     "ChatGroupHead-Title-Placeholder": "Name...",

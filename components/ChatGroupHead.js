@@ -116,7 +116,7 @@ export default class ChatGroupHead extends React.Component {
                 <Form>
                     <Item stackedLabel style={[styles.item, styles.left]}>
                         <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
-                            <Label style={{fontSize: 18, marginRight: 10, marginTop: 5}}  >
+                            <Label style={{fontSize: 18, marginRight: 10, marginTop: 5, fontWeight: 'bold'}}  >
                                 {i18n.t('ChatGroupHead-Groupname')}
                             </Label>
                             {this.state.isAdmin && this.state.editable ? <Icon style={{color: 'black'}} name="ios-create"

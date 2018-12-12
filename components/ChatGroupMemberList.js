@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     },
     username: {
         textAlign: 'auto', // <-- the magic
+        fontSize: 15,
         marginTop: 20,
     },
     deleteIcon: {
@@ -152,9 +153,9 @@ export default class ChatGroupMemberList extends React.Component {
                 <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
                     <Button block style={BaseStyles.redButton} onPress={() => this.changeExpandState()}>
                         {this.state.isExpanded ? 
-                            <Text>{i18n.t('ChatGroupMemberList-Collapse')}</Text>
+                            <Text style={{fontSize: 16, color: 'white', }}><Icon style={{color: 'white', fontSize: 18}} name="ios-arrow-up"/>  {i18n.t('ChatGroupMemberList-Collapse')}  <Icon style={{color: 'white', fontSize: 18}} name="ios-arrow-up"/></Text>
                         :
-                            <Text>{i18n.t('ChatGroupMemberList-Expand')}</Text>
+                            <Text style={{fontSize: 16, color: 'white', }}><Icon style={{color: 'white', fontSize: 18}} name="ios-arrow-down"/>  {i18n.t('ChatGroupMemberList-Expand')}  <Icon style={{color: 'white', fontSize: 18}} name="ios-arrow-down"/></Text>
                         }
                     </Button>
                 </View>
@@ -198,9 +199,14 @@ export default class ChatGroupMemberList extends React.Component {
         }
         return (
             <View>
-                <Item stackedLabel style={{borderBottomWidth: 2, borderColor: '#333333', alignItems: 'flex-start', flexDirection: 'row'}}>
-                    <Label style={{fontSize: 18, marginTop: 5,}}>
+                <Item style={{borderBottomWidth: 0, alignItems: 'flex-start', flexDirection: 'row'}}>
+                    <Label style={{fontSize: 18, marginTop: 5, color: 'black', fontWeight: 'bold'}}>
                          {i18n.t('ChatGroupMemberList-Member')}
+                    </Label>
+                </Item>
+                <Item stackedLabel style={{borderBottomWidth: 2, borderColor: '#333333', alignItems: 'flex-start', flexDirection: 'row'}}>
+                    <Label style={{fontSize: 15, marginTop: 5, color: 'black'}}  >
+                        {i18n.t('ChatGroupMemberList-UserCount')}: {this.state.members.length}
                     </Label>
                 </Item>
                 <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>

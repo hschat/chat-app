@@ -31,7 +31,6 @@ export default class ChatGroupInformation extends React.Component {
         this.state = {
             id: this.props.chat.id,
             description: this.props.chat.description,
-            userCount: this.props.chat.participants.length,
             editable: this.props.editable,
             isAdmin: false,
             showGroupNameModalInput: false,
@@ -75,7 +74,7 @@ export default class ChatGroupInformation extends React.Component {
                 />
                 <TouchableOpacity style={{alignItems: 'flex-start', flexDirection: 'row'}} onPress={() => this.setState({showGroupDescriptionModalInput: true})}>
                     <Text   style={{backgroundColor: 'transparent',
-                                    fontSize: 12, 
+                                    fontSize: 15, 
                                     color: 'black',
                                     width: '100%'}} 
                             uppercase={false}>
@@ -104,7 +103,7 @@ export default class ChatGroupInformation extends React.Component {
             <View>
                 <Item stackedLabel style={[styles.item, styles.left]}>
                     <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
-                        <Label style={{fontSize: 18, marginRight: 10, marginTop: 5}}  >
+                        <Label style={{fontSize: 18, marginRight: 10, marginTop: 5, fontWeight: 'bold'}}  >
                             {i18n.t('ChatGroupInformation-Describtion')}
                         </Label>
                         {this.state.isAdmin && this.state.editable ? <Icon style={{color: 'black'}} name="ios-create"
@@ -113,13 +112,6 @@ export default class ChatGroupInformation extends React.Component {
                     <Form style={{marginTop: 10}}>
                         {this.state.isAdmin && this.state.editable ? this.editableDescription() : this.staticDescription()}
                     </Form>
-                </Item>
-                <Item stackedLabel style={[styles.item, styles.left]}>
-                    <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
-                        <Label style={{fontSize: 18, marginRight: 10, marginTop: 5}}  >
-                            {i18n.t('ChatGroupInformation-UserCount')}: {this.state.userCount}
-                        </Label>
-                    </View>
                 </Item>
             </View>
         );
