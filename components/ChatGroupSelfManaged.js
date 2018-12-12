@@ -77,7 +77,7 @@ export default class ChatGroupSelfManaged extends React.Component {
                 />
                 <TouchableOpacity style={{alignItems: 'flex-start', flexDirection: 'row'}} onPress={() => this.setState({showSelfmanagedPasswordModalInput: true})}>
                     <Text   style={{backgroundColor: 'transparent',
-                                    fontSize: 12,
+                                    fontSize: 15,
                                     color: 'black',
                                     width: '100%'}} 
                             uppercase={false}>
@@ -93,7 +93,7 @@ export default class ChatGroupSelfManaged extends React.Component {
         return (
             <Item stackedLabel style={[styles.item, styles.left]}>
                 <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
-                    <Label style={{fontSize: 18, marginRight: 10, marginTop: 5}}  >
+                    <Label style={{fontSize: 18, marginRight: 10, marginTop: 5, fontWeight: 'bold'}}  >
                         {i18n.t('ChatGroupSelfManaged-Link')}
                     </Label>
                 </View>
@@ -111,7 +111,7 @@ export default class ChatGroupSelfManaged extends React.Component {
         return (
             <Item stackedLabel style={[styles.item, styles.left]}>
                 <View style={{alignItems: 'flex-start', flexDirection: 'row', top: 20, bottom: 20}}>
-                    <Label style={{fontSize: 18, marginRight: 10,}}>
+                    <Label style={{fontSize: 18, marginRight: 10, fontWeight: 'bold'}}>
                         {i18n.t('ChatGroupSelfManaged-Selfmanaged')}
                     </Label>
                     <CheckBox
@@ -130,7 +130,7 @@ export default class ChatGroupSelfManaged extends React.Component {
                 {this.state.is_selfmanaged && this.state.isAdmin && this.state.editable ? 
                     <Item stackedLabel style={[styles.item, styles.left]}>
                         <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
-                            <Label style={{fontSize: 18, marginRight: 10, marginTop: 5}}  >
+                            <Label style={{fontSize: 18, marginRight: 10, marginTop: 5, fontWeight: 'bold'}}  >
                                 {i18n.t('ChatGroupSelfManaged-Password')}
                             </Label>
                             <Icon style={{color: 'black'}} name="ios-create"

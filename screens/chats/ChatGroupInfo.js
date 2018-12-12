@@ -57,7 +57,7 @@ export default class ChatGroupInfo extends React.Component {
 
     render() {
         return (
-            <View style={{flex: 1, padding: 25, paddingTop: 15, justifyContent: 'flex-start', alignItems: 'flex-start'}}>
+            <View style={{flex: 1, paddingLeft: 25, paddingTop: 15, justifyContent: 'flex-start', alignItems: 'flex-start'}}>
                 <Image style={BaseStyles.backgroundImage} source={require('../../assets/img/bg.png')}/>
                 <ChatGroupHead
                     chat={this.props.navigation.state.params.chat}
@@ -71,6 +71,12 @@ export default class ChatGroupInfo extends React.Component {
                                 chat={this.props.navigation.state.params.chat}
                                 store={this.props.screenProps.store}
                                 editable={this.state.editable}
+                            />
+                            <ChatGroupMemberList
+                                chat={this.props.navigation.state.params.chat}
+                                store={this.props.screenProps.store}
+                                editable={this.state.editable}
+                                navigation={this.props.navigation}
                             />
                             <ChatGroupSelfManaged
                                 chat={this.props.navigation.state.params.chat}
