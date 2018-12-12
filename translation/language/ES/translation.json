@@ -6,6 +6,11 @@
     "ChatGroupInformation-DescriptionText": "Geb deine neue Beschreibung für die Gruppe ein",
     "ChatGroupInformation-Description-Placeholder": "Beschreibung...",
 
+    "ChatGroupMemberList-Expand": "Ausklappen",
+    "ChatGroupMemberList-Collapse": "Einklappen",
+    "ChatGroupMemberList-NoMember": "Kein Mitglieder vorhanden",
+    "ChatGroupMemberList-Member": "Mitglieder",
+
     "ChatGroupHead-TitleText": "Geb deinen neuen Namen für die Gruppe ein",
     "ChatGroupHead-Title-Placeholder": "Name...",
     "ChatGroupHead-Groupname": "Gruppenname",

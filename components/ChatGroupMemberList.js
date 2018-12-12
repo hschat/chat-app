@@ -7,9 +7,11 @@ import {
     Content,
     Item,
     Label,
+    Button,
 } from "native-base";
 import {StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import i18n from '../translation/i18n';
+import BaseStyles from '../baseStyles';
 import {Col, Row, Grid} from 'react-native-easy-grid';
 
 const styles = StyleSheet.create({
@@ -17,6 +19,11 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
+    },
+    middle: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     item: {
         borderBottomWidth: 0,
@@ -53,7 +60,10 @@ export default class ChatGroupMemberList extends React.Component {
             editable: this.props.editable,
             isAdmin: false,
             chat: this.props.chat,
-            members: [], 
+            members: [],
+            fiveMembers: [],
+            memberData: [],
+            isExpanded: false,
         };
     };
 
@@ -65,19 +75,20 @@ export default class ChatGroupMemberList extends React.Component {
 
         this.store.completeParticipantUserInfo(this.state.chat).then((chatWithParticipants) => {
             chatWithParticipants.participants.sort(this.compare);
-            this.setState({chat: chatWithParticipants, members: chatWithParticipants.participants});
+            this.setState({chat: chatWithParticipants, members: chatWithParticipants.participants, fiveMembers: chatWithParticipants.participants.slice(0,5)});
+            this.setMemmberData();
         });
 
         this.store.app.service('chats').on('patched', updatedChat => {
             this.store.completeParticipantUserInfo(updatedChat).then((chatWithParticipants) => {
                 chatWithParticipants.participants.sort(this.compare);
-                this.setState({chat: chatWithParticipants, members: chatWithParticipants.participants});
+                this.setState({chat: chatWithParticipants, members: chatWithParticipants.participants, fiveMembers: chatWithParticipants.participants.slice(0,5)});
+                this.setMemmberData();
             });
         });
     } 
 
     componentDidMount() {
-
         
     }
 
@@ -121,6 +132,36 @@ export default class ChatGroupMemberList extends React.Component {
         */
     } 
 
+    setMemmberData() {
+        if (this.state.isExpanded){
+            this.setState({memberData: this.state.members});
+        } else {
+            this.setState({memberData: this.state.fiveMembers});
+        }
+    }
+
+    changeExpandState(){
+        this.state.isExpanded = !this.state.isExpanded;
+        this.setState({isExpanded: this.state.isExpanded});
+        this.setMemmberData();
+    }
+
+    renderExpandButton() {
+        return (
+            <Item stackedLabel style={[styles.item, styles.middle]}>
+                <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
+                    <Button block style={BaseStyles.redButton} onPress={() => this.changeExpandState()}>
+                        {this.state.isExpanded ? 
+                            <Text>{i18n.t('ChatGroupMemberList-Collapse')}</Text>
+                        :
+                            <Text>{i18n.t('ChatGroupMemberList-Expand')}</Text>
+                        }
+                    </Button>
+                </View>
+            </Item>
+        )
+    }
+
     _keyExtractor = (item, index) => item.id; // user.id
     renderMember = (item) => {
         let member = item.item;
@@ -151,7 +192,7 @@ export default class ChatGroupMemberList extends React.Component {
         if (this.state.members.length === 0) {
             return (
                 <View>
-                    <Text>Keine Mitglieder</Text>
+                    <Text>{i18n.t('ChatGroupMemberList-NoMember')}</Text>
                 </View>
             )
         }
@@ -159,14 +200,15 @@ export default class ChatGroupMemberList extends React.Component {
             <View>
                 <Item stackedLabel style={{borderBottomWidth: 2, borderColor: '#333333', alignItems: 'flex-start', flexDirection: 'row'}}>
                     <Label style={{fontSize: 18, marginTop: 5,}}>
-                                Mitglieder
+                         {i18n.t('ChatGroupMemberList-Member')}
                     </Label>
                 </Item>
                 <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
                     <Content>
-                        <FlatList data={this.state.members} extraData={this.state} renderItem={this.renderMember} keyExtractor={this._keyExtractor}/>
+                        <FlatList data={this.state.memberData} extraData={this.state} renderItem={this.renderMember} keyExtractor={this._keyExtractor}/>
                     </Content>
                 </View>
+                {this.state.members.length>5 ? this.renderExpandButton() : <Item style={[styles.item]}/> }
             </View>
         );
     }
