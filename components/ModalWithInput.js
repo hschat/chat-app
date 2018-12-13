@@ -92,8 +92,9 @@ export default class ModalWithInput extends Component {
                                 <Text style={styles.text}>{this.props.text}</Text>
                             </Col>
                         </Row>
+                        {this.props.maxLength != 0 ? (
                         <Row>
-                            <Col style={styles.middle}>
+                            <Col style={styles.middle} >
                                 <Input placeholder={this.props.placeholder}
                                        onChangeText={(text) => this._updateInput(text)}
                                        value={this.state.input}
@@ -101,6 +102,13 @@ export default class ModalWithInput extends Component {
                                 />
                             </Col>
                         </Row>
+                        ) : (
+                        <Row size={1}>
+                            <Col style={styles.middle}>
+                                <Text style={styles.text}>{this.props.placeholder}</Text>
+                            </Col>
+                        </Row>
+                        )}
                         <Row>
                             <Col style={[styles.middle, styles.spacer]}>
                                 <TouchableOpacity style={[styles.middle,{flex:1}]} onPress={this.props.negativ}>

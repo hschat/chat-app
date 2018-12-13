@@ -384,6 +384,19 @@ export default class ApiStore {
         return this.app.service('chats').patch(id, obj);
     } 
 
+    updateGroupParticipants(chatId, newParticipans) {
+        return this.app.service('chats').patch(chatId, {participants: newParticipans});
+    } 
+
+    async getUsersForChatById(chatId) {
+        return await this.app.service('chats').find({
+            query: {
+                id: chatId,
+                $select: [ 'participants' ]
+            }
+        });
+    } 
+
     getAdminsForChat(chat) {
         return this.app.service('chats').find({
             query: {
