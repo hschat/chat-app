@@ -99,9 +99,12 @@ export default class ChatScreen extends React.Component {
     } 
 
     updateParticipants(chat){
-        if(! chat ) return;
+        if(!chat) 
+          return;
 
         this.store.getUsersForChat(chat).then((users) => {
+            if(!users[0].participants)
+              return;
             this.setState({participants: users[0].participants});
         });
     } 

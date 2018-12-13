@@ -8,11 +8,14 @@ import {
     Item,
     Label,
     Button,
+    Toast,
 } from "native-base";
 import {StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import i18n from '../translation/i18n';
 import BaseStyles from '../baseStyles';
 import {Col, Row, Grid} from 'react-native-easy-grid';
+import ModalInput from './/ModalWithInput'
+import ApiStore from '../ApiStore'
 
 const styles = StyleSheet.create({
     left: {
@@ -65,6 +68,8 @@ export default class ChatGroupMemberList extends React.Component {
             fiveMembers: [],
             memberData: [],
             isExpanded: false,
+            showConfirmDelete: false,
+            userToDelete: {},
         };
     };
 
@@ -126,12 +131,49 @@ export default class ChatGroupMemberList extends React.Component {
     }
 
     removeUserFromChat(user) {
-        console.warn('remove this user: ', user);
-        /* TODO IMPL - consider using 
-                a) the generic updateGroup method above (used in every group-component so far)
-                b) ModalInput for "are you sure" popup (used in every popup-box so far)
-        */
-    } 
+        // Open Confirm Kick Dialog
+        this.setState({ showConfirmDelete: true, userToDelete: user });
+    }
+
+    deleteUserFromGroup = async () => {
+        // Get Participants as Objects
+        const participantsObject = await this.store.getUsersForChatById(this.state.id);
+        // Resolve the Object
+        const participants = participantsObject[0].participants;
+        
+        // Reduce Participants to their Ids
+        const participantIds = [];
+        for(let i = 0; i < participants.length; i++) {
+            participantIds.push(participants[i].id);
+        }
+        
+        // Deletes the User Id from the Participant Ids
+        participantIds.splice(participantIds.indexOf(this.state.userToDelete.id), 1);
+        // Update the Group with the new Participant Ids
+        this.store.updateGroupParticipants(this.state.id, participantIds);
+
+        // Print Message to Chat
+        this.store.sendMessage({
+            text: `${this.state.userToDelete.prename} ${this.state.userToDelete.lastname} was kicked`,
+            sender_id: this.store.user.id,
+            chat_id: this.state.id,
+            system: true,
+        });
+
+        // Show kicked message
+        Toast.show({
+            text: `Kicked ${this.state.userToDelete.prename} ${this.state.userToDelete.lastname}`,
+            position: 'bottom',
+            type: 'confirm',
+            duration: 2000
+        })
+
+        this.closeConfirmDelete();
+    }
+
+    closeConfirmDelete = () => {
+        this.setState({ showConfirmDelete: false });
+    }
 
     setMemmberData() {
         if (this.state.isExpanded){
@@ -215,6 +257,14 @@ export default class ChatGroupMemberList extends React.Component {
                     </Content>
                 </View>
                 {this.state.members.length>5 ? this.renderExpandButton() : <Item style={[styles.item]}/> }
+                <ModalInput
+                    text={"Are you sure you want to kick?"}
+                    placeholder={`${this.state.userToDelete.prename} ${this.state.userToDelete.lastname}`}
+                    visible={this.state.showConfirmDelete}
+                    positiv={this.deleteUserFromGroup}
+                    negativ={this.closeConfirmDelete}
+                    maxLength={0}
+                />
             </View>
         );
     }
