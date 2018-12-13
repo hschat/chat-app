@@ -250,9 +250,9 @@ export default class ChatScreen extends React.Component {
                 return (<Text style={{color: '#E00034'}}>{i18n.t('ChatScreen-BigTyping')}</Text>);
             } else {
                 var user = this.state.participants.filter( (user) => user.id !== this.store.user.id)[0];
-                if(user.isOnline){
+                if(user && user.isOnline){
                     return (<Text>{i18n.t('ChatScreen-Online')}</Text>);
-                } else if(user.last_time_online){
+                } else if(user && user.last_time_online){
                     return (<Text>{i18n.t('ChatScreen-LastOnline')}<TimeAgo time={user.last_time_online} name={'last_online'}/></Text>);
                 } else return null; // not online
             } 
