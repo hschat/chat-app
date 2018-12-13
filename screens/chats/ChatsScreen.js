@@ -58,6 +58,30 @@ export default class ChatsScreen extends Component {
 
         this.store.app.service('chats').on('patched', updatedChat => {
             this.store.completeParticipantUserInfo(updatedChat).then((chatWithParticipants) => {
+                // Check if User is part of every updatedChat
+                let groupToDeleteId = -1;
+                for(let i = 0; i < chatWithParticipants.length; i++) {
+                    let contained = false;
+                    for(let x = 0; x < chatWithParticipants[i].participants.length; x++) {
+                        if(chatWithParticipants[i].participants[x].id === this.store.user.id) {
+                            contained = true;
+                            break;
+                        }
+                    }
+                    if(!contained) {
+                        groupToDeleteId = chatWithParticipants[i].id;
+                        break;
+                    }
+                }
+                // Remove the Chat if the User is no longer part of it
+                if(groupToDeleteId !== -1) {
+                    for(let i = 0; i < chats.length; i++) {
+                        if(chats[i].id === groupsToDelete) {
+                            chats.slice(i, 1);
+                        }
+                    }
+                }
+
                 let chats = this.state.chats;
                 chats.forEach((chat, index) => {
                     if (chat.id === chatWithParticipants.id) {
