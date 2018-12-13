@@ -35,7 +35,7 @@ export default class CreateGroupChat extends Component {
         return {
             headerTitle: i18n.t('AddMemberSearch-AddMember'),
             headerRight: (
-                <Button onPress={params.enterGroupName} transparent><Icon name="ios-add-circle-outline"/></Button>
+                <Button onPress={addUserToChat} transparent><Icon name="ios-add-circle-outline"/></Button>
             )
         };
     };
@@ -53,10 +53,12 @@ export default class CreateGroupChat extends Component {
             loading: false,
             showModal: false,
             groupName: '',
+            chat: this.props.navigation.getParam('passChat'),
+            showConfirmAdd: false,
         };
 
         this.props.navigation.setParams({
-            enterGroupName: this.enterGroupName,
+            addUserToChat: this.addUserToChat,
         });
     }
 
@@ -79,13 +81,16 @@ export default class CreateGroupChat extends Component {
         this.setState({loading: true});
         //Keyboard.dismiss();
         this.store.findUser(searchText).then((users) => {
-
-            //Remove yourself for the search
-            users.forEach((current, index) => {
-                if (current.id === this.store.user.id) {
-                    users.splice(index, 1);
+            let length_check = users.length;
+            let removed = 0;
+            for(let i = 0; i < length_check; i++){
+                console.log()
+                if(this.checkIfUserInGroup(users[i - removed])){
+                    users.splice(i - removed, 1);
+                    removed++;
+                    console.log('kann das funktionieren?');
                 }
-            });
+            }
             this.setState({users: users});
             this.setState({loading: false});
 
@@ -97,61 +102,6 @@ export default class CreateGroupChat extends Component {
                 msg: i18n.t('AddMemberSearch-ErrorSearchingMsg')
             };
         });
-    };
-
-    /**
-     * Opens the Modal to enter the group name
-     */
-    enterGroupName=()=>{
-        if(this.state.usersToAdd.length < 1){
-            this.store.alert = {
-                type: 'warn',
-                title: i18n.t('AddMemberSearch-MissingUser'),
-                msg: i18n.t('AddMemberSearch-MissingUserMsg')
-            };
-        }else{
-            this.setState({showModal: true});
-        }
-    };
-
-    /**
-     * Creats a new Chat with all selectet user + the user himself
-     */
-    createGroup = (name) => {
-
-        //Add yourself to the group
-        let users = this.state.usersToAdd;
-        users.push(this.store.user);
-
-        let part = [];
-        //send only the ids
-        users.forEach((user) => {
-           part.push(user.id);
-        });
-
-        let admins = [];
-        // add myself to admin list
-        admins.push(this.store.user.id);
-
-        // Creat group Object
-        let group = {
-            participants: part,
-            type: 'group',
-            name: name,
-            admins: admins,
-        };
-
-        this.store.createChat(group).then((chat)=>{
-            this.props.navigation.navigate('Chat', {chat: chat});
-            this.setState({showModal: false});
-        }).catch((error) =>{
-            this.store.alert = {
-                type: 'error',
-                title: i18n.t('AddMemberSearch-InternalError'),
-                msg: i18n.t('AddMemberSearch-InternalErrorMsg')
-            };
-        });
-
     };
 
     /**
@@ -192,7 +142,7 @@ export default class CreateGroupChat extends Component {
     };
 
     /**
-     * Checks if the user is allready in the addToGroup List
+     * Checks if the user is already in the addToGroup List
      * @param user to check for
      * @return Bool
      */
@@ -205,18 +155,84 @@ export default class CreateGroupChat extends Component {
         return false;
     };
 
+    checkIfUserInGroup = (user) => {
+        let returnvalue = false;
+        this.state.chat.participants.forEach((userIn) => {
+            console.log('For: ' + user.id + '; in: ' + userIn.id);
+            if(user.id == userIn.id){
+                console.log('Es funktioniert?!');
+                returnvalue = true;
+            };
+        });
+        console.log('Value: ' + returnvalue);
+        return returnvalue;
+    }
+
+    addUserToChat = () => {
+        this.setState({ showConfirmAdd: true });
+    }
+
+    addUserToGroup = async () => {
+        // Get Participants as Objects
+        const participantsObject = await this.store.getUsersForChatById(this.state.chat.id);
+        // Resolve the Object
+        const participants = participantsObject[0].participants;
+        
+        // Reduce Participants to their Ids
+        const participantIds = [];
+        for(let i = 0; i < participants.length; i++) {
+            participantIds.push(participants[i].id);
+        }
+        
+        const toAddIds = [];
+        for(let i = 0; i < this.state.usersToAdd.length; i++) {
+            toAddIds.push(this.state.usersToAdd[i].id);
+        }
+
+        // Deletes the User Id from the Participant Ids
+        for(let i = 0; i < toAddIds.length; i++){
+            participantIds.push(toAddIds[i]);
+        }
+        // Update the Group with the new Participant Ids
+        this.store.updateGroupParticipants(this.state.chat.id, participantIds);
+         // Print Message to Chat
+        for(let i = 0; i < this.state.toAddIds.length; i++){
+            this.store.sendMessage({
+                text: `${this.state.users[i].prename} ${this.state.users[i].lastname} wurde hinzugefügt`,
+                sender_id: this.store.user.id,
+                chat_id: this.state.id,
+                system: true,
+            });
+        }
+        if (toAddIds.length > 1){
+            Toast.show({
+                text: `${toAddIds.length} Nutzer wurden hinzugefügt`,
+                position: 'bottom',
+                type: 'confirm',
+                duration: 2000
+            })
+        } else {
+            Toast.show({
+                text: `${this.state.users[0].prename} ${this.state.users[0].lastname} wurde hinzugefügt`,
+                position: 'bottom',
+                type: 'confirm',
+                duration: 2000
+            })
+        }
+        this.closeConfirmAdd();
+    }
+     closeConfirmAdd = () => {
+        this.setState({ showConfirmAdd: false });
+    }
+
+
     /**
      * Renders all users in the state users
      * @param user
      * @returns ListItems with users
      */
     renderSearchResult = (user) => {
-        let added = false;
-        this.state.usersToAdd.forEach((current) => {
-            if (current.id === user.id) {
-                added=true;
-            }
-        });
+        const added = false;
 
         return (
             <ListItem avatar style={{backgroundColor: 'transparent'}} button={true} onPress={() => this.addUser(user)}>
@@ -227,15 +243,6 @@ export default class CreateGroupChat extends Component {
                 <Text>{user.prename} {user.lastname}</Text>
                 <Text note>{user.status}</Text>
                 </Body>
-                <Right>
-                    { added &&
-                        <Icon style={{color: 'green'}} name='ios-checkmark-circle-outline'/>
-                    }
-                    { !added &&
-                        <Icon name='ios-add-circle-outline'/>
-                    }
-
-                </Right>
             </ListItem>
         )
     };
@@ -310,6 +317,16 @@ export default class CreateGroupChat extends Component {
                     (this.state.users.length !== 0 && !this.state.loading) &&
                     <List dataArray={this.state.users} renderRow={this.renderSearchResult}></List>
                 }
+                <ModalInput
+                    text={"Are you sure you want to add?"}
+                    placeholder= {this.state.usersToAdd > 1 ?
+                         `${this.state.usersToAdd.length} User` : 
+                         this.state.usersToAdd.length == 0 ? ' ' : `${this.state.usersToAdd[0].prename} ${this.state.usersToAdd[0].lastname}`}
+                    visible={this.state.showConfirmAdd}
+                    positiv={this.addUserToGroup}
+                    negativ={this.closeConfirmAdd}
+                    maxLength={0}
+                />
             </Content>
         );
 
