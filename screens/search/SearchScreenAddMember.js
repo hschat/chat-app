@@ -35,7 +35,7 @@ export default class CreateGroupChat extends Component {
         return {
             headerTitle: i18n.t('AddMemberSearch-AddMember'),
             headerRight: (
-                <Button onPress={addUserToChat} transparent><Icon name="ios-add-circle-outline"/></Button>
+                <Button onPress={params.startAdding} transparent><Icon name="ios-add-circle-outline"/></Button>
             )
         };
     };
@@ -58,7 +58,7 @@ export default class CreateGroupChat extends Component {
         };
 
         this.props.navigation.setParams({
-            addUserToChat: this.addUserToChat,
+            startAdding: this.addUserToChat,
         });
     }
 
