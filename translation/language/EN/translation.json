@@ -162,5 +162,7 @@
     "ApiStore-SignOut": "Sign out",
     "ApiStore-SignOutMsg": "Do you really want to sign out?",
     "ApiStore-Cancel": "Cancel",
-    "ApiStore-Yes": "Yes" 
+    "ApiStore-Yes": "Yes",
+
+    "Groupadministration-kicked": "was kicked"
 }

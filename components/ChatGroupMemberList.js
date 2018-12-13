@@ -154,7 +154,7 @@ export default class ChatGroupMemberList extends React.Component {
 
         // Print Message to Chat
         this.store.sendMessage({
-            text: `${this.state.userToDelete.prename} ${this.state.userToDelete.lastname} was kicked`,
+            text: `${this.state.userToDelete.prename} ${this.state.userToDelete.lastname} ${i18n.t('Groupadministration-kicked')}`,
             sender_id: this.store.user.id,
             chat_id: this.state.id,
             system: true,
@@ -162,7 +162,7 @@ export default class ChatGroupMemberList extends React.Component {
 
         // Show kicked message
         Toast.show({
-            text: `Kicked ${this.state.userToDelete.prename} ${this.state.userToDelete.lastname}`,
+            text: `${this.state.userToDelete.prename} ${this.state.userToDelete.lastname} ${i18n.t('Groupadministration-kicked')}`,
             position: 'bottom',
             type: 'confirm',
             duration: 2000

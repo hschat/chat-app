@@ -162,6 +162,8 @@
     "ApiStore-SignOut": "Abmelden",
     "ApiStore-SignOutMsg": "Willst du dich wirklich abmelden?",
     "ApiStore-Cancel": "Abbrechen",
-    "ApiStore-Yes": "Ja" 
+    "ApiStore-Yes": "Ja",
+
+    "Groupadministration-kicked": "wurde entfernt"
 
 }
