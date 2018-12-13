@@ -57,31 +57,38 @@ export default class ChatsScreen extends Component {
         });
 
         this.store.app.service('chats').on('patched', updatedChat => {
-            this.store.completeParticipantUserInfo(updatedChat).then((chatWithParticipants) => {
-                // Check if User is part of every updatedChat
-                let groupToDeleteId = -1;
-                for(let i = 0; i < chatWithParticipants.length; i++) {
-                    let contained = false;
-                    for(let x = 0; x < chatWithParticipants[i].participants.length; x++) {
-                        if(chatWithParticipants[i].participants[x].id === this.store.user.id) {
-                            contained = true;
-                            break;
-                        }
-                    }
-                    if(!contained) {
-                        groupToDeleteId = chatWithParticipants[i].id;
+            let xchats = this.state.chats;
+            // Check if User is part of every updatedChat
+            let groupToDeleteId = -1;
+
+            let contained = false;
+            if(updatedChat.participants.length === 0) {
+                return;
+            }
+            for(let x = 0; x < updatedChat.participants.length; x++) {
+                if(updatedChat.participants[x].id === this.store.user.id) {
+                    contained = true;
+                    break;
+                }
+            }
+
+            const userIndex = updatedChat.participants.indexOf(this.store.user.id);
+            if(!contained && userIndex === -1) {
+                groupToDeleteId = updatedChat.id;
+            }
+                
+            // Remove the Chat if the User is no longer part of it
+            if(groupToDeleteId !== -1) {
+                for(let i = 0; i < xchats.length; i++) {
+                    if(xchats[i].id === groupToDeleteId) {
+                        xchats.splice(i, 1);
                         break;
                     }
                 }
-                // Remove the Chat if the User is no longer part of it
-                if(groupToDeleteId !== -1) {
-                    for(let i = 0; i < chats.length; i++) {
-                        if(chats[i].id === groupsToDelete) {
-                            chats.slice(i, 1);
-                        }
-                    }
-                }
+            }
+            this.setState({chats: xchats});
 
+            this.store.completeParticipantUserInfo(updatedChat).then((chatWithParticipants) => {
                 let chats = this.state.chats;
                 chats.forEach((chat, index) => {
                     if (chat.id === chatWithParticipants.id) {
