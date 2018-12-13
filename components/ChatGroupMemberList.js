@@ -7,8 +7,12 @@ import {
     Content,
     Item,
     Label,
+<<<<<<< HEAD
     Button,
     Toast,
+=======
+    Button
+>>>>>>> Inserted button into GroupInfo, deleted it from MemberList; translation done
 } from "native-base";
 import {StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import i18n from '../translation/i18n';
@@ -223,11 +227,7 @@ export default class ChatGroupMemberList extends React.Component {
                             <Col size={60}>
                                 <Text style={styles.username}>{member.prename} {member.lastname}</Text>
                             </Col>
-<<<<<<< HEAD
                             {this.state.isAdmin && (this.store.user.id != member.id ) ? this.renderDeleteButton(member) : null} 
-=======
-                            {this.state.isAdmin ? this.renderDeleteButton(member) : null}
->>>>>>> changed branch
                         </Row>
                     </Col>
                 </Grid>
@@ -239,7 +239,6 @@ export default class ChatGroupMemberList extends React.Component {
         if (this.state.members.length === 0) {
             return (
                 <View>
-                    <Button onPress={() => this.props.navigation.navigate('AddMember')}><Text>{i18n.t('ChatGroupInfo-AddMember')}</Text></Button>
                     <Text>{i18n.t('ChatGroupMemberList-NoMember')}</Text>
                 </View>
             )
@@ -251,7 +250,6 @@ export default class ChatGroupMemberList extends React.Component {
                          {i18n.t('ChatGroupMemberList-Member')}
                     </Label>
                 </Item>
-                <Button onPress={() => this.props.navigation.navigate('AddMember')}><Text>{i18n.t('ChatGroupInfo-AddMember')}</Text></Button>
                 <Item stackedLabel style={{borderBottomWidth: 2, borderColor: '#333333', alignItems: 'flex-start', flexDirection: 'row'}}>
                     <Label style={{fontSize: 15, marginTop: 5, color: 'black'}}  >
                         {i18n.t('ChatGroupMemberList-UserCount')}: {this.state.members.length}

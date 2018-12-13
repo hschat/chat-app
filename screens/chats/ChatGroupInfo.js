@@ -7,6 +7,7 @@ import {
     Form,
     Item,
     Label,
+    Text
 } from "native-base";
 import {StyleSheet, Image, ScrollView} from 'react-native';
 import BaseStyles from '../../baseStyles';
@@ -72,6 +73,7 @@ export default class ChatGroupInfo extends React.Component {
                                 store={this.props.screenProps.store}
                                 editable={this.state.editable}
                             />
+                            <Button style={BaseStyles.redButton} onPress={() => this.props.navigation.navigate('AddMember')} color="#841584"><Text>{i18n.t('ChatGroupInformation-AddMember')}</Text></Button>
                             <ChatGroupMemberList
                                 chat={this.props.navigation.state.params.chat}
                                 store={this.props.screenProps.store}
@@ -86,7 +88,7 @@ export default class ChatGroupInfo extends React.Component {
                         </Form>
                     </View>
                 </ScrollView>
-                
+
             </View>
         );
     }

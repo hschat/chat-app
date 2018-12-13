@@ -4,6 +4,7 @@
     "ChatGroupInformation-Describtion": "Beschreibung",
     "ChatGroupInformation-DescriptionText": "Geb deine neue Beschreibung für die Gruppe ein",
     "ChatGroupInformation-Description-Placeholder": "Beschreibung...",
+    "ChatGroupInformation-AddMember": "Mitglied hinzufügen",
 
     "ChatGroupMemberList-Expand": "Ausklappen",
     "ChatGroupMemberList-Collapse": "Einklappen",
@@ -166,6 +167,7 @@
     "MainNavigator-BottomMessage": "Nachrichten",
     "MainNavigator-BottomSearch": "Suchen",
     "MainNavigator-BottomFeedback": "Feedback",
+    "MainNavigator-AddMember": "Mitglied hinzufügen",
 
     "ModalWithInput-NotMoreThan": "Nicht mehr als",
     "ModalWithInput-CharsPossible": "Zeichen möglich",
