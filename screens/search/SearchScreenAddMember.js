@@ -1,20 +1,3 @@
-Skip to content
- 
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
-  Sign out
-3
-0 0 hschat/app
- Code  Issues 3  Pull requests 3  Insights
-app/screens/search/SearchScreenAddMember.js
-b1c4a3b  2 days ago
- LouisaSchirmer Button on GroupInfo, Navigation to duplicate SearchScreen
-     
-318 lines (273 sloc)  9.19 KB
 import React, {Component} from 'react';
 import {Alert, Keyboard, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
 import {
@@ -332,16 +315,3 @@ export default class CreateGroupChat extends Component {
 
     }
 }
-© 2018 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
-Press h to open a hovercard with more details.
