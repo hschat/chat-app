@@ -238,7 +238,7 @@ export default class ChatScreen extends React.Component {
     evaluateChatInformation(props){
         if(this.state === undefined || ! this.state.participants) return null;
 
-        if(this.state.participants.length > 2){
+        if(this.state.chat.type === 'group'){
             // Group chat
             if(this.state.isTyping){
                 var user = this.state.participants.filter( (user) => user.id === this.state.typingUser.sender_id)[0];
