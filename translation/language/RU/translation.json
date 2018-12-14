@@ -125,7 +125,7 @@
 
     "SearchScreen-Settings": "Einstellung",
     "SearchScreen-Search": "Suchen",
-    "SearchScreen-UserNotFound": "Es wurde kein Benutzer gefunden",
+    "SearchScreen-UserNotFound": "Es wurde kein Benutzer oder Gruppe gefunden",
     "SearchScreen-InviteUser": "Möchtest du den Benutzer einladen?",
     
     "Distance-cmShort": "cm",

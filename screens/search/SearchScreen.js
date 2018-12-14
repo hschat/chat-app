@@ -34,6 +34,7 @@ export default class SearchScreen extends Component {
         this.state = {
             search: '',
             users: [],
+            chats: [],
             searched: false,
             loading: false
         };
@@ -58,13 +59,20 @@ export default class SearchScreen extends Component {
             console.error('Search error:', error);
             console.error('Search error:', this.state);
         });
+        this.store.findGroup(this.state.search).then((chats) => {
+            this.setState({chats: chats});
+            this.setState({loading: false});
+        }).catch(error => {
+            console.error('Search error:', error);
+            console.error('Search error:', this.state);
+        });
     };
 
     /**
      *
      * @param user
      * @returns {XML} ListItem
-     */
+     **/
     renderSearchResult = (user) => {
         return (
             <ListItem avatar style={{backgroundColor: 'transparent'}} button={true} onPress={() => {
@@ -80,7 +88,22 @@ export default class SearchScreen extends Component {
             </ListItem>
         )
     };
-
+    renderSearchResultChat = (chat) => {
+        return (
+            <ListItem avatar style={{backgroundColor: 'transparent'}} button={true} onPress={() => {
+                this.props.navigation.navigate('GroupProfile', {chat: chat});
+            }}>
+                <Left>
+                    <Thumbnail large
+                               source={require('../../assets/img/group.png')}/>
+                </Left>
+                <Body>
+                <Text>{chat.name}</Text>
+                <Text note>{chat.description}</Text>
+                </Body>
+            </ListItem>
+        )
+    };
 
     /**
      *
@@ -94,7 +117,7 @@ export default class SearchScreen extends Component {
                 </Content>
             );
         }
-        if (!this.state.loading && this.state.users.length === 0) {
+        if (!this.state.loading && this.state.users.length === 0 && this.state.chats.length ===0) {
             return (
                 <Content>
                     <ListItem style={{backgroundColor: 'transparent'}}>
@@ -106,6 +129,11 @@ export default class SearchScreen extends Component {
                 </Content>
             );
         }
-        return (<Content><List dataArray={this.state.users} renderRow={this.renderSearchResult}></List></Content>);
+        return (
+            <Content>
+                <List dataArray={this.state.users} renderRow={this.renderSearchResult}></List>
+                <List dataArray={this.state.chats} renderRow={this.renderSearchResultChat}></List>
+            </Content>
+        );
     }
 }
