@@ -84,11 +84,9 @@ export default class AddUserToChat extends Component {
             let length_check = users.length;
             let removed = 0;
             for(let i = 0; i < length_check; i++){
-                console.log()
                 if(this.checkIfUserInGroup(users[i - removed])){
                     users.splice(i - removed, 1);
                     removed++;
-                    console.log('kann das funktionieren?');
                 }
             }
             this.setState({users: users});
@@ -158,13 +156,10 @@ export default class AddUserToChat extends Component {
     checkIfUserInGroup = (user) => {
         let returnvalue = false;
         this.state.chat.participants.forEach((userIn) => {
-            console.log('For: ' + user.id + '; in: ' + userIn.id);
             if(user.id == userIn.id){
-                console.log('Es funktioniert?!');
                 returnvalue = true;
             };
         });
-        console.log('Value: ' + returnvalue);
         return returnvalue;
     }
 
@@ -183,24 +178,19 @@ export default class AddUserToChat extends Component {
         for(let i = 0; i < participants.length; i++) {
             participantIds.push(participants[i].id);
         }
-        console.log('test4');        
         const toAddIds = [];
         for(let i = 0; i < this.state.usersToAdd.length; i++) {
             toAddIds.push(this.state.usersToAdd[i].id);
         }
-        console.log('test5');
 
         // Deletes the User Id from the Participant Ids
         for(let i = 0; i < toAddIds.length; i++){
             participantIds.push(toAddIds[i]);
         }
-        console.log('test6');
         // Update the Group with the new Participant Ids
         this.store.updateGroupParticipants(this.state.chat.id, participantIds);
          // Print Message to Chat
-        console.log('test7');
         for(let i = 0; i < this.state.usersToAdd.length; i++){
-            console.log('test mit Nachricht schicken.');
             this.store.sendMessage({
                 text: `${this.state.usersToAdd[i].prename} ${this.state.usersToAdd[i].lastname} wurde hinzugefügt`,
                 sender_id: this.store.user.id,
@@ -208,28 +198,8 @@ export default class AddUserToChat extends Component {
                 system: true,
             });
         }
-        console.log('test1');
-        /*if (this.state.usersToAdd.length > 1){
-            Toast.show({
-                text: `${this.state.usersToAdd.length} Nutzer wurden hinzugefügt`,
-                position: 'bottom',
-                type: 'confirm',
-                duration: 2000
-            });
-        } else {
-            Toast.show({
-                text: `${this.state.usersToAdd[0].prename} ${this.state.usersToAdd[0].lastname} wurde hinzugefügt`,
-                position: 'bottom',
-                type: 'confirm',
-                duration: 2000
-            });
-        }*/
-        console.log('test2'); 
-
         this.closeConfirmAdd();
-        console.log('testGroupInfo');
         this.props.navigation.navigate('InfoGroup');
-        console.log('Navi?');
     }
      closeConfirmAdd = () => {
         this.setState({ showConfirmAdd: false });
