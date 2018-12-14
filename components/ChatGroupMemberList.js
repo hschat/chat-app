@@ -7,12 +7,8 @@ import {
     Content,
     Item,
     Label,
-<<<<<<< HEAD
     Button,
     Toast,
-=======
-    Button
->>>>>>> Inserted button into GroupInfo, deleted it from MemberList; translation done
 } from "native-base";
 import {StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import i18n from '../translation/i18n';
