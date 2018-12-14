@@ -311,9 +311,9 @@ export default class AddUserToChat extends Component {
                     <List dataArray={this.state.users} renderRow={this.renderSearchResult}></List>
                 }
                 <ModalInput
-                    text={"Are you sure you want to add?"}
+                    text={i18n.t('AddMemberSearch-WantToAdd')}
                     placeholder= {this.state.usersToAdd.length>1?
-                         `${this.state.usersToAdd.length} User` : 
+                         `${this.state.usersToAdd.length} ${i18n.t('AddMemberSearch-User')}` : 
                          (this.state.usersToAdd.length == 0) ? ' ' : `${this.state.usersToAdd[0].prename} ${this.state.usersToAdd[0].lastname}`}
                     visible={this.state.showConfirmAdd}
                     positiv={this.addUserToGroup}

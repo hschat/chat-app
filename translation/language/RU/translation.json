@@ -62,6 +62,8 @@
     "AddMemberSearch-InviteUser": "Möchtest du den Benutzer einladen?",
     "AddMemberSearch-SetGroupname": "Bitte geben Sie einen Gruppennamen ein",
     "AddMemberSearch-Groupname": "Gruppenname",
+    "AddMemberSearch-WantToAdd": "Wollen sie Nutzer hinzufügen?",
+    "AddMemberSearch-User": "Nutzer",
 
     "FeedbackScreen-MoreText": "Bitte gib etwas mehr Text ein",
     "FeedbackScreen-ThankYou": "Danke für dein Feedback",
