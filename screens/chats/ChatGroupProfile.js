@@ -104,6 +104,7 @@ export default class ChatGroupProfile extends React.Component {
                                 chat={this.props.navigation.state.params.chat}
                                 store={this.props.screenProps.store}
                                 editable={this.state.editable}
+                                navigation={this.props.navigation}
                             />
                         </Form>
                     </View>

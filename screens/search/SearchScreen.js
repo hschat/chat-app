@@ -94,8 +94,7 @@ export default class SearchScreen extends Component {
                 this.props.navigation.navigate('GroupProfile', {chat: chat});
             }}>
                 <Left>
-                    <Thumbnail large
-                               source={require('../../assets/img/group.png')}/>
+                    <Thumbnail source={require('../../assets/img/group.png')}/>
                 </Left>
                 <Body>
                 <Text>{chat.name}</Text>
