@@ -183,43 +183,51 @@ export default class CreateGroupChat extends Component {
         for(let i = 0; i < participants.length; i++) {
             participantIds.push(participants[i].id);
         }
-        
+        console.log('test4');        
         const toAddIds = [];
         for(let i = 0; i < this.state.usersToAdd.length; i++) {
             toAddIds.push(this.state.usersToAdd[i].id);
         }
+        console.log('test5');
 
         // Deletes the User Id from the Participant Ids
         for(let i = 0; i < toAddIds.length; i++){
             participantIds.push(toAddIds[i]);
         }
+        console.log('test6');
         // Update the Group with the new Participant Ids
         this.store.updateGroupParticipants(this.state.chat.id, participantIds);
          // Print Message to Chat
-        for(let i = 0; i < this.state.toAddIds.length; i++){
+        console.log('test7');
+        for(let i = 0; i < this.state.usersToAdd.length; i++){
+            console.log('test mit Nachricht schicken.');
             this.store.sendMessage({
-                text: `${this.state.users[i].prename} ${this.state.users[i].lastname} wurde hinzugefügt`,
+                text: `${this.state.usersToAdd[i].prename} ${this.state.usersToAdd[i].lastname} wurde hinzugefügt`,
                 sender_id: this.store.user.id,
-                chat_id: this.state.id,
+                chat_id: this.state.chat.id,
                 system: true,
             });
         }
-        if (toAddIds.length > 1){
+        console.log('test1');
+        /*if (this.state.usersToAdd.length > 1){
             Toast.show({
-                text: `${toAddIds.length} Nutzer wurden hinzugefügt`,
+                text: `${this.state.usersToAdd.length} Nutzer wurden hinzugefügt`,
                 position: 'bottom',
                 type: 'confirm',
                 duration: 2000
-            })
+            });
         } else {
             Toast.show({
-                text: `${this.state.users[0].prename} ${this.state.users[0].lastname} wurde hinzugefügt`,
+                text: `${this.state.usersToAdd[0].prename} ${this.state.usersToAdd[0].lastname} wurde hinzugefügt`,
                 position: 'bottom',
                 type: 'confirm',
                 duration: 2000
-            })
-        }
+            });
+        }*/
+        console.log('test2'); 
+
         this.closeConfirmAdd();
+        navigation.navigate('InfoGroup', {chat: params.chat});
     }
      closeConfirmAdd = () => {
         this.setState({ showConfirmAdd: false });
@@ -319,9 +327,9 @@ export default class CreateGroupChat extends Component {
                 }
                 <ModalInput
                     text={"Are you sure you want to add?"}
-                    placeholder= {this.state.usersToAdd > 1 ?
+                    placeholder= {this.state.usersToAdd.length>1?
                          `${this.state.usersToAdd.length} User` : 
-                         this.state.usersToAdd.length == 0 ? ' ' : `${this.state.usersToAdd[0].prename} ${this.state.usersToAdd[0].lastname}`}
+                         (this.state.usersToAdd.length == 0) ? ' ' : `${this.state.usersToAdd[0].prename} ${this.state.usersToAdd[0].lastname}`}
                     visible={this.state.showConfirmAdd}
                     positiv={this.addUserToGroup}
                     negativ={this.closeConfirmAdd}
