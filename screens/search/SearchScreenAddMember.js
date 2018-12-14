@@ -212,8 +212,12 @@ export default class AddUserToChat extends Component {
      * @returns ListItems with users
      */
     renderSearchResult = (user) => {
-        const added = false;
-
+        let added = false;
+        this.state.usersToAdd.forEach((current) => {
+            if (current.id === user.id) {
+                added=true;
+            }
+        });
         return (
             <ListItem avatar style={{backgroundColor: 'transparent'}} button={true} onPress={() => this.addUser(user)}>
                 <Left>
@@ -223,6 +227,15 @@ export default class AddUserToChat extends Component {
                 <Text>{user.prename} {user.lastname}</Text>
                 <Text note>{user.status}</Text>
                 </Body>
+                <Right>
+                    { added &&
+                        <Icon style={{color: 'green'}} name='ios-checkmark-circle-outline'/>
+                    }
+                    { !added &&
+                        <Icon name='ios-add-circle-outline'/>
+                    }
+
+                </Right>
             </ListItem>
         )
     };
