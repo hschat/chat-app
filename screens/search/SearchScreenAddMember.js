@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 
 });
 
-export default class CreateGroupChat extends Component {
+export default class AddUserToChat extends Component {
     static navigationOptions = ({navigation, screenProps}) => {
         const params = navigation.state.params || {};
         return {
@@ -227,7 +227,9 @@ export default class CreateGroupChat extends Component {
         console.log('test2'); 
 
         this.closeConfirmAdd();
-        navigation.navigate('InfoGroup', {chat: params.chat});
+        console.log('testGroupInfo');
+        this.props.navigation.navigate('InfoGroup');
+        console.log('Navi?');
     }
      closeConfirmAdd = () => {
         this.setState({ showConfirmAdd: false });
