@@ -183,6 +183,8 @@
     "ApiStore-Yes": "Ja",
 
     "Groupadministration-kicked": "wurde entfernt",
-    "Groupadministration-confirm-kick": "Confirm the Kick Action of"
+    "Groupadministration-confirm-kick": "Bestätige die Entfernung von",
+
+    "LoginError-User-not-active": "Dein Account ist deaktiviert"
 
 }
