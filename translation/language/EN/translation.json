@@ -1,6 +1,6 @@
-{  
+{
     "ChatGroupInfo-Header": "Groupinfo",
-    
+
     "ChatGroupInformation-Describtion": "Description",
     "ChatGroupInformation-DescriptionText": "Type in a new description for the group",
     "ChatGroupInformation-Description-Placeholder": "Description...",
@@ -14,6 +14,7 @@
     "ChatGroupHead-TitleText": "Type in a new title for the group",
     "ChatGroupHead-Title-Placeholder": "Title...",
     "ChatGroupHead-Groupname": "Groupname",
+    "ChatGroupInformation-AddMember": "Add Member",
 
     "ChatGroupSelfManaged-PasswordText": "Type in a new password for the group",
     "ChatGroupSelfManaged-Password-Placeholder": "Password...",
@@ -48,6 +49,22 @@
     "CreateGroupChat-InviteUser": "Would you like to invite a new user?",
     "CreateGroupChat-SetGroupname": "Please type in a groupname",
     "CreateGroupChat-Groupname": "Groupname",
+
+    "AddMemberSearch-AddMember": "Create group",
+    "AddMemberSearch-ErrorSearching": "Something went wrong while searching",
+    "AddMemberSearch-ErrorSearchingMsg": "While searching for users a problem occured (Server Error)",
+    "AddMemberSearch-MissingUser": "Missing users",
+    "AddMemberSearch-MissingUserMsg": "Please select at least one user to create a group",
+    "AddMemberSearch-InternalError": "Internal Error",
+    "AddMemberSearch-InternalErrorMsg": "Internal error while requesting, please try again later",
+    "AddMemberSearch-SearchUser": "Search User",
+    "AddMemberSearch-UserNotFound": "No User was found",
+    "AddMemberSearch-InviteUser": "Would you like to invite a new user?",
+    "AddMemberSearch-SetGroupname": "Please type in a groupname",
+    "AddMemberSearch-Groupname": "Groupname",
+    "AddMemberSearch-WantToAdd": "Do you want to add users?",
+    "AddMemberSearch-User": "User",
+    "AddMemberSearch-was-added": "was added",
 
     "FeedbackScreen-MoreText": "Please type more text",
     "FeedbackScreen-ThankYou": "Thank you for your feedback",
@@ -127,7 +144,7 @@
     "SearchScreen-Search": "Search",
     "SearchScreen-UserNotFound": "No user was found",
     "SearchScreen-InviteUser": "Would you like to invite a new user?",
-    
+
     "Distance-cmShort": "cm",
     "Distance-cmLong": "centimeter",
     "Distance-mShort": "m",
@@ -153,6 +170,7 @@
     "MainNavigator-BottomMessage": "Messages",
     "MainNavigator-BottomSearch": "Search",
     "MainNavigator-BottomFeedback": "Feedback",
+    "MainNavigator-AddMember": "Add Member",
 
     "ModalWithInput-NotMoreThan": "Not more than",
     "ModalWithInput-CharsPossible": "characters possible",
