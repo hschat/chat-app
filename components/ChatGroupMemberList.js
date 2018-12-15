@@ -258,7 +258,7 @@ export default class ChatGroupMemberList extends React.Component {
                 </View>
                 {this.state.members.length>5 ? this.renderExpandButton() : <Item style={[styles.item]}/> }
                 <ModalInput
-                    text={"Are you sure you want to kick?"}
+                    text={i18n.t('Groupadministration-confirm-kick')}
                     placeholder={`${this.state.userToDelete.prename} ${this.state.userToDelete.lastname}`}
                     visible={this.state.showConfirmDelete}
                     positiv={this.deleteUserFromGroup}
