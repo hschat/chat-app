@@ -182,5 +182,6 @@
     "ApiStore-Cancel": "Cancel",
     "ApiStore-Yes": "Yes",
 
-    "Groupadministration-kicked": "was kicked"
+    "Groupadministration-kicked": "was kicked",
+    "Groupadministration-confirm-kick": "Bestätige die Entfernung von"
 }
