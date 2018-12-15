@@ -461,9 +461,7 @@ export default class ApiStore {
         for(let i = 0; i < chat.participants.length; i++) {
             participantIds.push(chat.participants[i].id);
         }
-        console.log('Participants before:  -->   '+ participantIds);
         participantIds.push(user.id);
-        console.log('Participants danach:  -->   '+ participantIds);
         this.updateGroupParticipants(chat.id, participantIds);
         this.sendMessage(template);
         return;
