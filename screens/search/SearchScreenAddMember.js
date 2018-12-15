@@ -209,7 +209,7 @@ export default class AddUserToChat extends Component {
          // Print Message to Chat
         for(let i = 0; i < this.state.usersToAdd.length; i++){
             this.store.sendMessage({
-                text: `${this.state.usersToAdd[i].prename} ${this.state.usersToAdd[i].lastname} wurde hinzugefügt`,
+                text: `${this.state.usersToAdd[i].prename} ${this.state.usersToAdd[i].lastname} ${i18n.t('AddMemberSearch-was-added')}`,
                 sender_id: this.store.user.id,
                 chat_id: this.state.chat.id,
                 system: true,
