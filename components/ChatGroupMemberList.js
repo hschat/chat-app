@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     deleteIcon: {
         alignItems: 'center',
         marginTop: 15,
-    } 
+    }
 });
 
 export default class ChatGroupMemberList extends React.Component {
@@ -92,17 +92,17 @@ export default class ChatGroupMemberList extends React.Component {
                 this.setMemmberData();
             });
         });
-    } 
+    }
 
     componentDidMount() {
-        
+
     }
 
     updateGroup = (update) => {
 
         this.setState(update);
 
-        this.store.updateGroup(this.state.id, update    
+        this.store.updateGroup(this.state.id, update
         ).then(() => {
             console.log('Group updated:', update);
         }).catch((error) => {
@@ -194,7 +194,7 @@ export default class ChatGroupMemberList extends React.Component {
             <Item stackedLabel style={[styles.item, styles.middle]}>
                 <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
                     <Button block style={BaseStyles.redButton} onPress={() => this.changeExpandState()}>
-                        {this.state.isExpanded ? 
+                        {this.state.isExpanded ?
                             <Text style={{fontSize: 16, color: 'white', }}><Icon style={{color: 'white', fontSize: 18}} name="ios-arrow-up"/>  {i18n.t('ChatGroupMemberList-Collapse')}  <Icon style={{color: 'white', fontSize: 18}} name="ios-arrow-up"/></Text>
                         :
                             <Text style={{fontSize: 16, color: 'white', }}><Icon style={{color: 'white', fontSize: 18}} name="ios-arrow-down"/>  {i18n.t('ChatGroupMemberList-Expand')}  <Icon style={{color: 'white', fontSize: 18}} name="ios-arrow-down"/></Text>
@@ -223,7 +223,7 @@ export default class ChatGroupMemberList extends React.Component {
                             <Col size={60}>
                                 <Text style={styles.username}>{member.prename} {member.lastname}</Text>
                             </Col>
-                            {this.state.isAdmin && (this.store.user.id != member.id ) ? this.renderDeleteButton(member) : null} 
+                            {this.state.isAdmin && this.state.editable && (this.store.user.id != member.id ) ? this.renderDeleteButton(member) : null} 
                         </Row>
                     </Col>
                 </Grid>
@@ -258,7 +258,7 @@ export default class ChatGroupMemberList extends React.Component {
                 </View>
                 {this.state.members.length>5 ? this.renderExpandButton() : <Item style={[styles.item]}/> }
                 <ModalInput
-                    text={"Are you sure you want to kick?"}
+                    text={i18n.t('Groupadministration-confirm-kick')}
                     placeholder={`${this.state.userToDelete.prename} ${this.state.userToDelete.lastname}`}
                     visible={this.state.showConfirmDelete}
                     positiv={this.deleteUserFromGroup}

@@ -7,6 +7,7 @@ import {
     Form,
     Item,
     Label,
+    Text
 } from "native-base";
 import {StyleSheet, Image, ScrollView} from 'react-native';
 import BaseStyles from '../../baseStyles';
@@ -42,7 +43,13 @@ export default class ChatGroupInfo extends React.Component {
         this.store = this.props.screenProps.store;
         this.state = {
             editable : true,
+            isAdmin: false,
         }
+
+        this.store.getAdminsForChat(this.props.navigation.state.params.chat).then((admins) => {
+            const res = admins[0].admins.filter(adminID => adminID === this.store.user.id);
+            this.setState({isAdmin: res !== undefined && res.length === 1});
+        });
     }
 
     static navigationOptions = ({navigation, screenProps}) => {
@@ -72,6 +79,11 @@ export default class ChatGroupInfo extends React.Component {
                                 store={this.props.screenProps.store}
                                 editable={this.state.editable}
                             />
+                            {this.state.isAdmin===true ? (
+                            <Button style={BaseStyles.redButton} onPress={
+                                () => this.props.navigation.navigate('AddMember', {passChat: this.props.navigation.state.params.chat})}
+                                 color="#841584"><Text>{i18n.t('ChatGroupInformation-AddMember')}</Text></Button>) : 
+                                (<Item style={[styles.item]}/>)}
                             <ChatGroupMemberList
                                 chat={this.props.navigation.state.params.chat}
                                 store={this.props.screenProps.store}
@@ -86,7 +98,7 @@ export default class ChatGroupInfo extends React.Component {
                         </Form>
                     </View>
                 </ScrollView>
-                
+
             </View>
         );
     }

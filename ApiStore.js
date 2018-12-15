@@ -482,5 +482,4 @@ export default class ApiStore {
 
         return chat;
     }    
-
 }

@@ -1,9 +1,10 @@
 {
     "ChatGroupInfo-Header": "Gruppeninfo",
-    
+
     "ChatGroupInformation-Describtion": "Beschreibung",
     "ChatGroupInformation-DescriptionText": "Geb deine neue Beschreibung für die Gruppe ein",
     "ChatGroupInformation-Description-Placeholder": "Beschreibung...",
+    "ChatGroupInformation-AddMember": "Mitglied hinzufügen",
 
     "ChatGroupMemberList-Expand": "Ausklappen",
     "ChatGroupMemberList-Collapse": "Einklappen",
@@ -52,6 +53,22 @@
     "CreateGroupChat-InviteUser": "Möchtest du den Benutzer einladen?",
     "CreateGroupChat-SetGroupname": "Bitte geben Sie einen Gruppennamen ein",
     "CreateGroupChat-Groupname": "Gruppenname",
+
+    "AddMemberSearch-AddMember": "Mitglied hinzufügen",
+    "AddMemberSearch-ErrorSearching": "Bei der Suche ist etwas schief gelaufen",
+    "AddMemberSearch-ErrorSearchingMsg": "Bei der Suche nach Nutzern ist etwas schief gegangen (Server Error)",
+    "AddMemberSearch-MissingUser": "Fehlende Nutzer",
+    "AddMemberSearch-MissingUserMsg": "Bitte geben Sie mindestens einen Nutzer an um eine Gruppe zu erstellen",
+    "AddMemberSearch-InternalError": "Interner Fehler",
+    "AddMemberSearch-InternalErrorMsg": "Bei der Anfrage ist ein interner Fehler augetreten, versuchen Sie es später nochmal",
+    "AddMemberSearch-SearchUser": "Person suchen...",
+    "AddMemberSearch-UserNotFound": "Es wurde noch kein Benutzer gefunden",
+    "AddMemberSearch-InviteUser": "Möchtest du den Benutzer einladen?",
+    "AddMemberSearch-SetGroupname": "Bitte geben Sie einen Gruppennamen ein",
+    "AddMemberSearch-Groupname": "Gruppenname",
+    "AddMemberSearch-WantToAdd": "Wollen sie Nutzer hinzufügen?",
+    "AddMemberSearch-User": "Nutzer",
+    "AddMemberSearch-was-added": "wurde hinzugefügt",
 
     "FeedbackScreen-MoreText": "Bitte gib etwas mehr Text ein",
     "FeedbackScreen-ThankYou": "Danke für dein Feedback",
@@ -131,7 +148,7 @@
     "SearchScreen-Search": "Suchen",
     "SearchScreen-UserNotFound": "Es wurde kein Benutzer oder Gruppe gefunden",
     "SearchScreen-InviteUser": "Möchtest du den Benutzer einladen?",
-    
+
     "Distance-cmShort": "cm",
     "Distance-cmLong": "Zentimeter",
     "Distance-mShort": "m",
@@ -157,6 +174,7 @@
     "MainNavigator-BottomMessage": "Nachrichten",
     "MainNavigator-BottomSearch": "Suchen",
     "MainNavigator-BottomFeedback": "Feedback",
+    "MainNavigator-AddMember": "Mitglied hinzufügen",
 
     "ModalWithInput-NotMoreThan": "Nicht mehr als",
     "ModalWithInput-CharsPossible": "Zeichen möglich",
@@ -168,6 +186,7 @@
     "ApiStore-Cancel": "Abbrechen",
     "ApiStore-Yes": "Ja",
     "ApiStore-EnterMessage": "wurde dem Chat hinzugefügt!",
-    "Groupadministration-kicked": "wurde entfernt"
+    "Groupadministration-kicked": "wurde entfernt",
+    "Groupadministration-confirm-kick": "Confirm the Kick Action of"
 
 }
