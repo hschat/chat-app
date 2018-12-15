@@ -99,9 +99,12 @@ export default class ChatScreen extends React.Component {
     } 
 
     updateParticipants(chat){
-        if(! chat ) return;
+        if(!chat) 
+          return;
 
         this.store.getUsersForChat(chat).then((users) => {
+            if(!users[0].participants)
+              return;
             this.setState({participants: users[0].participants});
         });
     } 
@@ -235,7 +238,7 @@ export default class ChatScreen extends React.Component {
     evaluateChatInformation(props){
         if(this.state === undefined || ! this.state.participants) return null;
 
-        if(this.state.participants.length > 2){
+        if(this.state.chat.type === 'group'){
             // Group chat
             if(this.state.isTyping){
                 var user = this.state.participants.filter( (user) => user.id === this.state.typingUser.sender_id)[0];
@@ -247,9 +250,9 @@ export default class ChatScreen extends React.Component {
                 return (<Text style={{color: '#E00034'}}>{i18n.t('ChatScreen-BigTyping')}</Text>);
             } else {
                 var user = this.state.participants.filter( (user) => user.id !== this.store.user.id)[0];
-                if(user.isOnline){
+                if(user && user.isOnline){
                     return (<Text>{i18n.t('ChatScreen-Online')}</Text>);
-                } else if(user.last_time_online){
+                } else if(user && user.last_time_online){
                     return (<Text>{i18n.t('ChatScreen-LastOnline')}<TimeAgo time={user.last_time_online} name={'last_online'}/></Text>);
                 } else return null; // not online
             } 

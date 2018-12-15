@@ -2,9 +2,14 @@
     "ChatGroupInfo-Header": "Groupinfo",
     
     "ChatGroupInformation-Describtion": "Description",
-    "ChatGroupInformation-UserCount": "Member count",
     "ChatGroupInformation-DescriptionText": "Type in a new description for the group",
     "ChatGroupInformation-Description-Placeholder": "Description...",
+
+    "ChatGroupMemberList-Expand": "Expand",
+    "ChatGroupMemberList-Collapse": "Collapse",
+    "ChatGroupMemberList-NoMember": "There are no members",
+    "ChatGroupMemberList-Member": "Members",
+    "ChatGroupMemberList-UserCount": "Count",
 
     "ChatGroupHead-TitleText": "Type in a new title for the group",
     "ChatGroupHead-Title-Placeholder": "Title...",
@@ -124,7 +129,7 @@
 
     "SearchScreen-Settings": "Settings",
     "SearchScreen-Search": "Search",
-    "SearchScreen-UserNotFound": "No user was found",
+    "SearchScreen-UserNotFound": "No user or group was found",
     "SearchScreen-InviteUser": "Would you like to invite a new user?",
     
     "Distance-cmShort": "cm",
@@ -162,5 +167,6 @@
     "ApiStore-SignOutMsg": "Do you really want to sign out?",
     "ApiStore-Cancel": "Cancel",
     "ApiStore-Yes": "Yes",
-    "ApiStore-EnterMessage": "was added to the group!" 
+    "ApiStore-EnterMessage": "was added to the group!", 
+    "Groupadministration-kicked": "was kicked"
 }

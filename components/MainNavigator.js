@@ -49,7 +49,7 @@ const searchNavigator = createStackNavigator({
             headerTitle: i18n.t('MainNavigator-Invite'),
         }),
     },
-    Profile: {
+    GroupProfile: {
         screen: ChatGroupProfile,
     },
 });
