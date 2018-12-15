@@ -142,7 +142,7 @@
 
     "SearchScreen-Settings": "Settings",
     "SearchScreen-Search": "Search",
-    "SearchScreen-UserNotFound": "No user was found",
+    "SearchScreen-UserNotFound": "No user or group was found",
     "SearchScreen-InviteUser": "Would you like to invite a new user?",
 
     "Distance-cmShort": "cm",

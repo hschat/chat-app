@@ -234,6 +234,42 @@ export default class ApiStore {
         });
     }
 
+    findGroup(partial){
+        partial = `${partial}%`;
+        const query = {
+            query: {
+                type: {
+                    $in: ['group']
+                },
+                is_selfmanaged: true,
+                $or: [
+                    {
+                        name: {
+                            $iLike: partial
+                        }
+                    },
+                    {
+                        description: {
+                            $iLike: partial
+                        }
+                    }
+                ]
+            }
+        };
+
+        return this.app.service('chats').find(query).then(response => {
+            const chats = [];
+            for (let chat in response) {
+                //console.log('#####Chats:',chats);
+                chats.push(response[chat]);
+            }
+            return Promise.resolve(chats);
+        }).catch(error => {
+            console.error('Find Group error: ', error);
+            return Promise.reject(error);
+        });
+    }
+
     /**
      * Returns the a user from the given id
      * @param id of the user you want to find
