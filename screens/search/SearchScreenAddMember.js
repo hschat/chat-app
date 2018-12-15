@@ -62,17 +62,13 @@ export default class AddUserToChat extends Component {
         });
     }
 
-    componentWillMount(){
-        this.store.app.service('chats').on('patched', updatedChat => {
-            this.store.completeParticipantUserInfo(updatedChat).then((chatWithParticipants) => {
-                chatWithParticipants.participants.sort(this.compare);
-                this.setState({chat: chatWithParticipants});
-            });
-        });
-    }
+    async componentWillMount() { }
 
-    componentDidMount(){
-        this.search()
+    async componentDidMount(){
+        const updatedChat = await this.store.findChat(this.state.chat.id);
+        this.setState({chat: updatedChat[0]}, () => {
+            this.search();
+        });
     }
 
     _updateSearch = (searchText) => {
