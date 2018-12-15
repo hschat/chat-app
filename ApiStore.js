@@ -451,16 +451,22 @@ export default class ApiStore {
     async enterWithUserGroupPassword(chat,user){
         let messageText = ''+user.prename+' '+user.lastname+' '+i18n.t('ApiStore-EnterMessage');
         let template = {
-            chat_id: chat.id,
-            createdAt: Date.now(),
-            send_date: Date.now(),
-            system: true,
             text: messageText,
+            sender_id: user.id,
+            chat_id: chat.id,
+            system: true,
+            
         }
-        let chatParticipants = chat.participants;
-        chatParticipants.push(user.id);
-        let newChat = await this.updateGroup(chat.id,{ participants: chatParticipants });
-        return this.createMessage(template);
+        const participantIds = [];
+        for(let i = 0; i < chat.participants.length; i++) {
+            participantIds.push(chat.participants[i].id);
+        }
+        console.log('Participants before:  -->   '+ participantIds);
+        participantIds.push(user.id);
+        console.log('Participants danach:  -->   '+ participantIds);
+        this.updateGroupParticipants(chat.id, participantIds);
+        this.sendMessage(template);
+        return;
     }
 
     // expects a chat that has a participants JSON-Array with just the userIDs in it. it will be updated to contain all user infos.
