@@ -62,6 +62,15 @@ export default class AddUserToChat extends Component {
         });
     }
 
+    componentWillMount(){
+        this.store.app.service('chats').on('patched', updatedChat => {
+            this.store.completeParticipantUserInfo(updatedChat).then((chatWithParticipants) => {
+                chatWithParticipants.participants.sort(this.compare);
+                this.setState({chat: chatWithParticipants});
+            });
+        });
+    }
+
     componentDidMount(){
         this.search()
     }
@@ -70,6 +79,18 @@ export default class AddUserToChat extends Component {
         this.setState({search: searchText});
         // Search for every new character typed
         this.search(searchText);
+    };
+
+    compare = (a, b) => {
+        if (a.prename < b.prename)
+            return -1;
+        if (a.prename > b.prename)
+            return 1;
+        if (a.lastname < b.lastname)
+            return -1;
+        if (a.lastname > b.lastname)
+            return 1;
+        return 0;
     };
 
     /**
@@ -199,7 +220,7 @@ export default class AddUserToChat extends Component {
             });
         }
         this.closeConfirmAdd();
-        this.props.navigation.navigate('InfoGroup');
+        this.props.navigation.navigate('InfoGroup', {chat: this.state.chat});
     }
      closeConfirmAdd = () => {
         this.setState({ showConfirmAdd: false });
