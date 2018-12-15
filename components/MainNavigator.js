@@ -50,6 +50,9 @@ const searchNavigator = createStackNavigator({
             headerTitle: i18n.t('MainNavigator-Invite'),
         }),
     },
+    InfoGroup: {
+        screen: ChatGroupInfo,
+    },
     GroupProfile: {
         screen: ChatGroupProfile,
     },
