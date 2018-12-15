@@ -223,7 +223,7 @@ export default class ChatGroupMemberList extends React.Component {
                             <Col size={60}>
                                 <Text style={styles.username}>{member.prename} {member.lastname}</Text>
                             </Col>
-                            {this.state.isAdmin && (this.store.user.id != member.id ) ? this.renderDeleteButton(member) : null} 
+                            {this.state.isAdmin && this.state.editable && (this.store.user.id != member.id ) ? this.renderDeleteButton(member) : null} 
                         </Row>
                     </Col>
                 </Grid>
