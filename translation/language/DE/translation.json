@@ -25,6 +25,10 @@
     "ChatGroupProfile-Header": "Gruppenprofil",
     "ChatGroupProfile-JoinGroup": "Gruppe beitreten",
     "ChatGroupProfile-AlreadyMember": "Du bist schon ein Mitglied dieser Gruppe.",
+    "ChatGroupProfile-EnterSuccessMessage" : "Gruppe erfolgreich beigetreten",
+    "ChatGroupProfile-EnterFailMessage" : "Passwort inkorrekt",
+    "ChatGroupProfile-ModalText" : "Bitte gib das Passwort ein",
+    "ChatGroupProfile-ModalPlaceholder": "Passwort...",
 
     "ChatScreen-Error": "Fehler",
     "ChatScreen-ChatNotFound": "Chat nicht gefunden",
@@ -181,7 +185,7 @@
     "ApiStore-SignOutMsg": "Willst du dich wirklich abmelden?",
     "ApiStore-Cancel": "Abbrechen",
     "ApiStore-Yes": "Ja",
-
+    "ApiStore-EnterMessage": "wurde dem Chat hinzugefügt!",
     "Groupadministration-kicked": "wurde entfernt",
     "Groupadministration-confirm-kick": "Bestätige die Entfernung von",
 

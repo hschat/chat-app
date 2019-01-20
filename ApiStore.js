@@ -99,6 +99,12 @@ export default class ApiStore {
         });
     }
 
+    createMessage(messageData){
+        return this.app.service('messages').create(messageData).then((result) => {
+            return result !== undefined;
+        })
+    }
+
     setOnline() {
         if(this.user) {
             this.updateAccount(this.user, {last_time_online: Date.now(), isOnline: true});
@@ -440,6 +446,25 @@ export default class ApiStore {
                 $select: [ 'admins' ]
             }
         });
+    }
+
+    async enterWithUserGroupPassword(chat,user){
+        let messageText = ''+user.prename+' '+user.lastname+' '+i18n.t('ApiStore-EnterMessage');
+        let template = {
+            text: messageText,
+            sender_id: user.id,
+            chat_id: chat.id,
+            system: true,
+            
+        }
+        const participantIds = [];
+        for(let i = 0; i < chat.participants.length; i++) {
+            participantIds.push(chat.participants[i].id);
+        }
+        participantIds.push(user.id);
+        this.updateGroupParticipants(chat.id, participantIds);
+        this.sendMessage(template);
+        return;
     }
 
     // expects a chat that has a participants JSON-Array with just the userIDs in it. it will be updated to contain all user infos.
