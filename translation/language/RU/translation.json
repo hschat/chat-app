@@ -1,17 +1,30 @@
 {
     "ChatGroupInfo-Header": "Gruppeninfo",
-    "ChatGroupInfo-Describtion": "Beschreibung",
-    "ChatGroupInfo-UserCount": "Mitgliederanzahl",
-    "ChatGroupInfo-DescriptionText": "Geb deine neue Beschreibung für die Gruppe ein",
-    "ChatGroupInfo-Description-Placeholder": "Beschreibung...",
-    "ChatGroupInfo-TitleText": "Geb deinen neuen Namen für die Gruppe ein",
-    "ChatGroupInfo-Title-Placeholder": "Name...",
-    "ChatGroupInfo-PasswordText": "Geb dein neues Passwort für die Gruppe ein",
-    "ChatGroupInfo-Password-Placeholder": "Passwort...",
-    "ChatGroupInfo-Password": "Passwort",
-    "ChatGroupInfo-Link": "Link",
-    "ChatGroupInfo-Selfmanaged": "Selbstverwaltend",
-    "ChatGroupInfo-Groupname": "Gruppenname",
+
+    "ChatGroupInformation-Describtion": "Beschreibung",
+    "ChatGroupInformation-DescriptionText": "Geb deine neue Beschreibung für die Gruppe ein",
+    "ChatGroupInformation-Description-Placeholder": "Beschreibung...",
+    "ChatGroupInformation-AddMember": "Mitglied hinzufügen",
+
+    "ChatGroupMemberList-Expand": "Ausklappen",
+    "ChatGroupMemberList-Collapse": "Einklappen",
+    "ChatGroupMemberList-NoMember": "Kein Mitglieder vorhanden",
+    "ChatGroupMemberList-Member": "Mitglieder",
+    "ChatGroupMemberList-UserCount": "Anzahl",
+
+    "ChatGroupHead-TitleText": "Geb deinen neuen Namen für die Gruppe ein",
+    "ChatGroupHead-Title-Placeholder": "Name...",
+    "ChatGroupHead-Groupname": "Gruppenname",
+
+    "ChatGroupSelfManaged-PasswordText": "Geb dein neues Passwort für die Gruppe ein",
+    "ChatGroupSelfManaged-Password-Placeholder": "Passwort...",
+    "ChatGroupSelfManaged-Password": "Passwort",
+    "ChatGroupSelfManaged-Link": "Link",
+    "ChatGroupSelfManaged-Selfmanaged": "Selbstverwaltend",
+
+    "ChatGroupProfile-Header": "Gruppenprofil",
+    "ChatGroupProfile-JoinGroup": "Gruppe beitreten",
+    "ChatGroupProfile-AlreadyMember": "Du bist schon ein Mitglied dieser Gruppe.",
 
     "ChatScreen-Error": "Fehler",
     "ChatScreen-ChatNotFound": "Chat nicht gefunden",
@@ -36,6 +49,22 @@
     "CreateGroupChat-InviteUser": "Möchtest du den Benutzer einladen?",
     "CreateGroupChat-SetGroupname": "Bitte geben Sie einen Gruppennamen ein",
     "CreateGroupChat-Groupname": "Gruppenname",
+
+    "AddMemberSearch-AddMember": "Mitglied hinzufügen",
+    "AddMemberSearch-ErrorSearching": "Bei der Suche ist etwas schief gelaufen",
+    "AddMemberSearch-ErrorSearchingMsg": "Bei der Suche nach Nutzern ist etwas schief gegangen (Server Error)",
+    "AddMemberSearch-MissingUser": "Fehlende Nutzer",
+    "AddMemberSearch-MissingUserMsg": "Bitte geben Sie mindestens einen Nutzer an um eine Gruppe zu erstellen",
+    "AddMemberSearch-InternalError": "Interner Fehler",
+    "AddMemberSearch-InternalErrorMsg": "Bei der Anfrage ist ein interner Fehler augetreten, versuchen Sie es später nochmal",
+    "AddMemberSearch-SearchUser": "Person suchen...",
+    "AddMemberSearch-UserNotFound": "Es wurde noch kein Benutzer gefunden",
+    "AddMemberSearch-InviteUser": "Möchtest du den Benutzer einladen?",
+    "AddMemberSearch-SetGroupname": "Bitte geben Sie einen Gruppennamen ein",
+    "AddMemberSearch-Groupname": "Gruppenname",
+    "AddMemberSearch-WantToAdd": "Wollen sie Nutzer hinzufügen?",
+    "AddMemberSearch-User": "Nutzer",
+    "AddMemberSearch-was-added": "was added",
 
     "FeedbackScreen-MoreText": "Bitte gib etwas mehr Text ein",
     "FeedbackScreen-ThankYou": "Danke für dein Feedback",
@@ -113,9 +142,9 @@
 
     "SearchScreen-Settings": "Einstellung",
     "SearchScreen-Search": "Suchen",
-    "SearchScreen-UserNotFound": "Es wurde kein Benutzer gefunden",
+    "SearchScreen-UserNotFound": "Es wurde kein Benutzer oder Gruppe gefunden",
     "SearchScreen-InviteUser": "Möchtest du den Benutzer einladen?",
-    
+
     "Distance-cmShort": "cm",
     "Distance-cmLong": "Zentimeter",
     "Distance-mShort": "m",
@@ -141,6 +170,7 @@
     "MainNavigator-BottomMessage": "Nachrichten",
     "MainNavigator-BottomSearch": "Suchen",
     "MainNavigator-BottomFeedback": "Feedback",
+    "MainNavigator-AddMember": "Mitglied hinzufügen",
 
     "ModalWithInput-NotMoreThan": "Nicht mehr als",
     "ModalWithInput-CharsPossible": "Zeichen möglich",
@@ -150,6 +180,10 @@
     "ApiStore-SignOut": "Abmelden",
     "ApiStore-SignOutMsg": "Willst du dich wirklich abmelden?",
     "ApiStore-Cancel": "Abbrechen",
-    "ApiStore-Yes": "Ja" 
+    "ApiStore-Yes": "Ja",
 
+    "Groupadministration-kicked": "wurde entfernt",
+    "Groupadministration-confirm-kick": "Bestätige die Entfernung von",
+
+    "LoginError-User-not-active": "Dein Account ist deaktiviert"
 }

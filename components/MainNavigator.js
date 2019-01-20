@@ -7,10 +7,12 @@ import SearchScreen from '../screens/search/SearchScreen';
 import InviteScreen from '../screens/search/InviteScreen';
 import ChatInfo from '../screens/chats/ChatInfo';
 import ChatGroupInfo from '../screens/chats/ChatGroupInfo';
+import ChatGroupProfile from '../screens/chats/ChatGroupProfile';
 import ChatScreen from '../screens/chats/ChatScreen';
 import CreateGroup from '../screens/chats/CreateGroupChat';
 import FeedbackScreen from '../screens/feedback/FeedbackScreen';
 import UserSettingsScreen from '../screens/profile/UserSettingsScreen';
+import AddMember from '../screens/search/SearchScreenAddMember';
 import i18n from '../translation/i18n';
 
 const profileNavigator = createStackNavigator({
@@ -48,6 +50,12 @@ const searchNavigator = createStackNavigator({
             headerTitle: i18n.t('MainNavigator-Invite'),
         }),
     },
+    InfoGroup: {
+        screen: ChatGroupInfo,
+    },
+    GroupProfile: {
+        screen: ChatGroupProfile,
+    },
 });
 
 /**
@@ -76,6 +84,12 @@ const chatsNavigator = createStackNavigator({
         screen: ProfileScreen,
         navigationOptions: ({ navigation }) => ({
             headerTitle: i18n.t('MainNavigator-Profil'),
+        }),
+    },
+    AddMember: {
+        screen: AddMember,
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: i18n.t('MainNavigator-AddMember'),
         }),
     },
     InfoGroup: {

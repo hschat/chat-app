@@ -49,7 +49,11 @@ export default class LoginScreen extends React.Component {
         password: this.state.password,
         strategy: 'localhsid'
       }).catch(error => {
-        Alert.alert(i18n.t('LoginScreen-Error'), error.message);
+        if (error.message === 'USER_NOT_ACTIVE') {
+          Alert.alert(i18n.t('LoginScreen-Error'), i18n.t('LoginError-User-not-active'));
+        } else {
+          Alert.alert(i18n.t('LoginScreen-Error'), error.message);
+        }
       });
     });
 
