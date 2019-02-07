@@ -95,7 +95,7 @@
     "react-navigation-fluid-transitions": "^0.2.72",
     "react-redux": "^5.1.0",
     "sentry-expo": "^1.10.0",
-    "snyk": "^1.104.1",
+    "snyk": "^1.124.1",
     "socket.io-client": "^2.1.1"
   },
   "devDependencies": {
