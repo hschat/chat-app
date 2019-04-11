@@ -1,5 +1,5 @@
 import React from 'react';
-import {createStackNavigator, createBottomTabNavigator} from 'react-navigation';
+import {createStackNavigator, createBottomTabNavigator, createAppContainer} from 'react-navigation';
 import {Icon, Button} from 'native-base';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import ChatsScreen from '../screens/chats/ChatsScreen';
@@ -18,13 +18,13 @@ import i18n from '../translation/i18n';
 const profileNavigator = createStackNavigator({
     Home: {
         screen: ProfileScreen,
-        navigationOptions: ({ navigation }) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             headerTitle: i18n.t('MainNavigator-Profil'),
         }),
     },
     View: {
         screen: UserSettingsScreen,
-        navigationOptions: ({ navigation }) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             headerTitle: i18n.t('MainNavigator-Settings'),
         }),
     },
@@ -33,20 +33,20 @@ const profileNavigator = createStackNavigator({
 const searchNavigator = createStackNavigator({
     Home: {
         screen: SearchScreen,
-        navigationOptions: ({ navigation }) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             headerTitle: i18n.t('MainNavigator-Search'),
         }),
     },
 
     View: {
         screen: ProfileScreen,
-        navigationOptions: ({ navigation }) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             headerTitle: i18n.t('MainNavigator-SearchResult'),
         }),
     },
     Invite: {
         screen: InviteScreen,
-        navigationOptions: ({ navigation }) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             headerTitle: i18n.t('MainNavigator-Invite'),
         }),
     },
@@ -64,31 +64,31 @@ const searchNavigator = createStackNavigator({
 const chatsNavigator = createStackNavigator({
     Home: {
         screen: ChatsScreen,
-        navigationOptions: ({ navigation }) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             headerTitle: i18n.t('MainNavigator-Chats'),
         }),
     },
     Chat: {
         screen: ChatScreen,
-        navigationOptions: ({ navigation }) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             tabBarVisible: false,
         }),
     },
     CreateGroup: {
         screen: CreateGroup,
-        navigationOptions: ({ navigation }) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             headerTitle: i18n.t('MainNavigator-CreateGroup'),
         }),
     },
     View: {
         screen: ProfileScreen,
-        navigationOptions: ({ navigation }) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             headerTitle: i18n.t('MainNavigator-Profil'),
         }),
     },
     AddMember: {
         screen: AddMember,
-        navigationOptions: ({ navigation }) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             headerTitle: i18n.t('MainNavigator-AddMember'),
         }),
     },
@@ -103,7 +103,7 @@ const chatsNavigator = createStackNavigator({
 const feedbackNavigator = createStackNavigator({
     Home: {
         screen: FeedbackScreen,
-        navigationOptions: ({ navigation }) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             headerTitle: i18n.t('MainNavigator-Feedback'),
         }),
     },
@@ -115,14 +115,14 @@ const feedbackNavigator = createStackNavigator({
 const RootTabs = createBottomTabNavigator({
     Profile: {
         screen: profileNavigator,
-        navigationOptions: ({ navigation }) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             tabBarLabel: i18n.t('MainNavigator-BottomProfil'),
             tabBarIcon: <Icon ios="ios-person-outline" android="md-person" size={20}/>,
         }),
     },
     Chats: {
         screen: chatsNavigator,
-        navigationOptions: ({ navigation }) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             tabBarLabel: i18n.t('MainNavigator-BottomMessage'),
             tabBarIcon: <Icon ios="ios-text-outline" android="md-chatboxes" size={20}/>,
         }),
@@ -130,20 +130,22 @@ const RootTabs = createBottomTabNavigator({
     },
     Search: {
         screen: searchNavigator,
-        navigationOptions: ({ navigation }) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             tabBarLabel: i18n.t('MainNavigator-BottomSearch'),
             tabBarIcon: <Icon ios="ios-search-outline" android="md-search" size={20}/>,
         }),
     },
     Feedback: {
         screen: feedbackNavigator,
-        navigationOptions: ({ navigation }) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             tabBarLabel: i18n.t('MainNavigator-BottomFeedback'),
-            tabBarIcon: <Icon ios="ios-information-circle-outline" android="ios-information-circle-outline" size={20}/>,
+            tabBarIcon: <Icon size={20} name="ios-information-circle-outline"/>,
         }),
     },
 
 
 });
 
-export default RootTabs;
+const appContainer = createAppContainer(RootTabs);
+
+export default appContainer;

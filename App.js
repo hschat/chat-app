@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Root, View, Text, Spinner} from 'native-base';
+import { Font } from 'expo';
 import DropdownAlert from 'react-native-dropdownalert';
 
 
@@ -12,6 +13,7 @@ import {observe} from "mobx";
 import {NavigationActions} from 'react-navigation';
 import Location from './Location'
 import Sentry from 'sentry-expo';
+import { Ionicons } from '@expo/vector-icons';
 
 if (process.env.SENTRY_DSN) {
   Sentry.config(process.env.SENTRY_DSN).install();
@@ -29,9 +31,10 @@ export default class App extends Component {
   }
 
   async componentWillMount() {
-    await Expo.Font.loadAsync({
+    await Font.loadAsync({
       'Roboto': require('native-base/Fonts/Roboto.ttf'),
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font
     });
     this.setState({font: true});
   }

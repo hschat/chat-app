@@ -11,7 +11,7 @@ import React, {Component} from 'react'
 import {AppState, Text} from 'react-native'
 import i18n from './translation/i18n';
 
-const API_URL = process.env['CHAT_ENDPOINT'] || "https://hsc-backend-staging.herokuapp.com";
+const API_URL = process.env['CHAT_ENDPOINT'] || "https://www.hschat.app";
 
 @autobind
 export default class ApiStore {
@@ -66,7 +66,7 @@ export default class ApiStore {
                 this.setOnline();
             } else if (state === 'background') {
                 this.setOffline();
-            } else if (state === 'inactive') { 
+            } else if (state === 'inactive') {
                 // inactive is only used in iOs, not Android
                 this.setOffline();
             }
@@ -102,15 +102,15 @@ export default class ApiStore {
     setOnline() {
         if(this.user) {
             this.updateAccount(this.user, {last_time_online: Date.now(), isOnline: true});
-        } 
-        
-    } 
+        }
+
+    }
 
     setOffline() {
         if(this.user) {
             this.updateAccount(this.user, {last_time_online: Date.now(), isOnline: false});
-        } 
-    } 
+        }
+    }
 
     updateAccount(user, obj) {
         return this.app.service('users').patch(user.id, obj);
@@ -368,7 +368,7 @@ export default class ApiStore {
         };
         let data = Object.assign(template, message);
 
-        console.log('Will emit typing event', data);   
+        console.log('Will emit typing event', data);
         return this.app.service('typing').create(data);
     }
 
@@ -396,7 +396,7 @@ export default class ApiStore {
             console.error('ApiStore/getUsersForChat', e)
         });*/
 
-    } 
+    }
 
     getLastMessageForChat(chat) {
         return this.app.service('messages').find({
@@ -418,11 +418,11 @@ export default class ApiStore {
 
     updateGroup(id, obj) {
         return this.app.service('chats').patch(id, obj);
-    } 
+    }
 
     updateGroupParticipants(chatId, newParticipans) {
         return this.app.service('chats').patch(chatId, {participants: newParticipans});
-    } 
+    }
 
     async getUsersForChatById(chatId) {
         return await this.app.service('chats').find({
@@ -431,7 +431,7 @@ export default class ApiStore {
                 $select: [ 'participants' ]
             }
         });
-    } 
+    }
 
     getAdminsForChat(chat) {
         return this.app.service('chats').find({
@@ -449,10 +449,10 @@ export default class ApiStore {
                 const user = await this.getUserInformation(userId);
                 chat.participants[index] = user;
             });
-    
+
             await Promise.all(userPromises);
         }
 
         return chat;
-    }    
+    }
 }
