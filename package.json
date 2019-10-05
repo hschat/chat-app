@@ -47,7 +47,8 @@
     "test": "NODE_ENV=test yarn jest --config ./__tests__/config.js --coverage --bail --forceExit",
     "lint": "eslint components/ context/ screens/",
     "appr": "appr",
-    "snyk-protect": "snyk protect"
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "jest": {
     "preset": "jest-expo"
@@ -91,7 +92,7 @@
     "react-redux": "^5.1.0",
     "redux": "^4.0.1",
     "sentry-expo": "~1.11.2",
-    "snyk": "^1.104.1",
+    "snyk": "^1.231.0",
     "socket.io-client": "^2.1.1"
   },
   "devDependencies": {
